@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{1c5e1047-5beb-4f8d-a581-2a0fcdd08ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-bindings">
+      <UniqueIdentifier>{96913e56-cb21-4f28-9027-7ccf79e4fc84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\firebase">
+      <UniqueIdentifier>{9b905f95-a128-4de1-895c-39426eda2f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-bindings\lua">
+      <UniqueIdentifier>{9d3712bd-f2c6-475d-a07e-b95b0b7c4258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-bindings\lua-bindings">
+      <UniqueIdentifier>{da58fbdb-3c22-444e-a7b6-db74c9d5ea15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-bindings\lua\tolua">
+      <UniqueIdentifier>{2dc533d5-93a5-42b0-b900-0c01cec0d3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-bindings\lua\lua">
+      <UniqueIdentifier>{88be6791-2486-42be-ac6a-fd7f94acb87a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\firebase\firebase.cpp">
+      <Filter>src\firebase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua-bindings\lua_perplesdk.cpp">
+      <Filter>lua-bindings\lua-bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua-bindings\tolua_fix.cpp">
+      <Filter>lua-bindings\lua-bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lapi.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lauxlib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lbaselib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lcode.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ldblib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ldebug.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ldo.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ldump.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lfunc.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lgc.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\linit.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\liolib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\llex.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lmathlib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lmem.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\loadlib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lobject.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lopcodes.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\loslib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lparser.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lstate.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lstring.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lstrlib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ltable.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ltablib.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\ltm.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lua.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lundump.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lvm.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\lzio.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\lua\print.c">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\tolua\tolua_event.c">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\tolua\tolua_is.c">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\tolua\tolua_map.c">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\tolua\tolua_push.c">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lua-bindings\lua\tolua\tolua_to.c">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PerpleSDK.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PerpleSDKLua.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\firebase\firebase.h">
+      <Filter>src\firebase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua-bindings\lua_perplesdk.h">
+      <Filter>lua-bindings\lua-bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua-bindings\tolua_fix.h">
+      <Filter>lua-bindings\lua-bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lapi.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lauxlib.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lcode.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\ldebug.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\ldo.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lfunc.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lgc.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\llex.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\llimits.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lmem.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lobject.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lopcodes.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lparser.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lstate.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lstring.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\ltable.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\ltm.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lua.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\luaconf.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lualib.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lundump.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lvm.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\lua\lzio.h">
+      <Filter>lua-bindings\lua\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\tolua\tolua_event.h">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua\tolua\tolua++.h">
+      <Filter>lua-bindings\lua\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PerpleSDK.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PerpleSDKLua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

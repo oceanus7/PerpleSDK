@@ -1,0 +1,1 @@
+http://dev.tapjoy.com/mediation/fyber-adapter-mediation/

@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5003bd00-c432-460b-831f-0659da9acde2++4796",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "5003bd00-c432-460b-831f-0659da9acde2++4796" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5003bd00-c432-460b-831f-0659da9acde2++4796" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "50376B99-755B-441E-8A29-1F849343AEAD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5003bd00-c432-460b-831f-0659da9acde2++4796" : "trunk\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PerpleSDK",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "sdk\/proj.ios\/PerpleSDK.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.1.20\/red",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5003bd00-c432-460b-831f-0659da9acde2++4796"
+    }
+  ]
+}
