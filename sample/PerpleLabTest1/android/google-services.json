@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "79149007402",
+    "firebase_url": "https://perplelabtest1-38427092.firebaseio.com",
+    "project_id": "perplelabtest1-38427092",
+    "storage_bucket": "perplelabtest1-38427092.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79149007402:android:07e9c62e83c9acae",
+        "android_client_info": {
+          "package_name": "com.perplelab.perplelabtest1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79149007402-mhgq1tr6upei6lqni7p7hr8ihkq30927.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.perplelab.perplelabtest1",
+            "certificate_hash": "6DEAB72867DB145587FA1DA115B62580AE8D5339"
+          }
+        },
+        {
+          "client_id": "79149007402-2agqbs3jp92c4uak98gctr7j2apf8svb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAytlHUOzcq88Jng_5asEbOsBTI8WiF1Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "79149007402-2agqbs3jp92c4uak98gctr7j2apf8svb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "79149007402-m4h82c06129fp1gfi14kf6pl7fbfjmg6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.perplelab.perplelabtest1"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

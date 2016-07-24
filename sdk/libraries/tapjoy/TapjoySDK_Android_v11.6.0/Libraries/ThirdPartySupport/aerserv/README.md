@@ -1,0 +1,1 @@
+http://dev.tapjoy.com/mediation/aerserv-platform-mediation/

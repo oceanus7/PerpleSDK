@@ -1,0 +1,3 @@
+To use Tapjoy SDK 11+, you need to have access to the latest Tapjoy dashboard at <http://ltv.tapjoy.com/>. For more information visit <http://dev.tapjoy.com> or contact support@tapjoy.com.
+
+BY DOWNLOADING THE TAPJOY SDK FRAMEWORK, YOU ARE AGREEING TO THE TERMS AND CONDITIONS OF THE TAPJOY SDK LICENSE AGREEMENT LOCATED AT <http://home.tapjoy.com/info/legal/#SDK-license>. IF YOU DO NOT AGREE TO THE TERMS AND CONDITIONS OF THE TAPJOY SDK LICENSE AGREEMENT, YOU ARE NOT AUTHORIZED TO AND YOU MAY NOT DOWNLOAD THE TAPJOY SDK FRAMEWORK.

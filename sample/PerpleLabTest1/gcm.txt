@@ -1,0 +1,3 @@
+[GCM]
+Server Key: AIzaSyCzX3DOcy-OkkiYJCceL-Wx2fF97TPj5lU
+Sender ID: 79149007402

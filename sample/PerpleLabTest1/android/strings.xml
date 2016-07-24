@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PerpleLabTest1</string>
+    <string name="facebook_app_id">1080071755416207</string>
+    <string name="igaworks_app_key">36689175</string>
+    <string name="igaworks_hash_key">6e104071c33e41d2</string>
+    <string name="tapjoy_app_key">TmVyGkC2SQ2uLwRUU3DPTgECowNkjhYbu1JuzzyxEIGeTYphg8YZ3v8YtND5</string>
+    <string name="naver_client_id">2pow0Al3HUPlofNSB0bR</string>
+    <string name="naver_client_secret">OpfGThxYfZ</string>
+    <string name="naver_client_name">PerpleLabTest1</string>
+    <string name="naver_cafe_id">28599310</string>
+    <string name="default_web_client_id" translatable="false">79149007402-2agqbs3jp92c4uak98gctr7j2apf8svb.apps.googleusercontent.com</string>
+    <string name="app_id" translatable="false">79149007402</string>
+    <string name="firebase_database_url" translatable="false">https://perplelabtest1-38427092.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">79149007402</string>
+    <string name="google_api_key" translatable="false">AIzaSyDAytlHUOzcq88Jng_5asEbOsBTI8WiF1Q</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDAytlHUOzcq88Jng_5asEbOsBTI8WiF1Q</string>
+    <string name="google_app_id" translatable="false">1:79149007402:android:07e9c62e83c9acae</string>
+</resources>
