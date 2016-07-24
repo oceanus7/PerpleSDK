@@ -1,2 +1,2 @@
 # PerpleSDK
-PerpleLab Platform SDK
+PerpleLab Platform SDK, Rhythm Star Version
