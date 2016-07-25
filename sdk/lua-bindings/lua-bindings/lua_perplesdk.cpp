@@ -1,7 +1,5 @@
 #include "lua_perplesdk.h"
 #include "tolua_fix.h"
-#include <limits.h>
-
 #include "PerpleSDK.h"
 
 #define LOG_TAG "PerpleSDKLua"

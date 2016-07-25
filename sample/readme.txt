@@ -1,11 +1,11 @@
-1. firebase¿Í ¶óÀÌºê·¯¸®´Â android min sdk version À¸·Î 10 ÀÌ»óÀ» ¿ä±¸ÇÏ¸ç, facebookÀÇ °æ¿ì¿¡´Â 15 ÀÌ»óÀ» ¿ä±¸ÇÔ
+1. firebaseì™€ ë¼ì´ë¸ŒëŸ¬ë¦¬ëŠ” android min sdk version ìœ¼ë¡œ 10 ì´ìƒì„ ìš”êµ¬í•˜ë©°, facebookì˜ ê²½ìš°ì—ëŠ” 15 ì´ìƒì„ ìš”êµ¬í•¨
 
-2. sdk/bin/prebuilt/android/libs ÆÄÀÏ ¾Æ·¡ ÀÖ´Â ¸ğµç jar ÆÄÀÏÀ» ÇØ´ç ÇÁ·ÎÁ§Æ® libs Æú´õ ¾Æ·¡·Î º¹»ç
+2. sdk/bin/prebuilt/android/libs íŒŒì¼ ì•„ë˜ ìˆëŠ” ëª¨ë“  jar íŒŒì¼ì„ í•´ë‹¹ í”„ë¡œì íŠ¸ libs í´ë” ì•„ë˜ë¡œ ë³µì‚¬
 
-3. sdk/bin/prebuilt/android ÆÄÀÏ ¾Æ·¡ perplesdk.jar ÆÄÀÏµµ ÇØ´ç ÇÁ·ÎÁ§Æ® libs Æú´õ ¾Æ·¡·Î º¹»ç
+3. sdk/bin/prebuilt/android íŒŒì¼ ì•„ë˜ perplesdk.jar íŒŒì¼ë„ í•´ë‹¹ í”„ë¡œì íŠ¸ libs í´ë” ì•„ë˜ë¡œ ë³µì‚¬
 
-4. ¿¹½Ã·Î Ã·ºÎµÈ Android.mk ÆÄÀÏÀ» ÂüÁ¶ÇÏ¿© ÇÁ·ÎÁ§Æ®ÀÇ jni Æú´õ ¾Æ·¡ Android.mk ÆÄÀÏ ¼öÁ¤ (@perplesdk ÁÖ¼® Âü°í)
+4. ì˜ˆì‹œë¡œ ì²¨ë¶€ëœ Android.mk íŒŒì¼ì„ ì°¸ì¡°í•˜ì—¬ í”„ë¡œì íŠ¸ì˜ jni í´ë” ì•„ë˜ Android.mk íŒŒì¼ ìˆ˜ì • (@perplesdk ì£¼ì„ ì°¸ê³ )
 
-5. AndroidManifest.xml, strings.xml, AppActivity.java, AppDelegate.cpp ÆÄÀÏÀ» Âü°í(@perplesdk ÁÖ¼® Âü°í)ÇÏ¿© ·ç¾Æ¹ÙÀÎµù ÄÚµå Ãß°¡
+5. AndroidManifest.xml, strings.xml, AppActivity.java, AppDelegate.cpp íŒŒì¼ì„ ì°¸ê³ (@perplesdk ì£¼ì„ ì°¸ê³ )í•˜ì—¬ ë£¨ì•„ë°”ì¸ë”© ì½”ë“œ ì¶”ê°€
 
-6. luacode.lua ÆÄÀÏÀ» Âü°íÇÏ¿© ·ç¾Æ ¼Ò½º ÄÚµå³» ¶óÀÌºê·¯¸® °ü·Ã ÄÚµå Ãß°¡ÇÏ°í ¶óÀÌºê·¯¸® api ÇÔ¼ö¸¦ »ç¿ë
+6. luacode.lua íŒŒì¼ì„ ì°¸ê³ í•˜ì—¬ ë£¨ì•„ ì†ŒìŠ¤ ì½”ë“œë‚´ ë¼ì´ë¸ŒëŸ¬ë¦¬ ê´€ë ¨ ì½”ë“œ ì¶”ê°€í•˜ê³  ë¼ì´ë¸ŒëŸ¬ë¦¬ api í•¨ìˆ˜ë¥¼ ì‚¬ìš©
