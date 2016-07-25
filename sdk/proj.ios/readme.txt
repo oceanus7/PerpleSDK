@@ -1,0 +1,3 @@
+- CocoaPods 으로 Firebase 라이브러리를 임포팅하였음.
+- PerpleSDK.xcworkspace 파일을 열면 그 안에 PerpleSDK.xcodeproj 와 Pods.xcodeproj 가 들어 있다.
+- 모든 작업은 PerpleSDK.xcworkspace 을 열어 작업한다. (PerpleSDK.xcodeproj 을 직접 열지 말 것!)
