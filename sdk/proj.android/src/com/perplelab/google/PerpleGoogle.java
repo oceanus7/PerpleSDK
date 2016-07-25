@@ -201,8 +201,12 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
             } else {
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
-                    String info = "ResultCode:" + String.valueOf(resultCode);
-                    mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_ACHIEVEMENTS, info));
+                    if (resultCode == 10001) {
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                    } else {
+                        String info = "ResultCode:" + String.valueOf(resultCode);
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_ACHIEVEMENTS, info));
+                    }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
                 }
@@ -217,8 +221,12 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
             } else {
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
-                    String info = "ResultCode:" + String.valueOf(resultCode);
-                    mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LEADERBOARDS, info));
+                    if (resultCode == 10001) {
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                    } else {
+                        String info = "ResultCode:" + String.valueOf(resultCode);
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LEADERBOARDS, info));
+                    }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
                 }
@@ -233,8 +241,12 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
             } else {
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
-                    String info = "ResultCode:" + String.valueOf(resultCode);
-                    mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_QUESTS, info));
+                    if (resultCode == 10001) {
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                    } else {
+                        String info = "ResultCode:" + String.valueOf(resultCode);
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_QUESTS, info));
+                    }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
                 }

@@ -40,9 +40,10 @@ public class PerpleSDK {
     public static final String ERROR_GOOGLE_NOTSETPLAYSERVICESCALLBACK  = "-1207";
     public static final String ERROR_GOOGLE_NOTSETQUESTSCALLBACK        = "-1208";
     public static final String ERROR_GOOGLE_NOTAVAILABLEPLAYSERVICES    = "-1209";
+    public static final String ERROR_GOOGLE_LOGOUT                      = "-1210";
     public static final String ERROR_FACEBOOK_NOTINITIALIZED            = "-1300";
     public static final String ERROR_FACEBOOK_FACEBOOKEXCEPTION         = "-1301";
-    public static final String ERROR_FACEBOOK_INVALIDPROFILE            = "-1302";
+    public static final String ERROR_FACEBOOK_REQUESTERROR              = "-1302";
     public static final String ERROR_NAVER_NOTINITIALIZED               = "-1400";
     public static final String ERROR_NAVER_CAFENOTINITIALIZED           = "-1401";
     public static final String ERROR_BILLING_NOTINITIALIZED             = "-1500";
@@ -370,7 +371,7 @@ public class PerpleSDK {
     private static PerpleSDKCallback sTokenRefreshCallback;
     public static void setFCMTokenRefreshCallback(PerpleSDKCallback callback) {
         if (getInstance().mFirebase == null) {
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED,"Firebase is not initialized."));
+            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
             return;
         }
 
@@ -404,7 +405,7 @@ public class PerpleSDK {
     private static PerpleSDKCallback sSendPushMessageCallback;
     public static void setSendPushMessageCallback(PerpleSDKCallback callback) {
         if (getInstance().mFirebase == null) {
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED,"Firebase is not initialized."));
+            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
             return;
         }
 

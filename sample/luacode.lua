@@ -398,6 +398,11 @@ PerpleSDK:naverLogout(@isDeleteToken)
 
 PerpleSDK:naverRequestApi('@url')
 
+-- @isShowWidget : 1(SDK unload 시 카페 위젯 보여주기) or 0(안 보여주기)
+PerpleSDK:naverCafeShowWidgetWhenUnloadSdk(@isShowWidget)
+
+PerpleSDK:naverCafeStopWidget()
+
 bool ret = PerpleSDK:naverCafeIsShowGlink()
 if ret == true then
     -- Naver Cafe SDK UI Opened
@@ -450,7 +455,7 @@ PerpleSDK:googleShowAchievements(function(ret, info)
     elseif ret == 'success' then
     elseif ret == 'fail' then
         -- info : {"code":"@code", "msg":"@msg"}
-        -- @msg 가 'ResultCode:10001' 일 경우 로그아웃한 것임
+        -- @code 가 '-1210' 일 경우 로그아웃한 것임
     end
 end)
 
@@ -458,7 +463,7 @@ PerpleSDK:googleShowLeaderboards(function(ret, info)
     elseif ret == 'success' then
     elseif ret == 'fail' then
         -- info : {"code":"@code", "msg":"@msg"}
-        -- @msg 가 'ResultCode:10001' 일 경우 로그아웃한 것임
+        -- @code 가 '-1210' 일 경우 로그아웃한 것임
     end
 end)
 
@@ -466,7 +471,7 @@ PerpleSDK:googleShowQuests(function(ret, info)
     elseif ret == 'success' then
     elseif ret == 'fail' then
         -- info : {"code":"@code", "msg":"@msg"}
-        -- @msg 가 'ResultCode:10001' 일 경우 로그아웃한 것임
+        -- @code 가 '-1210' 일 경우 로그아웃한 것임
     end
 end)
 

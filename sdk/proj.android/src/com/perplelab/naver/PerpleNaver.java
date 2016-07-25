@@ -149,6 +149,18 @@ public class PerpleNaver {
         });
     }
 
+    public void cafeShowWidgetWhenUnloadSdk(boolean isShowWidget) {
+        if (mUseCafe) {
+            Glink.showWidgetWhenUnloadSdk(sMainActivity, isShowWidget);
+        }
+    }
+
+    public void cafeStopWidget() {
+        if (mUseCafe) {
+            Glink.stopWidget(sMainActivity);
+        }
+    }
+
     public boolean cafeIsShowGlink() {
         boolean ret = false;
         if (mUseCafe) {

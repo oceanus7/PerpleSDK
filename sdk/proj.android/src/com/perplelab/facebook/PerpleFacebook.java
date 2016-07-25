@@ -11,6 +11,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -218,7 +219,13 @@ public class PerpleFacebook {
                     if (PerpleSDK.IsDebug) {
                         Log.d(LOG_TAG, "Facebook friends - response:" + response.getJSONObject().toString());
                     }
-                    callback.onSuccess(convertFriendsListFormat(response.getJSONObject()));
+
+                    FacebookRequestError error = response.getError();
+                    if (error != null) {
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                    } else {
+                        callback.onSuccess(convertFriendsListFormat(response.getJSONObject()));
+                    }
                 }
             }
         ).executeAsync();
@@ -244,7 +251,13 @@ public class PerpleFacebook {
                     if (PerpleSDK.IsDebug) {
                         Log.d(LOG_TAG, "Facebook invitable_friends - response:" + response.getJSONObject().toString());
                     }
-                    callback.onSuccess(convertInvitableFriendsListFormat(response.getJSONObject()));
+
+                    FacebookRequestError error = response.getError();
+                    if (error != null) {
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                    } else {
+                        callback.onSuccess(convertInvitableFriendsListFormat(response.getJSONObject()));
+                    }
                 }
             }
         ).executeAsync();
@@ -260,19 +273,25 @@ public class PerpleFacebook {
         String userId = "/" + facebookId + "/";
 
         new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                userId + "picture",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        if (PerpleSDK.IsDebug) {
-                            Log.d(LOG_TAG, "Facebook picture - fid:" + facebookId + ", response:" + response.getJSONObject().toString());
-                        }
+            AccessToken.getCurrentAccessToken(),
+            userId + "picture",
+            null,
+            HttpMethod.GET,
+            new GraphRequest.Callback() {
+                public void onCompleted(GraphResponse response) {
+                    if (PerpleSDK.IsDebug) {
+                        Log.d(LOG_TAG, "Facebook picture - fid:" + facebookId + ", response:" + response.getJSONObject().toString());
+                    }
+
+                    FacebookRequestError error = response.getError();
+                    if (error != null) {
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                    } else {
                         callback.onSuccess(response.getJSONObject().toString());
                     }
                 }
-            ).executeAsync();
+            }
+        ).executeAsync();
     }
 
     private static String convertFriendsListFormat(JSONObject obj) {

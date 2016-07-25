@@ -102,7 +102,7 @@
             no need for explicit permissions despite exported="true"
         -->
         <service
-            android:name="com.perplelab.PerpleFirebaseInstanceIDService"
+            android:name="com.perplelab.firebase.PerpleFirebaseInstanceIDService"
             android:exported="true" >
             <intent-filter android:priority="-500" >
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -113,7 +113,7 @@
             no need for explicit permissions despite exported="true"
         -->
         <service
-            android:name="com.perplelab.PerpleFirebaseMessagingService"
+            android:name="com.perplelab.firebase.PerpleFirebaseMessagingService"
             android:exported="true" >
             <intent-filter android:priority="-500" >
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

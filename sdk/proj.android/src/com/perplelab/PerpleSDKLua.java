@@ -784,6 +784,20 @@ public class PerpleSDKLua {
     }
 
     // @naver
+    public static void naverCafeShowWidgetWhenUnloadSdk(final int funcID, int isShowWidget) {
+        if (PerpleSDK.getNaver() != null) {
+            PerpleSDK.getNaver().cafeShowWidgetWhenUnloadSdk(isShowWidget == 0 ? false : true);
+        }
+    }
+
+    // @naver
+    public static void naverCafeStopWidget(final int funcID) {
+        if (PerpleSDK.getNaver() != null) {
+            PerpleSDK.getNaver().cafeStopWidget();
+        }
+    }
+
+    // @naver
     public static void naverCafeStart(final int funcID, int tapNumber) {
         if (PerpleSDK.getNaver() != null) {
             PerpleSDK.getNaver().cafeStart(tapNumber);

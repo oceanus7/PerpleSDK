@@ -1,6 +1,5 @@
 #include "lua_perplesdk.h"
 #include "tolua_fix.h"
-#include <llimits.h>
 #include "PerpleSDK.h"
 
 #define LOG_TAG "PerpleSDKLua"
@@ -954,6 +953,7 @@ int tolua_PerpleSDK_tapjoySetTrackPurchase(lua_State* tolua_S)
 #endif
     {
         int isTrackPurchase = (int)tolua_tonumber(tolua_S, 2, 0);
+
         jniFuncV_I("tapjoySetTrackPurchase", -1, isTrackPurchase);
 
         return 0;
@@ -1184,6 +1184,57 @@ int tolua_PerpleSDK_naverRequestApi(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
 tolua_lerror :
     tolua_error(tolua_S, "PerpleSDKLua: Error in function 'naverRequestApi'.", &tolua_err);
+    return 0;
+#endif
+}
+
+int tolua_PerpleSDK_naverCafeShowWidgetWhenUnloadSdk(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (!tolua_isusertable(tolua_S, 1, "PerpleSDK", 0, &tolua_err) ||
+        !tolua_isnumber(tolua_S, 2, 0, &tolua_err) ||
+        !tolua_isnoobj(tolua_S, 3, &tolua_err))
+    {
+        goto tolua_lerror;
+    }
+    else
+#endif
+    {
+        int isShowWidget = (int)tolua_tonumber(tolua_S, 2, 0);
+
+        jniFuncV_I("naverCafeShowWidgetWhenUnloadSdk", -1, isShowWidget);
+
+        return 0;
+    }
+
+#ifndef TOLUA_RELEASE
+tolua_lerror :
+    tolua_error(tolua_S, "PerpleSDKLua: Error in function 'naverCafeShowWidgetWhenUnloadSdk'.", &tolua_err);
+    return 0;
+#endif
+}
+
+int tolua_PerpleSDK_naverCafeStopWidget(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (!tolua_isusertable(tolua_S, 1, "PerpleSDK", 0, &tolua_err) ||
+        !tolua_isnoobj(tolua_S, 2, &tolua_err))
+    {
+        goto tolua_lerror;
+    }
+    else
+#endif
+    {
+        jniFuncV_V("naverCafeStopWidget", -1);
+
+        return 0;
+    }
+
+#ifndef TOLUA_RELEASE
+tolua_lerror :
+    tolua_error(tolua_S, "PerpleSDKLua: Error in function 'naverCafeStopWidget'.", &tolua_err);
     return 0;
 #endif
 }
@@ -1792,6 +1843,8 @@ int registerAllPerpleSdk(lua_State* L)
             tolua_function(L, "naverLogin", tolua_PerpleSDK_naverLogin);
             tolua_function(L, "naverLogout", tolua_PerpleSDK_naverLogout);
             tolua_function(L, "naverRequestApi", tolua_PerpleSDK_naverRequestApi);
+            tolua_function(L, "naverCafeShowWidgetWhenUnloadSdk", tolua_PerpleSDK_naverCafeShowWidgetWhenUnloadSdk);
+            tolua_function(L, "naverCafeStopWidget", tolua_PerpleSDK_naverCafeStopWidget);
             tolua_function(L, "naverCafeIsShowGlink", tolua_PerpleSDK_naverCafeIsShowGlink);
             tolua_function(L, "naverCafeStart", tolua_PerpleSDK_naverCafeStart);
             tolua_function(L, "naverCafeStop", tolua_PerpleSDK_naverCafeStop);
