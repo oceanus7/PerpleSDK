@@ -37,6 +37,7 @@ public class PerpleSDK {
     public static final String ERROR_GOOGLE_LOGIN = "-201";
     public static final String ERROR_FACEBOOK_NOTINITIALIZED = "-300";
     public static final String ERROR_FACEBOOK_LOGIN = "-301";
+    public static final String ERROR_FACEBOOK_REQUESTERROR = "-302";
     public static final String ERROR_NAVER_NOTINITIALIZED = "-400";
     public static final String ERROR_BILLING_NOTINITIALIZED = "-500";
     public static final String ERROR_BILLING_INITFAILED = "-501";
