@@ -494,8 +494,8 @@ public class PerpleFirebase {
 
     public boolean isLinkedProvider(String info, String provider) {
         try {
-            JSONObject json_info = new JSONObject(info);
-            JSONObject prividerSpecificInfo = (JSONObject)json_info.get("prividerSpecificInfo");
+            JSONObject jsonObj = new JSONObject(info);
+            JSONObject prividerSpecificInfo = (JSONObject)jsonObj.get("prividerSpecificInfo");
             if (prividerSpecificInfo != null) {
                 JSONArray data = (JSONArray) prividerSpecificInfo.get("data");
                 int l = data.length();

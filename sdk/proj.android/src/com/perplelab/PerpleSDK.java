@@ -551,15 +551,15 @@ public class PerpleSDK {
                                    getInstance().mFacebook.login(new PerpleSDKCallback() {
                                         @Override
                                         public void onSuccess(String token) {
-                                            callSDKResult("autoLogin", "success", loginInfo);
+                                            callSDKResult("autoLogin", "success", addFacebookLoginInfo(loginInfo, 1));
                                         }
                                         @Override
                                         public void onFail(String info) {
-                                            callSDKResult("autoLogin", "success", loginInfo);
+                                            callSDKResult("autoLogin", "success", addFacebookLoginInfo(loginInfo, 0));
                                         }
                                     });
                                 } else {
-                                    callSDKResult("autoLogin", "success", loginInfo);
+                                    callSDKResult("autoLogin", "success", addFacebookLoginInfo(loginInfo, -1));
                                 }
                             }
 
@@ -1389,12 +1389,24 @@ public class PerpleSDK {
     // 구글 플레이 게임 플레이어 정보 삽입
     public static String addGoogleLoginInfo(String info) {
         try {
-            JSONObject json_info = new JSONObject(info);
-            if (json_info.has("player") == false) {
+            JSONObject jsonObj = new JSONObject(info);
+            if (jsonObj.has("player") == false) {
                 JSONObject player = getInstance().mGoogle.getPlayerProfile();
-                json_info.put("player", player);
-                return json_info.toString();
+                jsonObj.put("player", player);
+                return jsonObj.toString();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return info;
+    }
+
+    // 페이스북 로그인 정보 삽입
+    public static String addFacebookLoginInfo(String info, int isLogin) {
+        try {
+            JSONObject jsonObj = new JSONObject(info);
+            jsonObj.put("facebookLoginState", isLogin);
+            return jsonObj.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
