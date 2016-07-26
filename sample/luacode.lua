@@ -28,7 +28,7 @@ PerpleSDK:setFCMPushOnForeground(@receive)
 -- @token : registration token
 PerpleSDK:setFCMTokenRefresh(function(ret, info)
     if ret == 'refresh' then
-        -- info : '{ "iid":"@iid", "token":"@token" }'
+        -- info : {"iid":"@iid","token":"@token"}
     elseif ret == 'error' then
     end
 end)
@@ -37,7 +37,7 @@ end)
 -- @token : registration token
 PerpleSDK:getFCMToken(function(ret, info)
     if ret == 'success' then
-        -- info : '{ "iid":"@iid", "token":"@token" }'
+        -- info : {"iid":"@iid","token":"@token"}
     elseif ret == 'fail' then
     end
 end)
@@ -62,8 +62,8 @@ PerpleSDK:autoLogin(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"},
         -- 구글 로그인이 링크되어 있어 구글 로그인 처리까지 성공한 경우
         --    "google":{"id":"@id","name":"@name","photoUrl":"@photoUrl"},
@@ -79,8 +79,8 @@ PerpleSDK:loginAnonymously(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -92,8 +92,8 @@ PerpleSDK:loginGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -106,8 +106,8 @@ PerpleSDK:loginFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -120,8 +120,8 @@ PerpleSDK:loginEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -133,8 +133,8 @@ PerpleSDK:linkWithGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -147,8 +147,8 @@ PerpleSDK:linkWithFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -161,8 +161,8 @@ PerpleSDK:linkWithEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -174,8 +174,8 @@ PerpleSDK:unlinkWithGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -187,8 +187,8 @@ PerpleSDK:unlinkWithFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -200,8 +200,8 @@ PerpleSDK:unlinkWithEmail(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -213,8 +213,8 @@ PerpleSDK:createUserWithEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
-        --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
+        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
         --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
@@ -244,8 +244,8 @@ PerpleSDK:facebookGetFriends(function(ret, info)
     if ret == 'success' then
         -- info
         -- [
-        --     {"id":"@id", "name":"@name"},
-        --     {"id":"@id", "name":"@name"}
+        --     {"id":"@id","name":"@name"},
+        --     {"id":"@id","name":"@name"}
         -- ]
     elseif ret == 'fail' then
     end
@@ -255,17 +255,17 @@ PerpleSDK:facebookGetInvitableFriends(function(ret, info)
     if ret == 'success' then
         -- info
         -- [
-        --     {"id":"@id", "name":"@name", "picture_url":"@pictureUrl"},
-        --     {"id":"@id", "name":"@name", "picture_url":"@pictureUrl"}
+        --     {"id":"@id","name":"@name","photoUrl":"@photoUrl"},
+        --     {"id":"@id","name":"@name","photoUrl":"@photoUrl"}
         -- ]
     elseif ret == 'fail' then
     end
 end)
 
--- @data : { "title":"@title", "message":"@message", "to":"@facebookId" }
+-- @data : {"title":"@title","message":"@message","to":"@facebookId"}
 PerpleSDK:facebookSendRequest('@data', function(ret, info)
     if ret == 'success' then
-        -- info   "@requestId"
+        -- info : "@requestId"
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
     end
@@ -355,7 +355,7 @@ end)
 -- 가상 화폐 잔액 조회
 PerpleSDK:tapjoyGetCurrency(function(ret, info)
     if ret == 'success' then
-        -- info : { "currencyName":"가상화페 이름", "balance":"잔액" }
+        -- info : {"currencyName":"@가상화페 이름","balance":"@잔액" }
     elseif ret == 'fail' then
     end
 end)
@@ -364,7 +364,7 @@ end)
 -- 가상 화폐를 획득할 때마다 'earn' 콜백이 호출됨
 PerpleSDK:tapjoySetEarnedCurrencyCallback(function(ret, info)
     if ret == 'earn' then
-        -- info : { "currencyName":"가상화페 이름", "amount":"획득한 금액" }
+        -- info : {"currencyName":"@가상화페 이름", "amount":"@획득한 금액"}
     elseif ret == 'error' then
     end
 end)
@@ -372,7 +372,7 @@ end)
 -- 가상 화폐 사용
 PerpleSDK:tapjoySpendCurrency('@amount', function(ret, info)
     if ret == 'success' then
-        -- info : { "currencyName":"가상화페 이름", "balance":"잔액" }
+        -- info : {"currencyName":"@가상화페 이름", "balance":"@잔액"}
     elseif ret == 'fail' then
     end
 end)
@@ -380,14 +380,14 @@ end)
 -- 가상 화폐 지급
 PerpleSDK:tapjoyAwardCurrency('@amount', function(ret, info)
     if ret == 'success' then
-        -- info : { "currencyName":"가상화페 이름", "balance":"잔액" }
+        -- info : {"currencyName":"@가상화페 이름","balance":"@잔액"}
     elseif ret == 'fail' then
     end
 end)
 
 PerpleSDK:naverLogin(function(ret, info)
     if ret == 'success' then
-        -- info : { "accessToken":"@accessToken", "refreshToken":"@refreshToken", "expiresAt":"@expiresAt", "tokenType":"@tokenType" }
+        -- info : {"accessToken":"@accessToken","refreshToken":"@refreshToken","expiresAt":"@expiresAt","tokenType":"@tokenType"}
     elseif ret == 'fail' then
     end
 end)
@@ -513,7 +513,7 @@ end)
 -- @url : 영수증 검증 서버 주소, 끝에 / 붙여야 함 (예:http://platform.perplelab.com/)
 PerpleSDK:setBilling('@url', function(ret, info)
     if ret == 'purchase' then
-        -- info : '["@payload","@payload",...]'
+        -- info : ["@payload","@payload",...]
     elseif ret == 'error' then
     end
 end)

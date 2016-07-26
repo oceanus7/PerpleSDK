@@ -134,7 +134,6 @@ public class PerpleFacebook {
             return;
         }
 
-        /*
         try {
 
             JSONObject obj = new JSONObject(info);
@@ -171,33 +170,6 @@ public class PerpleFacebook {
             e.printStackTrace();
             callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
         }
-        */
-
-        @SuppressWarnings("deprecation")
-        GameRequestContent content = new GameRequestContent.Builder()
-            .setTitle("Title")
-            .setMessage("Message")
-            .setTo(info)
-            .build();
-
-        GameRequestDialog dialog = new GameRequestDialog(sMainActivity);
-        dialog.registerCallback(mCallbackManager, new FacebookCallback<GameRequestDialog.Result>() {
-            @Override
-            public void onCancel() {
-                callback.onFail("cancel");
-            }
-            @Override
-            public void onError(FacebookException error) {
-                callback.onFail(PerpleSDK.getErrorInfoFromFacebookException(error));
-            }
-            @Override
-            public void onSuccess(Result result) {
-                callback.onSuccess(result.getRequestId());
-            }
-        });
-
-        dialog.show(content);
-
     }
 
     public boolean isGrantedPermission(String permission) {
@@ -373,18 +345,14 @@ public class PerpleFacebook {
                 String name = friendObj.getString("name");
                 JSONObject pictureObj = (JSONObject)friendObj.get("picture");
                 JSONObject pictureDataObj = (JSONObject)pictureObj.get("data");
-                String picture_url = pictureDataObj.getString("url");
+                String photoUrl = pictureDataObj.getString("url");
 
                 // make new json
                 JSONObject outObj = new JSONObject();
                 outObj.put("id", id);
                 outObj.put("name", name);
-                outObj.put("picture_url", picture_url);
+                outObj.put("photoUrl", photoUrl);
                 outArray.put(outObj);
-
-                if (name.equals("김성구")) {
-                    return id;
-                }
             }
             return outArray.toString();
         } catch (JSONException e) {
