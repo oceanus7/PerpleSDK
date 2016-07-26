@@ -76,7 +76,7 @@ public class PerpleSDK {
     private PerpleTapjoy mTapjoy;
 
     //--------------------------------------------------------------------------------
-    // PerpleSDK is a single class
+    // PerpleSDK is a singleton class
     //--------------------------------------------------------------------------------
 
     private static PerpleSDK sMyInstance;

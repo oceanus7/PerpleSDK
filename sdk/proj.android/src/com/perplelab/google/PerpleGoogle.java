@@ -3,6 +3,9 @@ package com.perplelab.google;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -17,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient.Builder;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.Player;
 import com.google.android.gms.games.quest.Quest;
 import com.google.android.gms.games.quest.QuestUpdateListener;
 import com.google.android.gms.games.quest.Quests;
@@ -279,7 +283,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         }
 
         if (mUseGoogleSignInApi) {
-            // @todo
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         } else {
             Games.signOut(mGoogleApiClient);
             mGoogleApiClient.disconnect();
@@ -355,6 +359,26 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
             Log.e(LOG_TAG, "Google signe-in is not available.");
             mPlayServicesQuestsCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTSIGNEDIN, "Google signe-in is not available."));
         }
+    }
+
+    public JSONObject getProfileData() {
+        Player player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+        if (player != null) {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("id", player.getPlayerId());
+                obj.put("name", player.getDisplayName());
+                if (player.hasIconImage()) {
+                    obj.put("photoUrl", player.getIconImageUri().toString());
+                } else {
+                    obj.put("photoUrl", "");
+                }
+                return obj;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     // This snippet takes the simple approach of using the first returned Google account,

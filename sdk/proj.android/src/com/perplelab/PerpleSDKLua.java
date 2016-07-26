@@ -88,8 +88,53 @@ public class PerpleSDKLua {
             new PerpleSDKCallback() {
                 @Override
                 public void onSuccess(String info) {
-                    PerpleSDK.callSDKResult(funcID, "success", info);
+                    final String loginInfo = info;
+
+                    if (!PerpleFirebase.isLinkedSpecificProvider(loginInfo, "google.com")) {
+                        PerpleSDK.callSDKResult(funcID, "success", loginInfo);
+                        return;
+                    }
+
+                    if (PerpleSDK.getGoogle() == null) {
+                        PerpleSDK.callSDKResult(funcID, "fail", PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTINITIALIZED, "Google is not initialized."));
+                        return;
+                    }
+
+                    PerpleSDK.getGoogle().login(new PerpleSDKCallback() {
+                        @Override
+                        public void onSuccess(String idToken) {
+                            final String newLoginInfo = PerpleFirebase.addGoogleLoginInfo(loginInfo);
+
+                            if (!PerpleFirebase.isLinkedSpecificProvider(newLoginInfo, "facebook.com")) {
+                                PerpleSDK.callSDKResult(funcID, "success", newLoginInfo);
+                                return;
+                            }
+
+                            if (PerpleSDK.getFacebook() == null) {
+                                PerpleSDK.callSDKResult(funcID, "fail", PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
+                                return;
+                            }
+
+                            PerpleSDK.getFacebook().login(new PerpleSDKCallback() {
+                                @Override
+                                public void onSuccess(String token) {
+                                    PerpleSDK.callSDKResult(funcID, "success", PerpleFirebase.addFacebookLoginInfo(newLoginInfo));
+                                }
+
+                                @Override
+                                public void onFail(String info) {
+                                    PerpleSDK.callSDKResult(funcID, "fail", info);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFail(String info) {
+                            PerpleSDK.callSDKResult(funcID, "fail", info);
+                        }
+                    });
                 }
+
                 @Override
                 public void onFail(String info) {
                     PerpleSDK.callSDKResult(funcID, "fail", info);
@@ -438,6 +483,31 @@ public class PerpleSDKLua {
         PerpleSDK.getFirebase().deleteUser(new PerpleSDKCallback() {
             @Override
             public void onSuccess(String info) {
+                PerpleSDK.callSDKResult(funcID, "success", info);
+            }
+            @Override
+            public void onFail(String info) {
+                PerpleSDK.callSDKResult(funcID, "fail", info);
+            }
+        });
+    }
+
+    // @facebook
+    public static void facebookLogin(final int funcID) {
+        if (PerpleSDK.getFacebook() == null) {
+            PerpleSDK.callSDKResult(funcID, "fail",
+                    PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
+            return;
+        }
+
+        PerpleSDK.getFacebook().login(new PerpleSDKCallback() {
+            @Override
+            public void onSuccess(String token) {
+                String info = "";;
+                JSONObject obj = PerpleSDK.getFacebook().getProfileData();
+                if (obj != null) {
+                    info = obj.toString();
+                }
                 PerpleSDK.callSDKResult(funcID, "success", info);
             }
             @Override
@@ -901,6 +971,31 @@ public class PerpleSDKLua {
             @Override
             public void onError(String info) {
                 PerpleSDK.callSDKResult(funcID, "error", info);
+            }
+        });
+    }
+
+    // @google
+    public static void googleLogin(final int funcID) {
+        if (PerpleSDK.getGoogle() == null) {
+            PerpleSDK.callSDKResult(funcID, "fail",
+                    PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTINITIALIZED, "Google is not initialized."));
+            return;
+        }
+
+        PerpleSDK.getGoogle().login(new PerpleSDKCallback() {
+            @Override
+            public void onSuccess(String idToken) {
+                String info = "";;
+                JSONObject obj = PerpleSDK.getGoogle().getProfileData();
+                if (obj != null) {
+                    info = obj.toString();
+                }
+                PerpleSDK.callSDKResult(funcID, "success", info);
+            }
+            @Override
+            public void onFail(String info) {
+                PerpleSDK.callSDKResult(funcID, "fail", info);
             }
         });
     }

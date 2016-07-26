@@ -62,10 +62,13 @@ PerpleSDK:autoLogin(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"},
+        -- 구글 로그인이 링크되어 있어 구글 로그인 처리까지 성공한 경우
+        --    "google":{"id":"@id","name":"@name","photoUrl":"@photoUrl"},
+        -- 페이스북 로그인이 링크되어 있어 페이스북 로그인 처리까지 성공한 경우
+        --    "facebook":{"id":"@id","name":"@name","photoUrl":"@photoUrl"}
         --}
     elseif ret == 'fail' then
     end
@@ -76,10 +79,9 @@ PerpleSDK:loginAnonymously(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -90,10 +92,9 @@ PerpleSDK:loginGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -105,10 +106,9 @@ PerpleSDK:loginFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -120,10 +120,9 @@ PerpleSDK:loginEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -134,10 +133,9 @@ PerpleSDK:linkWithGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -149,10 +147,9 @@ PerpleSDK:linkWithFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -164,10 +161,9 @@ PerpleSDK:linkWithEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -178,10 +174,9 @@ PerpleSDK:unlinkWithGoogle(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -192,10 +187,9 @@ PerpleSDK:unlinkWithFacebook(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -206,10 +200,9 @@ PerpleSDK:unlinkWithEmail(function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -220,10 +213,9 @@ PerpleSDK:createUserWithEmail('@email', '@password', function(ret, info)
     if ret == 'success' then
         -- info
         --{
-        --    "uid":"@uid",
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId","providers":["@providerId",...]},
         --    "prividerData":[{"providerId":"@providerId","puid":"@puid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"token"}
+        --    "pushToken":{"iid":"@iid","token":"@token"}
         --}
     elseif ret == 'fail' then
     end
@@ -237,6 +229,13 @@ end)
 
 PerpleSDK:deleteUser(function(ret, info)
     if ret == 'success' then
+    elseif ret == 'fail' then
+    end
+end)
+
+PerpleSDK:facebookLogin(function(ret, info)
+    if ret == 'success' then
+        -- info : {"id":"@id","name":"@name","photoUrl":"@photoUrl"}
     elseif ret == 'fail' then
     end
 end)
@@ -448,6 +447,13 @@ PerpleSDK:naverCafeSetCallback(function(ret, info)
     elseif ret == 'record' then
         --onRecordFinished
     elseif ret == 'error' then
+    end
+end)
+
+PerpleSDK:googleLogin(function(ret, info)
+    if ret == 'success' then
+        -- info : {"id":"@id","name":"@name","photoUrl":"@photoUrl"}
+    elseif ret == 'fail' then
     end
 end)
 

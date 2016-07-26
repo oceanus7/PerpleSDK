@@ -655,6 +655,33 @@ tolua_lerror :
 #endif
 }
 
+int tolua_PerpleSDK_facebookLogin(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (!tolua_isusertable(tolua_S, 1, "PerpleSDK", 0, &tolua_err) ||
+        !toluafix_isfunction(tolua_S, 2, "", 0, &tolua_err) ||
+        !tolua_isnoobj(tolua_S, 3, &tolua_err))
+    {
+        goto tolua_lerror;
+    }
+    else
+#endif
+    {
+        int funcID = toluafix_ref_function(tolua_S, 2, 0);
+
+        jniFuncV_V("facebookLogin", funcID);
+
+        return 0;
+    }
+
+#ifndef TOLUA_RELEASE
+tolua_lerror :
+    tolua_error(tolua_S, "PerpleSDKLua: Error in function 'facebookLogin'.", &tolua_err);
+    return 0;
+#endif
+}
+
 int tolua_PerpleSDK_facebookGetFriends(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
@@ -1523,6 +1550,33 @@ tolua_lerror :
 #endif
 }
 
+int tolua_PerpleSDK_googleLogin(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (!tolua_isusertable(tolua_S, 1, "PerpleSDK", 0, &tolua_err) ||
+        !toluafix_isfunction(tolua_S, 2, "", 0, &tolua_err) ||
+        !tolua_isnoobj(tolua_S, 3, &tolua_err))
+    {
+        goto tolua_lerror;
+    }
+    else
+#endif
+    {
+        int funcID = toluafix_ref_function(tolua_S, 2, 0);
+
+        jniFuncV_V("googleLogin", funcID);
+
+        return 0;
+    }
+
+#ifndef TOLUA_RELEASE
+tolua_lerror :
+    tolua_error(tolua_S, "PerpleSDKLua: Error in function 'googleLogin'.", &tolua_err);
+    return 0;
+#endif
+}
+
 int tolua_PerpleSDK_googleShowAchievements(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
@@ -1824,6 +1878,7 @@ int registerAllPerpleSdk(lua_State* L)
             tolua_function(L, "createUserWithEmail", tolua_PerpleSDK_createUserWithEmail);
             tolua_function(L, "logout", tolua_PerpleSDK_logout);
             tolua_function(L, "deleteUser", tolua_PerpleSDK_deleteUser);
+            tolua_function(L, "facebookLogin", tolua_PerpleSDK_facebookLogin);
             tolua_function(L, "facebookGetFriends", tolua_PerpleSDK_facebookGetFriends);
             tolua_function(L, "facebookGetInvitableFriends", tolua_PerpleSDK_facebookGetInvitableFriends);
             tolua_function(L, "facebookSendRequest", tolua_PerpleSDK_facebookSendRequest);
@@ -1855,6 +1910,7 @@ int registerAllPerpleSdk(lua_State* L)
             tolua_function(L, "naverCafeSyncGameUserId", tolua_PerpleSDK_naverCafeSyncGameUserId);
             tolua_function(L, "naverCafeSetUseVideoRecord", tolua_PerpleSDK_naverCafeSetUseVideoRecord);
             tolua_function(L, "naverCafeSetCallback", tolua_PerpleSDK_naverCafeSetCallback);
+            tolua_function(L, "googleLogin", tolua_PerpleSDK_googleLogin);
             tolua_function(L, "googleShowAchievements", tolua_PerpleSDK_googleShowAchievements);
             tolua_function(L, "googleShowLeaderboards", tolua_PerpleSDK_googleShowLeaderboards);
             tolua_function(L, "googleShowQuests", tolua_PerpleSDK_googleShowQuests);

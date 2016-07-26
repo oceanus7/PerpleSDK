@@ -111,7 +111,9 @@ public class PerpleFirebase {
 
         if (mSignedIn) {
             String info = getLoginInfo(mAuth.getCurrentUser());
-            Log.w(LOG_TAG, "Firebase autoLogin success - info:" + info);
+            if (PerpleSDK.IsDebug) {
+                Log.d(LOG_TAG, "Firebase autoLogin success - info:" + info);
+            }
             callback.onSuccess(info);
         } else {
             if (PerpleSDK.IsDebug) {
@@ -543,7 +545,6 @@ public class PerpleFirebase {
     private String getLoginInfo(FirebaseUser user) {
         try {
             JSONObject obj = new JSONObject();
-            obj.put("uid", user.getUid());
             obj.put("profile", getUserProfile(user));
             obj.put("prividerData", getPrividerSpecificInfo(user));
             obj.put("pushToken", getPushToken());
@@ -571,7 +572,7 @@ public class PerpleFirebase {
                 obj.put("email", user.getEmail());
                 obj.put("photoUrl", user.getPhotoUrl());
                 obj.put("providerId", user.getProviderId());
-                obj.put("providers", new JSONArray(user.getProviders()));
+                //obj.put("providers", new JSONArray(user.getProviders()));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -592,7 +593,7 @@ public class PerpleFirebase {
                     // Id of the provider (ex: google.com, facebook.com, firebase, email)
                     obj.put("providerId", profile.getProviderId());
 
-                    obj.put("puid", profile.getUid());
+                    obj.put("uid", profile.getUid());
                     obj.put("name", profile.getDisplayName());
                     obj.put("email", profile.getEmail());
                     obj.put("photoUrl", profile.getPhotoUrl());
@@ -605,6 +606,50 @@ public class PerpleFirebase {
         }
 
         return array;
+    }
+
+    public static boolean isLinkedSpecificProvider(String info, String provider) {
+        try {
+            JSONObject obj = new JSONObject(info);
+            JSONArray array = (JSONArray)obj.get("prividerData");
+            if (array != null) {
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject profile = (JSONObject)array.get(i);
+                    if (profile != null && provider.equals(profile.getString("providerId"))) {
+                        return true;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static String addGoogleLoginInfo(String loginInfo) {
+        try {
+            JSONObject obj = new JSONObject(loginInfo);
+            if (!obj.has("google")) {
+                obj.put("google", PerpleSDK.getGoogle().getProfileData());
+                return obj.toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return loginInfo;
+    }
+
+    public static String addFacebookLoginInfo(String loginInfo) {
+        try {
+            JSONObject obj = new JSONObject(loginInfo);
+            if (!obj.has("facebook")) {
+                obj.put("facebook", PerpleSDK.getFacebook().getProfileData());
+                return obj.toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return loginInfo;
     }
 
     public JSONObject getPushToken() {

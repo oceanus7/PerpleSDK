@@ -134,6 +134,7 @@ public class PerpleFacebook {
             return;
         }
 
+        /*
         try {
 
             JSONObject obj = new JSONObject(info);
@@ -170,6 +171,33 @@ public class PerpleFacebook {
             e.printStackTrace();
             callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
         }
+        */
+
+        @SuppressWarnings("deprecation")
+        GameRequestContent content = new GameRequestContent.Builder()
+            .setTitle("Title")
+            .setMessage("Message")
+            .setTo(info)
+            .build();
+
+        GameRequestDialog dialog = new GameRequestDialog(sMainActivity);
+        dialog.registerCallback(mCallbackManager, new FacebookCallback<GameRequestDialog.Result>() {
+            @Override
+            public void onCancel() {
+                callback.onFail("cancel");
+            }
+            @Override
+            public void onError(FacebookException error) {
+                callback.onFail(PerpleSDK.getErrorInfoFromFacebookException(error));
+            }
+            @Override
+            public void onSuccess(Result result) {
+                callback.onSuccess(result.getRequestId());
+            }
+        });
+
+        dialog.show(content);
+
     }
 
     public boolean isGrantedPermission(String permission) {
@@ -294,6 +322,22 @@ public class PerpleFacebook {
         ).executeAsync();
     }
 
+    public JSONObject getProfileData() {
+        Profile profile = getProfile();
+        if (profile != null) {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("id", profile.getId());
+                obj.put("name", profile.getName());
+                obj.put("photoUrl", profile.getProfilePictureUri(64, 64));
+                return obj;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     private static String convertFriendsListFormat(JSONObject obj) {
         try {
             JSONArray outArray = new JSONArray();
@@ -337,6 +381,10 @@ public class PerpleFacebook {
                 outObj.put("name", name);
                 outObj.put("picture_url", picture_url);
                 outArray.put(outObj);
+
+                if (name.equals("김성구")) {
+                    return id;
+                }
             }
             return outArray.toString();
         } catch (JSONException e) {
