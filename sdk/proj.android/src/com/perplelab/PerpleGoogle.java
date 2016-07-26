@@ -27,7 +27,6 @@ import com.google.android.gms.common.api.GoogleApiClient.Builder;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.games.Players;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.quest.Quest;
 import com.google.android.gms.games.quest.QuestUpdateListener;
@@ -83,7 +82,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         mResolvingError = false;
     }
 
-    public boolean init(String web_client_id, final PerpleGoogleLoginCallback callback) {
+    public boolean init(String web_client_id) {
         mWebClientId = web_client_id;
 
         // Configure sign-in to request the user's ID, email address, and basic profile. ID and
@@ -101,8 +100,6 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-            mLoginCallback = callback;
-
         } else {
             // @error
             Log.e(LOG_TAG, "Main Activity must be FragmentActivity.");
@@ -115,7 +112,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         return true;
     }
 
-    public boolean init(String web_client_id, PerpleBuildGoogleApiClient buildClient, final PerpleGoogleLoginCallback callback) {
+    public boolean init(String web_client_id, PerpleBuildGoogleApiClient buildClient) {
         mWebClientId = web_client_id;
 
         Builder builder = new GoogleApiClient.Builder(sMainActivity);
@@ -125,8 +122,6 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
 
         buildClient.onBuild(builder);
         mGoogleApiClient = builder.build();
-
-        mLoginCallback = callback;
 
         mUseGoogleSignInApi = false;
         mIsInit = true;
@@ -249,13 +244,15 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         }
     }
 
-    public void login() {
+    public void login(PerpleGoogleLoginCallback callback) {
         if (!mIsInit) {
             // @error
             Log.e(LOG_TAG, "Google is not initialized.");
-            mLoginCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTINITIALIZED, "Google is not initialized."));
+            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTINITIALIZED, "Google is not initialized."));
             return;
         }
+
+        mLoginCallback = callback;
 
         if (mUseGoogleSignInApi) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -275,7 +272,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         }
     }
 
-    private boolean isSignedIn() {
+    public boolean isSignedIn() {
         return (mGoogleApiClient != null && mGoogleApiClient.isConnected());
     }
 

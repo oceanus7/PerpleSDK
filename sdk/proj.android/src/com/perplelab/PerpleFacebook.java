@@ -44,22 +44,18 @@ public class PerpleFacebook {
     private GameRequestDialog mRequestDialog;
 
     private PerpleSDKCallback mRequestGameCallback;
-    private FacebookCallback<LoginResult> mLoginCallback;
 
     public PerpleFacebook(Activity activity) {
         sMainActivity = activity;
         mIsInit = false;
     }
 
-    public void init(Bundle savedInstanceState, final FacebookCallback<LoginResult> facebookCallback) {
+    public void init(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(sMainActivity.getApplicationContext());
 
         AppEventsLogger.activateApp(sMainActivity.getApplication());
 
         mCallbackManager = CallbackManager.Factory.create();
-        mLoginCallback = facebookCallback;
-
-        LoginManager.getInstance().registerCallback(mCallbackManager, mLoginCallback);
 
         mAccessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -157,13 +153,30 @@ public class PerpleFacebook {
         return Profile.getCurrentProfile();
     }
 
-    public void login() {
+    public void login(final PerpleSDKCallback callback) {
         if (!mIsInit) {
             Log.e(LOG_TAG, "Facebook is not initialized.");
+            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
             return;
         }
 
-        LoginManager.getInstance().registerCallback(mCallbackManager, mLoginCallback);
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onCancel() {
+                        callback.onFail("cancel");
+                    }
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.e(LOG_TAG, "Facebook login error - desc:" + error.toString());
+                        callback.onFail(PerpleSDK.getErrorInfoFromFacebookException(error));
+                    }
+                    @Override
+                    public void onSuccess(LoginResult result) {
+                        callback.onSuccess(result.getAccessToken().getToken());
+                    }
+        });
+
         LoginManager.getInstance().logInWithReadPermissions(sMainActivity, Arrays.asList("public_profile", "email", "user_friends"));
     }
 
@@ -225,7 +238,7 @@ public class PerpleFacebook {
             callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
             return;
         }
-        
+
         Bundle args = new Bundle();
         args.putInt("limit", 5000);
         new GraphRequest(
@@ -236,7 +249,7 @@ public class PerpleFacebook {
             HttpMethod.GET,
             new GraphRequest.Callback() {
                 public void onCompleted(GraphResponse response) {
-                    Log.w(LOG_TAG, "Facebook friends - " + response.getJSONObject().toString());
+                    Log.w(LOG_TAG, "Facebook friends - " + response.toString());
                     FacebookRequestError error = response.getError();
                     if (error != null) {
                         String info = PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString());
@@ -267,7 +280,7 @@ public class PerpleFacebook {
             HttpMethod.GET,
             new GraphRequest.Callback() {
                 public void onCompleted(GraphResponse response) {
-                    Log.w(LOG_TAG, "Facebook invitable_friends - " + response.getJSONObject().toString());
+                    Log.w(LOG_TAG, "Facebook invitable_friends - " + response.toString());
                     FacebookRequestError error = response.getError();
                     if (error != null) {
                         String info = PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString());
@@ -297,14 +310,14 @@ public class PerpleFacebook {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
+                        Log.w(LOG_TAG, "Facebook picture info - fid:" + facebookId + ", response:" + response.toString());
                         FacebookRequestError error = response.getError();
                         if (error != null) {
                             String info = PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString());
                             callback.onFail(info);
                         } else {
-	                        String info = response.getJSONObject().toString();
-	                        Log.w(LOG_TAG, "Facebook picture info - fid:" + facebookId + ", response:" + info);
-	                        callback.onSuccess(info);
+                            String info = response.getJSONObject().toString();
+                            callback.onSuccess(info);
                         }
                     }
                 }
@@ -337,7 +350,7 @@ public class PerpleFacebook {
         try {
             JSONObject paging = inData.getJSONObject("paging");
             outData.put("paging", paging);
-            
+
             JSONArray friends = new JSONArray();
             outData.put("friends", friends);
             JSONArray list = inData.getJSONArray("data");

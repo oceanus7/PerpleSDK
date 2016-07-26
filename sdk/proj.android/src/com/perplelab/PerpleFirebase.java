@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -402,8 +401,8 @@ public class PerpleFirebase {
         return GoogleAuthProvider.getCredential(idToken, null);
     }
 
-    public static AuthCredential getFacebookCredential(AccessToken accessToken) {
-        return FacebookAuthProvider.getCredential(accessToken.getToken());
+    public static AuthCredential getFacebookCredential(String token) {
+        return FacebookAuthProvider.getCredential(token);
     }
 
     public static AuthCredential getEmailCredential(String email, String password) {
@@ -491,6 +490,27 @@ public class PerpleFirebase {
 
         FirebaseMessaging fm = FirebaseMessaging.getInstance();
         fm.send(build.build());
+    }
+
+    public boolean isLinkedProvider(String info, String provider) {
+        try {
+            JSONObject json_info = new JSONObject(info);
+            JSONObject prividerSpecificInfo = (JSONObject)json_info.get("prividerSpecificInfo");
+            if (prividerSpecificInfo != null) {
+                JSONArray data = (JSONArray) prividerSpecificInfo.get("data");
+                int l = data.length();
+                for (int i = 0; i < l; i ++) {
+                    String providerId = ((JSONObject)(data.get(i))).get("providerId").toString();
+                    if (providerId.equals(provider)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private String getLoginInfo(FirebaseUser user) {

@@ -6,12 +6,9 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.naver.glink.android.sdk.Glink.OnClickAppSchemeBannerListener;
 import com.perplelab.billing.PerpleBilling;
 import com.perplelab.billing.PerpleBillingCallback;
 import com.perplelab.billing.PerpleBillingPurchaseCallback;
@@ -21,10 +18,6 @@ import com.perplelab.naver.PerpleNaverLoginCallback;
 import com.perplelab.tapjoy.PerpleTapjoy;
 import com.perplelab.tapjoy.PerpleTapjoyPlacementCallback;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,30 +88,12 @@ public class PerpleSDK {
     private PerpleTapjoy mTapjoy;
     private boolean mUseTapjoy;
 
-    private boolean mRequestLoginGoogle;
-    private boolean mRequestAutoLoginGoogle;
-    private boolean mResultAutoLoginGoogle;
-    private boolean mRequestLinkGoogle;
-    private boolean mRequestLoginFacebook;
-    private boolean mRequestAutoLoginFacebook;
-    private boolean mResultAutoLoginFacebook;
-    private boolean mRequestLinkFacebook;
     private boolean mRequestSendPushMessage;
     private boolean mRequestSendPushMessageToGroup;
-    private int mRequestAutoLoginFacebookCount;
 
     private PerpleSDK(Activity activity) {
-        mRequestLoginGoogle = false;
-        mRequestAutoLoginGoogle = false;
-        mResultAutoLoginGoogle = true;
-        mRequestLinkGoogle = false;
-        mRequestLoginFacebook = false;
-        mRequestAutoLoginFacebook = false;
-        mResultAutoLoginFacebook = true;
-        mRequestLinkFacebook = false;
         mRequestSendPushMessage = false;
         mRequestSendPushMessageToGroup = false;
-        mRequestAutoLoginFacebookCount = 0;
 
         mUseFirebase = false;
         mUseGoogle = false;
@@ -353,7 +328,7 @@ public class PerpleSDK {
         }
 
         mGoogle = new PerpleGoogle(sMainActivity);
-        if (mGoogle.init(web_client_id, getGoogleLoginCallback())) {
+        if (mGoogle.init(web_client_id)) {
             mUseGoogle = true;
             return true;
         }
@@ -368,119 +343,12 @@ public class PerpleSDK {
         }
 
         mGoogle = new PerpleGoogle(sMainActivity);
-        if (mGoogle.init(web_client_id, build, getGoogleLoginCallback())) {
+        if (mGoogle.init(web_client_id, build)) {
             mUseGoogle = true;
             return true;
         }
 
         return false;
-    }
-
-    // @google
-    private PerpleGoogleLoginCallback getGoogleLoginCallback() {
-        return new PerpleGoogleLoginCallback() {
-            @Override
-            public void onSuccess(String idToken) {
-                Log.w(LOG_TAG, "Google login : onSuccess - " + idToken);
-
-                if (mRequestLoginGoogle) {
-                    mRequestLoginGoogle = false;
-                    mFirebase.signInWithCredential(
-                        PerpleFirebase.getGoogleCredential(idToken),
-                        new PerpleSDKCallback() {
-                            @Override
-                            public void onSuccess(String info) {
-                                JSONObject player = mGoogle.getPlayerProfile();
-                                JSONObject json_info = null;
-                                try {
-                                    json_info = new JSONObject(info);
-                                    json_info.put("player", player);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                if (json_info == null) {
-                                    callSDKResult("loginGoogle", "success", info);
-                                } else {
-                                    callSDKResult("loginGoogle", "success", json_info.toString());
-                                }
-                            }
-                            @Override
-                            public void onFail(String info) {
-                                callSDKResult("loginGoogle", "fail", info);
-                            }
-                        });
-                } else if (mRequestLinkGoogle) {
-                    mRequestLinkGoogle = false;
-                    mFirebase.linkWithCredential(
-                        PerpleFirebase.getGoogleCredential(idToken),
-                        new PerpleSDKCallback() {
-                            @Override
-                            public void onSuccess(String info) {
-                                // 오토 로그인에서 링크를 요청한 경우
-                                if (mRequestAutoLoginGoogle) {
-                                    autoLogin();
-                                } else {
-                                    callSDKResult("linkWithGoogle", "success", info);
-                                }
-
-                            }
-                            @Override
-                            public void onFail(String info) {
-                                // 오토 로그인에서 링크를 요청한 경우
-                                if (mRequestAutoLoginGoogle) {
-                                    autoLogin();
-                                } else {
-                                    callSDKResult("linkWithGoogle", "fail", info);
-                                }
-                            }
-                        });
-                } else if (mRequestAutoLoginGoogle) {
-                    mRequestAutoLoginGoogle = false;
-                    mResultAutoLoginGoogle = true;
-                    autoLogin();
-                }
-            }
-
-            @Override
-            public void onFail(String info) {
-                Log.w(LOG_TAG, "Google login : onFail - " + info);
-
-                if (mRequestLoginGoogle) {
-                    mRequestLoginGoogle = false;
-                    callSDKResult("loginGoogle", "fail", info);
-
-                } else if (mRequestLinkGoogle) {
-                    mRequestLinkGoogle = false;
-                    callSDKResult("linkWithGoogle", "fail", info);
-                } else if (mRequestAutoLoginGoogle) {
-                    mRequestAutoLoginGoogle = false;
-                    mResultAutoLoginGoogle = false;
-                    autoLogin();
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                Log.w(LOG_TAG, "Google login : onCancel");
-
-                if (mRequestLoginGoogle) {
-                    mRequestLoginGoogle = false;
-                    callSDKResult("loginGoogle", "cancel", "");
-                } else if (mRequestLinkGoogle) {
-                    mRequestLinkGoogle = false;
-                    callSDKResult("linkWithGoogle", "cancel", "");
-                } else if (mRequestAutoLoginGoogle) {
-                    mRequestAutoLoginGoogle = false;
-                    mResultAutoLoginGoogle = false;
-                    autoLogin();
-                }
-            }
-
-            @Override
-            public void onGooglePlayServicesNotAvailable(int resultCode, Intent data) {
-                // @todo
-            }
-        };
     }
 
     // @google
@@ -499,82 +367,7 @@ public class PerpleSDK {
         }
 
         mFacebook = new PerpleFacebook(sMainActivity);
-        mFacebook.init(savedInstanceState, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.w(LOG_TAG, "Facebook login : onSuccess - " + loginResult.getAccessToken().toString());
-
-                if (mRequestLoginFacebook) {
-                    mRequestLoginFacebook = false;
-                    mFirebase.signInWithCredential(
-                        PerpleFirebase.getFacebookCredential(loginResult.getAccessToken()),
-                        new PerpleSDKCallback() {
-                            @Override
-                            public void onSuccess(String info) {
-                                callSDKResult("loginFacebook", "success", info);
-                            }
-                            @Override
-                            public void onFail(String info) {
-                                callSDKResult("loginFacebook", "fail", info);
-                            }
-                        });
-
-                } else if (mRequestLinkFacebook){
-                    mRequestLinkFacebook = false;
-                    mFirebase.linkWithCredential(
-                        PerpleFirebase.getFacebookCredential(loginResult.getAccessToken()),
-                        new PerpleSDKCallback() {
-                            @Override
-                            public void onSuccess(String info) {
-                                callSDKResult("linkWithFacebook", "success", info);
-                            }
-                            @Override
-                            public void onFail(String info) {
-                                callSDKResult("linkWithFacebook", "fail", info);
-                            }
-                        });
-                } else if (mRequestAutoLoginFacebook){
-                    mRequestAutoLoginFacebook = false;
-                    mResultAutoLoginFacebook = true;
-                    autoLogin();
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                Log.w(LOG_TAG, "Facebook login : onCancel");
-
-                if (mRequestLoginFacebook) {
-                    mRequestLoginFacebook = false;
-                    callSDKResult("loginFacebook", "cancel", "");
-                } else if (mRequestLinkFacebook) {
-                    mRequestLinkFacebook = false;
-                    callSDKResult("linkWithFacebook", "cancel", "");
-                } else if (mRequestAutoLoginFacebook){
-                    mRequestAutoLoginFacebook = false;
-                    mResultAutoLoginFacebook = false;
-                    autoLogin();
-                }
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                String info = getErrorInfoFromFacebookException(exception);
-                Log.w(LOG_TAG, "Facebook login : onError - " + info);
-
-                if (mRequestLoginFacebook) {
-                    mRequestLoginFacebook = false;
-                    callSDKResult("loginFacebook", "fail", info);
-                } else if (mRequestLinkFacebook) {
-                    mRequestLinkFacebook = false;
-                    callSDKResult("linkWithFacebook", "fail", info);
-                } else if (mRequestAutoLoginFacebook){
-                    mRequestAutoLoginFacebook = false;
-                    mResultAutoLoginFacebook = false;
-                    autoLogin();
-                }
-            }
-        });
+        mFacebook.init(savedInstanceState);
 
         mUseFacebook = true;
 
@@ -723,126 +516,79 @@ public class PerpleSDK {
 
     // @firebase
     public static void autoLogin() {
-        if (getInstance().mUseFirebase) {
-            getInstance().mFirebase.autoLogin(
-                new PerpleSDKCallback() {
-                    @Override
-                    public void onSuccess(String info) {
-                        Log.d(LOG_TAG, "autoLogin - info:" + info);
+        if (!getInstance().mUseFirebase) {
+            callSDKResult("autoLogin", "fail", getErrorInfo(ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
+            return;
+        }
 
-                        // 구글 플레이 연결을 강제 한다.
-                        if (getInstance().mResultAutoLoginGoogle) {
-                            boolean is_need_google_game_player = false;
-                            boolean is_need_link_google_game = false;
-                            JSONObject json_info = null;
-                            try {
-                                json_info = new JSONObject(info);
-                                JSONObject prividerSpecificInfo = (JSONObject)json_info.get("prividerSpecificInfo");
-                                if (prividerSpecificInfo != null) {
-                                    JSONArray data = (JSONArray) prividerSpecificInfo.get("data");
-                                    int l = data.length();
-                                    for (int i = 0; i < l; i ++) {
-                                        String providerId = ((JSONObject)(data.get(i))).get("providerId").toString();
-                                        if (providerId.equals("google.com")) {
-                                            is_need_google_game_player = true;
-                                        }
-                                    }
-                                    if (is_need_google_game_player == false) {
-                                        is_need_link_google_game = true;
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            if (is_need_link_google_game) {
-                                getInstance().mRequestLinkGoogle = true;
-                                getInstance().mRequestAutoLoginGoogle = true;
-                                getInstance().mGoogle.getGoogleApiClient().connect();
-                                return;
-                            }
-                            if (is_need_google_game_player) {
-                                if (json_info.has("player") == false) {
-                                    // 구글 플레이 게임 플레이어 정보 삽입
-                                    if (getInstance().mGoogle.getGoogleApiClient().isConnected() == false) {
-                                        getInstance().mRequestAutoLoginGoogle = true;
-                                        getInstance().mGoogle.getGoogleApiClient().connect();
-                                        return;
-                                    } else {
-                                        try {
-                                            JSONObject player = getInstance().mGoogle.getPlayerProfile();
-                                            json_info.put("player", player);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        info = json_info.toString();
-                                    }
-                                }
-                            }
-                        }
-    
-                        // 페이스북과 연결된 경우 페이스북 정보를 수집
-                        boolean is_need_facebook = false;
-                        JSONObject json_info = null;
-                        try {
-                            json_info = new JSONObject(info);
-                            JSONObject prividerSpecificInfo = (JSONObject)json_info.get("prividerSpecificInfo");
-                            if (prividerSpecificInfo != null) {
-                                JSONArray data = (JSONArray) prividerSpecificInfo.get("data");
-                                int l = data.length();
-                                for (int i = 0; i < l; i ++) {
-                                    String providerId = ((JSONObject)(data.get(i))).get("providerId").toString();
-                                    if (providerId.equals("facebook.com")) {
-                                        is_need_facebook = true;
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if(is_need_facebook) {
-                            if (getInstance().mFacebook.getProfile() == null && getInstance().mRequestAutoLoginFacebookCount > 1) {
-                                if (getInstance().mUseFirebase) {
-                                    getInstance().mFirebase.unlink("facebook.com", new PerpleSDKCallback() {
+        if (!getInstance().mUseGoogle) {
+            callSDKResult("autoLogin", "fail", getErrorInfo(ERROR_GOOGLE_NOTINITIALIZED, "Google is not initialized."));
+            return;
+        }
+
+        if (!getInstance().mUseFacebook) {
+            callSDKResult("autoLogin", "fail", getErrorInfo(ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
+            return;
+        }
+
+        // 구글 로그인은 필수이므로 오토로그인 시 무조건 구글 로그인을 처리함
+        getInstance().mGoogle.login(new PerpleGoogleLoginCallback() {
+
+            @Override
+            public void onSuccess(String idToken) {
+
+                getInstance().mFirebase.signInWithCredential(
+                        PerpleFirebase.getGoogleCredential(idToken),
+                        new PerpleSDKCallback() {
+
+                            @Override
+                            public void onSuccess(String info) {
+                                // 로그인 정보에 구글 로그인 정보 추가
+                                final String loginInfo = addGoogleLoginInfo(info);
+
+                                // 로그인 정보에 facebook.com 이 있으면 페이스북 로그인 처리
+                                if (getInstance().mFirebase.isLinkedProvider(info, "facebook.com")) {
+                                   getInstance().mFacebook.login(new PerpleSDKCallback() {
                                         @Override
-                                        public void onSuccess(String info) {
-                                            autoLogin();
+                                        public void onSuccess(String token) {
+                                            callSDKResult("autoLogin", "success", loginInfo);
                                         }
                                         @Override
                                         public void onFail(String info) {
-                                            autoLogin();
+                                            callSDKResult("autoLogin", "success", loginInfo);
                                         }
                                     });
-                                }
-                                return;
-                            } else {
-                                if (getInstance().mFacebook.getProfile() == null) {
-                                    getInstance().mRequestAutoLoginFacebookCount += 1;
-                                    getInstance().mRequestAutoLoginFacebook = true;
-                                    getInstance().mFacebook.login();
-                                    return;
+                                } else {
+                                    callSDKResult("autoLogin", "success", loginInfo);
                                 }
                             }
-                        }
 
-                        // 인게임에서 로그 아웃한 경우 다시 로그인 할 때를 위해
-                        getInstance().mRequestLoginGoogle = false;
-                        getInstance().mRequestAutoLoginGoogle = false;
-                        getInstance().mResultAutoLoginGoogle = true;
-                        getInstance().mRequestLinkGoogle = false;
-                        getInstance().mRequestLoginFacebook = false;
-                        getInstance().mRequestAutoLoginFacebook = false;
-                        getInstance().mResultAutoLoginFacebook = true;
-                        getInstance().mRequestLinkFacebook = false;
-                        getInstance().mRequestSendPushMessage = false;
-                        getInstance().mRequestAutoLoginFacebookCount = 0;
-                        callSDKResult("autoLogin", "success", info);
-                    }
-                    @Override
-                    public void onFail(String info) {
-                        callSDKResult("autoLogin", "fail", info);
-                    }
-                });
-        }
+                            @Override
+                            public void onFail(String info) {
+                                callSDKResult("autoLogin", "fail", info);
+                            }
+
+                        });
+
+            }
+
+            @Override
+            public void onFail(String info) {
+                callSDKResult("autoLogin", "fail", info);
+            }
+
+            @Override
+            public void onCancel() {
+                callSDKResult("autoLogin", "cancel", "");
+            }
+
+            @Override
+            public void onGooglePlayServicesNotAvailable(int resultCode, Intent data) {
+                // @todo
+            }
+
+        });
+
     }
 
     // @firebase
@@ -865,16 +611,65 @@ public class PerpleSDK {
     // @google
     public static void loginGoogle() {
         if (getInstance().mUseGoogle) {
-            getInstance().mRequestLoginGoogle = true;
-            getInstance().mGoogle.login();
+            getInstance().mGoogle.login(new PerpleGoogleLoginCallback() {
+                @Override
+                public void onSuccess(String idToken) {
+                    getInstance().mFirebase.signInWithCredential(
+                            PerpleFirebase.getGoogleCredential(idToken),
+                            new PerpleSDKCallback() {
+                                @Override
+                                public void onSuccess(String info) {
+                                    callSDKResult("loginGoogle", "success", addGoogleLoginInfo(info));
+                                }
+                                @Override
+                                public void onFail(String info) {
+                                    callSDKResult("loginGoogle", "fail", info);
+                                }
+                            });
+                }
+                @Override
+                public void onFail(String info) {
+                    callSDKResult("loginGoogle", "fail", info);
+                }
+                @Override
+                public void onCancel() {
+                    callSDKResult("loginGoogle", "cancel", "");
+                }
+                @Override
+                public void onGooglePlayServicesNotAvailable(int resultCode, Intent data) {
+                    // @todo
+                }
+            });
         }
     }
 
     // @facebook
     public static void loginFacebook() {
         if (getInstance().mUseFacebook) {
-            getInstance().mRequestLoginFacebook = true;
-            getInstance().mFacebook.login();
+            getInstance().mFacebook.login(new PerpleSDKCallback() {
+                @Override
+                public void onSuccess(String token) {
+                    getInstance().mFirebase.signInWithCredential(
+                            PerpleFirebase.getFacebookCredential(token),
+                            new PerpleSDKCallback() {
+                                @Override
+                                public void onSuccess(String info) {
+                                    callSDKResult("loginFacebook", "success", info);
+                                }
+                                @Override
+                                public void onFail(String info) {
+                                    callSDKResult("loginFacebook", "fail", info);
+                                }
+                            });
+                }
+                @Override
+                public void onFail(String info) {
+                    if (info.equals("cancel")) {
+                    } else {
+                        callSDKResult("loginFacebook", "fail", info);
+                    }
+                }
+            });
         }
     }
 
@@ -900,16 +695,66 @@ public class PerpleSDK {
     // @firebase
     public static void linkWithGoogle() {
         if (getInstance().mUseGoogle) {
-            getInstance().mRequestLinkGoogle = true;
-            getInstance().mGoogle.login();
+            getInstance().mGoogle.login(new PerpleGoogleLoginCallback() {
+                @Override
+                public void onSuccess(String idToken) {
+                    getInstance().mFirebase.linkWithCredential(
+                            PerpleFirebase.getGoogleCredential(idToken),
+                            new PerpleSDKCallback() {
+                                @Override
+                                public void onSuccess(String info) {
+                                    callSDKResult("linkWithGoogle", "success", addGoogleLoginInfo(info));
+                                }
+                                @Override
+                                public void onFail(String info) {
+                                    callSDKResult("linkWithGoogle", "fail", info);
+                                }
+                            });
+                }
+                @Override
+                public void onFail(String info) {
+                    callSDKResult("linkWithGoogle", "fail", info);
+                }
+                @Override
+                public void onCancel() {
+                    callSDKResult("linkWithGoogle", "cancel", "");
+                }
+                @Override
+                public void onGooglePlayServicesNotAvailable(int resultCode, Intent data) {
+                    // @todo
+                }
+            });
         }
     }
 
     // @firebase
     public static void linkWithFacebook() {
         if (getInstance().mUseFacebook) {
-            getInstance().mRequestLinkFacebook = true;
-            getInstance().mFacebook.login();
+            getInstance().mFacebook.login(new PerpleSDKCallback() {
+                @Override
+                public void onSuccess(String token) {
+                    getInstance().mFirebase.linkWithCredential(
+                            PerpleFirebase.getFacebookCredential(token),
+                            new PerpleSDKCallback() {
+                                @Override
+                                public void onSuccess(String info) {
+                                    callSDKResult("linkWithFacebook", "success", info);
+                                }
+                                @Override
+                                public void onFail(String info) {
+                                    callSDKResult("linkWithFacebook", "fail", info);
+                                }
+                            });
+                }
+                @Override
+                public void onFail(String info) {
+                    if (info.equals("cancel")) {
+                        callSDKResult("linkWithFacebook", "cancel", "");
+                    } else {
+                        callSDKResult("linkWithFacebook", "fail", info);
+                    }
+                }
+            });
         }
     }
 
@@ -986,11 +831,14 @@ public class PerpleSDK {
             getInstance().mFirebase.logout(new PerpleSDKCallback() {
                 @Override
                 public void onSuccess(String info) {
-                    if (getInstance().mGoogle != null &&
-                        getInstance().mGoogle.getGoogleApiClient() != null && 
-                        getInstance().mGoogle.getGoogleApiClient().isConnected()) {
-                        getInstance().mGoogle.logout();
+
+                    // 구글 로그아웃 처리
+                    if (getInstance().mUseGoogle) {
+                        if (getInstance().mGoogle.isSignedIn()) {
+                            getInstance().mGoogle.logout();
+                        }
                     }
+
                     callSDKResult("logout", "success", info);
                 }
                 @Override
@@ -1536,6 +1384,21 @@ public class PerpleSDK {
                 }
             });
         }
+    }
+
+    // 구글 플레이 게임 플레이어 정보 삽입
+    public static String addGoogleLoginInfo(String info) {
+        try {
+            JSONObject json_info = new JSONObject(info);
+            if (json_info.has("player") == false) {
+                JSONObject player = getInstance().mGoogle.getPlayerProfile();
+                json_info.put("player", player);
+                return json_info.toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return info;
     }
 
     public static String getErrorInfo(String code, String msg) {
