@@ -7,9 +7,15 @@ lua_State* PerpleSDK::mLuaState;
 std::vector<std::function<void()>> PerpleSDK::mFunctionsToPerform;
 std::mutex PerpleSDK::mPerformMutex;
 
-void updateLuaCallbacks(lua_State* L)
+int updateLuaCallbacks(lua_State* L)
 {
-    PerpleSDK::UpdateLuaCallbacks(L);
+    PerpleSDK::UpdateLuaCallbacks();
+    return 0;
+}
+
+int getVersion(lua_State* L)
+{
+   return PerpleSDK::GetVersion();
 }
 
 int PerpleSDK::InitSDK()
@@ -67,7 +73,7 @@ void PerpleSDK::PerformFunctionInLuaThread(const std::function<void()>& function
     mPerformMutex.unlock();
 }
 
-void PerpleSDK::UpdateLuaCallbacks(lua_State* L)
+void PerpleSDK::UpdateLuaCallbacks()
 {
     if (!mFunctionsToPerform.empty())
     {

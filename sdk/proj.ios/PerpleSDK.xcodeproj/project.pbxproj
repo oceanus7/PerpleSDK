@@ -66,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		057B7986C43755B96873E11B /* Pods-PerpleSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PerpleSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-PerpleSDK/Pods-PerpleSDK.release.xcconfig"; sourceTree = "<group>"; };
+		1C1B60011D48645F002AF0F0 /* lua_perplesdk_macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lua_perplesdk_macro.h; sourceTree = "<group>"; };
 		1CB727571D45435500994916 /* firebase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = firebase.cpp; sourceTree = "<group>"; };
 		1CB727581D45435500994916 /* firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = firebase.h; sourceTree = "<group>"; };
 		1CB727591D45435500994916 /* PerpleSDK.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PerpleSDK.cpp; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 				1CB727BA1D45453400994916 /* lua_perplesdk.h */,
 				1CB727BB1D45453400994916 /* tolua_fix.cpp */,
 				1CB727BC1D45453400994916 /* tolua_fix.h */,
+				1C1B60011D48645F002AF0F0 /* lua_perplesdk_macro.h */,
 			);
 			path = "lua-bindings";
 			sourceTree = "<group>";

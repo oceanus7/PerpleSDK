@@ -242,5 +242,8 @@
     <ClInclude Include="..\src\PerpleSDKLua.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\lua-bindings\lua-bindings\lua_perplesdk_macro.h">
+      <Filter>lua-bindings\lua-bindings</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lua-bindings\lua-bindings\lua_perplesdk.h" />
+    <ClInclude Include="..\lua-bindings\lua-bindings\lua_perplesdk_macro.h" />
     <ClInclude Include="..\lua-bindings\lua-bindings\tolua_fix.h" />
     <ClInclude Include="..\lua-bindings\lua\lua\lapi.h" />
     <ClInclude Include="..\lua-bindings\lua\lua\lauxlib.h" />
