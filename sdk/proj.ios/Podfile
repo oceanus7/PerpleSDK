@@ -8,5 +8,6 @@ target 'PerpleSDK' do
   # Pods for PerpleSDK
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Messaging'
 
 end
