@@ -6,7 +6,9 @@
 
     2. Podfile을 열고 다음 코드를 추가하세요.(기본적으로 Firebase Analytics 포함됨)
 
-        $ pod 'Firebase'
+        pod 'Firebase/Core'
+        pod 'Firebase/Auth'
+        pod 'Firebase/Messaging'
 
     3. 파일을 저장하고 다음 명령어를 실행하세요.
 
