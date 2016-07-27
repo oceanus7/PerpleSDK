@@ -177,7 +177,7 @@
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_push.c" />
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_to.c" />
     <ClCompile Include="..\src\firebase\firebase.cpp" />
-    <ClCompile Include="..\src\PerpleSDK.cpp" />
+    <ClCompile Include="..\src\PerpleCore.cpp" />
     <ClCompile Include="..\src\PerpleSDKLua.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -210,7 +210,7 @@
     <ClInclude Include="..\lua-bindings\lua\tolua\tolua++.h" />
     <ClInclude Include="..\lua-bindings\lua\tolua\tolua_event.h" />
     <ClInclude Include="..\src\firebase\firebase.h" />
-    <ClInclude Include="..\src\PerpleSDK.h" />
+    <ClInclude Include="..\src\PerpleCore.h" />
     <ClInclude Include="..\src\PerpleSDKLua.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

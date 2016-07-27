@@ -45,7 +45,7 @@ public class PerpleSDKLua {
     }
 
     // @firebase fcm
-    public static void sendPushMessage(final int funcID, String data) {
+    public static void sendFCMPushMessage(final int funcID, String data) {
         PerpleSDK.setSendPushMessageCallback(new PerpleSDKCallback() {
             @Override
             public void onSuccess(String info) {
@@ -61,7 +61,7 @@ public class PerpleSDKLua {
     }
 
     // @firebase fcm
-    public static void sendPushMessageToGroup(final int funcID, String groupKey, String data) {
+    public static void sendFCMPushMessageToGroup(final int funcID, String groupKey, String data) {
         PerpleSDK.setSendPushMessageCallback(new PerpleSDKCallback() {
             @Override
             public void onSuccess(String info) {
@@ -123,14 +123,14 @@ public class PerpleSDKLua {
 
                                 @Override
                                 public void onFail(String info) {
-                                    PerpleSDK.callSDKResult(funcID, "fail", info);
+                                    PerpleSDK.callSDKResult(funcID, "success", newLoginInfo);
                                 }
                             });
                         }
 
                         @Override
                         public void onFail(String info) {
-                            PerpleSDK.callSDKResult(funcID, "fail", info);
+                            PerpleSDK.callSDKResult(funcID, "success", loginInfo);
                         }
                     });
                 }
@@ -512,7 +512,11 @@ public class PerpleSDKLua {
             }
             @Override
             public void onFail(String info) {
-                PerpleSDK.callSDKResult(funcID, "fail", info);
+                if (info.equals("cancel")) {
+                    PerpleSDK.callSDKResult(funcID, "cancel", info);
+                } else {
+                    PerpleSDK.callSDKResult(funcID, "fail", info);
+                }
             }
         });
     }
@@ -558,14 +562,14 @@ public class PerpleSDKLua {
     }
 
     // @facebook
-    public static void facebookSendRequest(final int funcID, String info) {
+    public static void facebookSendRequest(final int funcID, String data) {
         if (PerpleSDK.getFacebook() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_NOTINITIALIZED, "Facebook is not initialized."));
             return;
         }
 
-        PerpleSDK.getFacebook().sendRequest(info, new PerpleSDKCallback() {
+        PerpleSDK.getFacebook().sendRequest(data, new PerpleSDKCallback() {
             @Override
             public void onSuccess(String info) {
                 PerpleSDK.callSDKResult(funcID, "success", info);
@@ -611,9 +615,9 @@ public class PerpleSDKLua {
     }
 
     // @adbrix
-    public static void adbrixEvent(final int funcID, String id, String arg0, String arg1) {
+    public static void adbrixEvent(final int funcID, String cmd, String arg0, String arg1) {
         if (PerpleSDK.getAdbrix() != null) {
-            PerpleSDK.getAdbrix().setEvent(id, arg0, arg1);
+            PerpleSDK.getAdbrix().setEvent(cmd, arg0, arg1);
         }
     }
 
@@ -632,9 +636,9 @@ public class PerpleSDKLua {
     }
 
     // @tapjoy
-    public static void tapjoyEvent(final int funcID, String id, String arg0, String arg1) {
+    public static void tapjoyEvent(final int funcID, String cmd, String arg0, String arg1) {
         if (PerpleSDK.getTapjoy() != null) {
-            PerpleSDK.getTapjoy().setEvent(id, arg0, arg1);
+            PerpleSDK.getTapjoy().setEvent(cmd, arg0, arg1);
         }
     }
 
@@ -995,7 +999,11 @@ public class PerpleSDKLua {
             }
             @Override
             public void onFail(String info) {
-                PerpleSDK.callSDKResult(funcID, "fail", info);
+                if (info.equals("cancel")) {
+                    PerpleSDK.callSDKResult(funcID, "cancel", info);
+                } else {
+                    PerpleSDK.callSDKResult(funcID, "fail", info);
+                }
             }
         });
     }

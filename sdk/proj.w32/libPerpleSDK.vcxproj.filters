@@ -144,10 +144,10 @@
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_to.c">
       <Filter>lua-bindings\lua\tolua</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PerpleSDK.cpp">
+    <ClCompile Include="..\src\PerpleSDKLua.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PerpleSDKLua.cpp">
+    <ClCompile Include="..\src\PerpleCore.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -236,14 +236,14 @@
     <ClInclude Include="..\lua-bindings\lua\tolua\tolua++.h">
       <Filter>lua-bindings\lua\tolua</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\PerpleSDK.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\PerpleSDKLua.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\lua-bindings\lua-bindings\lua_perplesdk_macro.h">
       <Filter>lua-bindings\lua-bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PerpleCore.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

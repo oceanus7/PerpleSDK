@@ -2,12 +2,15 @@
 //  PerpleSDK.h
 //  PerpleSDK
 //
-//  Created by Yonghak on 2016. 7. 13..
+//  Created by PerpleLab on 2016. 7. 28..
 //  Copyright © 2016년 PerpleLab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
+@import Firebase;
 
 @interface PerpleSDK : NSObject
+
+- (BOOL) initSDK;
 
 @end

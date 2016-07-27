@@ -1,0 +1,1 @@
+link ../../../../FirebaseAuth/Frameworks/frameworks/FirebaseAuth.framework/Headers/FIRUserInfo.h

@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <android/log.h>
 #include "jni/JniHelper.h"
-#include "PerpleSDK.h"
+#include "PerpleCore.h"
 
 extern "C"
 {
@@ -19,19 +19,19 @@ extern "C"
 
     JNIEXPORT jint JNICALL Java_com_perplelab_PerpleSDK_nativeInitSDK(JNIEnv* env, jobject obj)
     {
-        int ret = PerpleSDK::InitSDK();
+        int ret = PerpleCore::InitSDK();
         return ret;
     }
 
     JNIEXPORT jint JNICALL Java_com_perplelab_PerpleSDK_nativeGetSDKVersion(JNIEnv* env, jobject obj)
     {
-        int version = PerpleSDK::GetVersion();
+        int version = PerpleCore::GetVersion();
         return version;
     }
 
     JNIEXPORT jstring JNICALL Java_com_perplelab_PerpleSDK_nativeGetSDKVersionString(JNIEnv* env, jobject obj)
     {
-        std::string ret = PerpleSDK::GetVersionString();
+        std::string ret = PerpleCore::GetVersionString();
         jstring version = env->NewStringUTF(ret.c_str());
         return version;
     }
@@ -44,7 +44,7 @@ extern "C"
         const char* result_ = env->GetStringUTFChars(result, &isCopy1);
         const char* info_ = env->GetStringUTFChars(info, &isCopy2);
 
-        PerpleSDK::OnSDKResult(id, result_, info_);
+        PerpleCore::OnSDKResult(id, result_, info_);
 
         if (isCopy1 == JNI_TRUE) { env->ReleaseStringUTFChars(result, result_); }
         if (isCopy2 == JNI_TRUE) { env->ReleaseStringUTFChars(info, info_); }

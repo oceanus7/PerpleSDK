@@ -8,9 +8,9 @@ extern "C" {
 }
 #endif
 
-#include "PerpleSDK.h"
+#include "PerpleCore.h"
 
 void luaopen_perplesdk(lua_State* L)
 {
-    PerpleSDK::LuaOpenPerpleSDK(L);
+    PerpleCore::LuaOpenPerpleSDK(L);
 }

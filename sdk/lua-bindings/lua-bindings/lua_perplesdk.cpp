@@ -1,6 +1,6 @@
 #include "lua_perplesdk.h"
 #include "tolua_fix.h"
-#include "PerpleSDK.h"
+#include "PerpleCore.h"
 #include "lua_perplesdk_macro.h"
 
 #define LOG_TAG "PerpleSDKLua"
@@ -76,6 +76,7 @@ void onSdkResult(lua_State* L, const int funcID, const std::string result, const
 
 IMPL_LUABINDING_FUNC(updateLuaCallbacks)
 IMPL_LUABINDING_FUNC_I(getVersion)
+IMPL_LUABINDING_FUNC_S(getVersionString)
 
 IMPL_LUABINDING_FUNC_V_I(setFCMPushOnForeground)
 IMPL_LUABINDING_FUNC_V_V(setFCMTokenRefresh)
@@ -121,9 +122,9 @@ IMPL_LUABINDING_FUNC_V_I(tapjoyAwardCurrency)
 IMPL_LUABINDING_FUNC_V_V(naverLogin)
 IMPL_LUABINDING_FUNC_V_I(naverLogout)
 IMPL_LUABINDING_FUNC_V_S(naverRequestApi)
+IMPL_LUABINDING_FUNC_Z_V(naverCafeIsShowGlink)
 IMPL_LUABINDING_FUNC_V_I(naverCafeShowWidgetWhenUnloadSdk)
 IMPL_LUABINDING_FUNC_V_V(naverCafeStopWidget)
-IMPL_LUABINDING_FUNC_Z_V(naverCafeIsShowGlink)
 IMPL_LUABINDING_FUNC_V_I(naverCafeStart)
 IMPL_LUABINDING_FUNC_V_V(naverCafeStop)
 IMPL_LUABINDING_FUNC_V_V(naverCafePopBackStack)
@@ -164,6 +165,7 @@ int registerAllPerpleSdk(lua_State* L)
 
             DECL_LUABINDING_FUNC(updateLuaCallbacks)
             DECL_LUABINDING_FUNC(getVersion)
+            DECL_LUABINDING_FUNC(getVersionString)
 
             DECL_LUABINDING_FUNC(setFCMPushOnForeground)
             DECL_LUABINDING_FUNC(setFCMTokenRefresh)
@@ -209,9 +211,9 @@ int registerAllPerpleSdk(lua_State* L)
             DECL_LUABINDING_FUNC(naverLogin)
             DECL_LUABINDING_FUNC(naverLogout)
             DECL_LUABINDING_FUNC(naverRequestApi)
+            DECL_LUABINDING_FUNC(naverCafeIsShowGlink)
             DECL_LUABINDING_FUNC(naverCafeShowWidgetWhenUnloadSdk)
             DECL_LUABINDING_FUNC(naverCafeStopWidget)
-            DECL_LUABINDING_FUNC(naverCafeIsShowGlink)
             DECL_LUABINDING_FUNC(naverCafeStart)
             DECL_LUABINDING_FUNC(naverCafeStop)
             DECL_LUABINDING_FUNC(naverCafePopBackStack)
