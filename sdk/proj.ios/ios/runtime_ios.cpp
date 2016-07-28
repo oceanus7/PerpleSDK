@@ -305,6 +305,9 @@ void setBilling(int funcID, const char* checkReceiptServerUrl) {
     PerpleCore::OnSDKResult(funcID, "error", "");
 }
 
+void confirmPurchase(int funcID, const char* orderIds) {
+}
+
 void purchase(int funcID, const char* sku, const char* payload) {
     PerpleCore::OnSDKResult(funcID, "success", "");
     PerpleCore::OnSDKResult(funcID, "fail", "");

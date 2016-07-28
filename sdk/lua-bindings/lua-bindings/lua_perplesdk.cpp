@@ -144,6 +144,7 @@ IMPL_LUABINDING_FUNC_V_SS(googleUpdateLeaderboards)
 IMPL_LUABINDING_FUNC_V_SS(googleUpdateQuests)
 
 IMPL_LUABINDING_FUNC_V_S(setBilling)
+IMPL_LUABINDING_FUNC_V_S(confirmPurchase)
 IMPL_LUABINDING_FUNC_V_SS(purchase)
 IMPL_LUABINDING_FUNC_V_SS(subscription)
 
@@ -233,6 +234,7 @@ int registerAllPerpleSdk(lua_State* L)
             DECL_LUABINDING_FUNC(googleUpdateQuests)
 
             DECL_LUABINDING_FUNC(setBilling)
+            DECL_LUABINDING_FUNC(confirmPurchase)
             DECL_LUABINDING_FUNC(purchase)
             DECL_LUABINDING_FUNC(subscription)
 

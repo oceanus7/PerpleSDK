@@ -1153,6 +1153,13 @@ public class PerpleSDKLua {
     }
 
     // @billing
+    public static void confirmPurchase(final int funcID, String orderIds) {
+        if (PerpleSDK.getBilling() != null) {
+            PerpleSDK.getBilling().consume(orderIds);
+        }
+    }
+
+    // @billing
     public static void purchase(final int funcID, String sku, String payload) {
         if (PerpleSDK.getBilling() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",

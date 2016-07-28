@@ -64,6 +64,7 @@ public class PerpleSDK {
     public static final int RC_GOOGLE_SUBSCRIPTION_REQUEST      = 10002;
 
     public static Activity MainActivity;
+    public static String GameId;
     public static boolean IsDebug;
     public static boolean IsReceivePushOnForeground;
 
@@ -107,13 +108,15 @@ public class PerpleSDK {
             Log.d(LOG_TAG, "PerpleSDK, Enabled debug mode");
         }
 
+        GameId = gameId;
+
         // @firebase
         mFirebase = new PerpleFirebase(MainActivity);
         mFirebase.init(gcmSenderId);
 
         // @billing
         if (mBilling == null) {
-            initBilling(gameId, base64EncodedPublicKey, isDebug);
+            initBilling(base64EncodedPublicKey, isDebug);
         }
 
         int ret = nativeInitSDK();
@@ -133,10 +136,10 @@ public class PerpleSDK {
     }
 
     // @billing
-    public void initBilling(String gameId, String base64EncodedPublicKey, boolean isDebug) {
+    public void initBilling(String base64EncodedPublicKey, boolean isDebug) {
         if (mBilling == null) {
             mBilling = new PerpleBilling(MainActivity);
-            mBilling.init(gameId, base64EncodedPublicKey, isDebug);
+            mBilling.init(base64EncodedPublicKey, isDebug);
         }
     }
 

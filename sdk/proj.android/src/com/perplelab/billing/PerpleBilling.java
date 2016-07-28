@@ -6,7 +6,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -17,10 +19,10 @@ import com.android.vending.billing.IInAppBillingService;
 import com.perplelab.PerpleSDK;
 import com.perplelab.PerpleSDKCallback;
 import com.perplelab.billing.util.IabHelper;
+import com.perplelab.billing.util.IabHelper.OnConsumeMultiFinishedListener;
 import com.perplelab.billing.util.IabResult;
 import com.perplelab.billing.util.Inventory;
 import com.perplelab.billing.util.Purchase;
-import com.perplelab.billing.util.IabHelper.OnConsumeMultiFinishedListener;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,19 +33,20 @@ public class PerpleBilling {
     private static final String LOG_TAG = "PerpleSDK Billing";
 
     private static Activity sMainActivity;
-    private static String sGameId;
-    private static String sUri;
 
     private IabHelper mHelper;
+    private String mUri;
     private PerpleSDKCallback mSetupCallback;
     private PerpleSDKCallback mPurchaseCallback;
     private IabHelper.QueryInventoryFinishedListener mGotInventoryListener;
     private IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener;
-    private IabHelper.OnConsumeFinishedListener mConsumeFinishedListener;
 
     private boolean mIsSetupCompleted;
-    private List<Purchase> mIncompletedPurchases;
+
     private int mIncompletedPurchasesCount;
+    private Map<Purchase, Boolean> mIncompletedPurchases;
+
+    private Map<String, Purchase> mPurchases;
 
     public PerpleBilling(Activity activity) {
         sMainActivity = activity;
@@ -60,10 +63,10 @@ public class PerpleBilling {
      * want to make it easy for an attacker to replace the public key with one
      * of their own and then fake messages from the server.
      */
-    public void init(String gameId, String base64EncodedPublicKey, boolean isDebug) {
-        sGameId = gameId;
+    public void init(String base64EncodedPublicKey, boolean isDebug) {
 
-        mIncompletedPurchases = new ArrayList<Purchase>();
+        mIncompletedPurchases = new HashMap<Purchase, Boolean>();
+        mPurchases = new HashMap<String, Purchase>();
 
         // Create the helper, passing it our context and the public key to verify signatures with
         Log.d(LOG_TAG, "Creating IAB helper.");
@@ -73,8 +76,11 @@ public class PerpleBilling {
         mHelper.enableDebugLogging(isDebug);
     }
 
-    public void startSetup(String checkReceiptServerUrl, PerpleSDKCallback callback) {
-        sUri = checkReceiptServerUrl;
+    public void startSetup(String url, PerpleSDKCallback callback) {
+        // 영수증 검증 플랫폼 서버 API 주소
+        // ex) http://platform.perplelab.com/@gameId/payment/receiptValidation
+        mUri = url;
+
         mSetupCallback = callback;
 
         if (mIsSetupCompleted) {
@@ -95,14 +101,13 @@ public class PerpleBilling {
                 }
 
                 if (!result.isSuccess()) {
-                    // Oh noes, there was a problem.
+                    // Oh no, there was a problem.
                     mSetupCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(result.getResponse()), result.getMessage()));
                     return;
                 }
 
                 setQueryInventoryFinishedListener();
                 setPurchaseFinishedListener();
-                setConsumeFinishedListener();
 
                 mIsSetupCompleted = true;
 
@@ -123,6 +128,10 @@ public class PerpleBilling {
 
         if (mIncompletedPurchases != null) {
             mIncompletedPurchases.clear();
+        }
+
+        if (mPurchases != null) {
+            mPurchases.clear();
         }
 
         // very important:
@@ -185,6 +194,35 @@ public class PerpleBilling {
                 mPurchaseFinishedListener, payload);
     }
 
+    public void consume(String orderIds) {
+        List<String> orderIdList = getOrderIdList(orderIds);
+
+        if (orderIdList.size() == 0) {
+            return;
+        }
+
+        List<Purchase> purchases = new ArrayList<Purchase>();
+        for (int i = 0; i < orderIdList.size(); i++) {
+            Purchase p = mPurchases.get(orderIdList.get(i));
+            if (p != null) {
+                purchases.add(p);
+            }
+        }
+
+        if (purchases.size() > 0) {
+            mHelper.consumeAsync(purchases, new OnConsumeMultiFinishedListener() {
+                @Override
+                public void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results) {
+                    for (int i = 0; i < purchases.size(); i++) {
+                        if (results.get(i).isSuccess()) {
+                            mPurchases.remove(purchases.get(i).getOrderId());
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     /** Verifies the developer payload of a purchase.
      * @throws IOException, JSONException */
     private String verifyDeveloperPayload(Purchase p) throws IOException, JSONException {
@@ -211,7 +249,7 @@ public class PerpleBilling {
          * installations is recommended.
          */
 
-        URL url = new URL(sUri + sGameId + "/payment/receiptValidation");
+        URL url = new URL(mUri);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -259,10 +297,8 @@ public class PerpleBilling {
             int ret = -1;
             try {
                 mPurchase = params[0];
-                String status = verifyDeveloperPayload(mPurchase);
-                JSONObject obj = new JSONObject(status);
-                ret = Integer.parseInt(obj.getString("retcode"));
-                mMsg = obj.getString("message");
+                ret = 0;
+                mMsg = verifyDeveloperPayload(mPurchase);
             } catch (IOException e) {
                 e.printStackTrace();
                 ret = Integer.parseInt(PerpleSDK.ERROR_IOEXCEPTION);
@@ -284,10 +320,10 @@ public class PerpleBilling {
             }
 
             if (mCallback != null) {
-                if (ret < 0) {
+                if (ret != 0) {
                     mCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(ret), mMsg));
                 } else {
-                    mCallback.onSuccess("success");
+                    mCallback.onSuccess(mMsg);
                 }
             } else {
                 Log.e(LOG_TAG, "CheckReceiptTask error, callback isn't set.");
@@ -326,11 +362,11 @@ public class PerpleBilling {
                         checkReceipt(p, new PerpleSDKCallback() {
                             @Override
                             public void onSuccess(String info) {
-                                checkReceiptImcompletedPurchases(p, info);
+                                processCheckReceiptResultImcompletedPurchases(p, info, true);
                             }
                             @Override
                             public void onFail(String info) {
-                                checkReceiptImcompletedPurchases(p, info);
+                                processCheckReceiptResultImcompletedPurchases(p, info, false);
                             }
                         });
                     }
@@ -363,87 +399,101 @@ public class PerpleBilling {
                 checkReceipt(purchase, new PerpleSDKCallback() {
                     @Override
                     public void onSuccess(String info) {
-                        mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                        processCheckReceiptResult(purchase, info, true);
                     }
                     @Override
                     public void onFail(String info) {
-                        mPurchaseCallback.onFail(info);
+                        processCheckReceiptResult(purchase, info, false);
                     }
                 });
             }
         };
     }
 
-    private void setConsumeFinishedListener() {
-        mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
-            public void onConsumeFinished(Purchase purchase, IabResult result) {
-                if (PerpleSDK.IsDebug) {
-                    Log.d(LOG_TAG, "Consumption finished - result:" + result + ", purchase:" + purchase);
-                }
-
-                // if we were disposed of in the meantime, quit.
-                if (mHelper == null) return;
-
-                if (result.isSuccess()) {
-                    mPurchaseCallback.onSuccess(purchase.getDeveloperPayload());
-                }
-                else {
-                    mPurchaseCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(result.getResponse()), result.getMessage()));
-                }
+    private void processCheckReceiptResult(Purchase p, String info, boolean isCheckReceiptSuccess) {
+        if (isCheckReceiptSuccess) {
+            if (getRetcode(info) == 0) {
+                mPurchases.put(p.getOrderId(), p);
+                mPurchaseCallback.onSuccess(p.getDeveloperPayload());
+            } else {
+                mPurchaseCallback.onFail(info);
+                mHelper.consumeAsync(p, new IabHelper.OnConsumeFinishedListener() {
+                    @Override
+                    public void onConsumeFinished(Purchase purchase, IabResult result) {
+                        // Do noting
+                    }
+                });
             }
-        };
-    }
-
-    private void checkReceiptImcompletedPurchases(Purchase p, String info) {
-        if (info.equals("success")) {
-            mIncompletedPurchases.add(p);
         } else {
-            try {
-                JSONObject obj = new JSONObject(info);
-                String code = obj.getString("code");
-                // 영수증 서버에서 이전에 이미 검증을 완료한 경우
-                if (code.equals("-102")) {
-                    mIncompletedPurchases.add(p);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            mPurchaseCallback.onFail(info);
+        }
+    }
+    
+    private void processCheckReceiptResultImcompletedPurchases(Purchase p, String info, boolean isCheckReceiptSuccess) {
+        if (isCheckReceiptSuccess) {
+            if (getRetcode(info) == 0) {
+                mPurchases.put(p.getOrderId(), p);
+                mIncompletedPurchases.put(p, true);
+            } else {
+                mIncompletedPurchases.put(p, false);
             }
         }
 
         mIncompletedPurchasesCount--;
         if (mIncompletedPurchasesCount == 0) {
-            if (mIncompletedPurchases.size() > 0) {
-                consumeIncompletePurchases(mIncompletedPurchases, mSetupCallback);
-            } else {
-                mSetupCallback.onSuccess("");
+
+            mSetupCallback.onSuccess(getJSONArrayStringFromPurchasesList(getPurchasesList(mIncompletedPurchases, true)));
+
+            List<Purchase> invalidList = getPurchasesList(mIncompletedPurchases, false);
+            if (invalidList.size() > 0) {
+                mHelper.consumeAsync(invalidList, new OnConsumeMultiFinishedListener() {
+                    @Override
+                    public void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results) {
+                    }
+                });
             }
         }
     }
 
-    private void consumeIncompletePurchases(List<Purchase> purchasesList, final PerpleSDKCallback callback) {
-        mHelper.consumeAsync(purchasesList, new OnConsumeMultiFinishedListener() {
-            @Override
-            public void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results) {
-                JSONArray array = new JSONArray();
-                for (int i=0; i<purchases.size(); i++) {
-                    if (PerpleSDK.IsDebug) {
-                        Log.d(LOG_TAG, "Consumption finished - result:" + results.get(i) + ", purchase:" + purchases.get(i));
-                    }
+    private int getRetcode(String info) {
+        try {
+            JSONObject obj = new JSONObject(info);
+            int retcode = Integer.parseInt(obj.getString("retcode"));
+            return retcode;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
-                    if (results.get(i).isSuccess()) {
-                        try {
-                            array.put(new JSONObject(purchases.get(i).getDeveloperPayload()));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                if (array.length() > 0) {
-                    callback.onSuccess(array.toString());
-                } else {
-                    callback.onSuccess("");
-                }
+    private List<Purchase> getPurchasesList(Map<Purchase, Boolean> purchasesMap, boolean valid) {
+        List<Purchase> list = new ArrayList<Purchase>();
+        for (Map.Entry<Purchase, Boolean> entry : purchasesMap.entrySet()) {
+            if (entry.getValue() == valid) {
+                list.add(entry.getKey());
             }
-        });
+        }
+        return list;
+    }
+
+    private String getJSONArrayStringFromPurchasesList(List<Purchase> purchases) {
+        JSONArray obj = new JSONArray(purchases);
+        if (obj.length() > 0) {
+            return obj.toString();
+        }
+        return "";
+    }
+
+    private List<String> getOrderIdList(String data) {
+        List<String> list = new ArrayList<String>();
+        try {
+            JSONArray array = new JSONArray(data);
+            for (int i = 0; i < array.length(); i++) {
+                list.add(array.getString(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
