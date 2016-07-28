@@ -49,6 +49,8 @@ public class PerpleSDK {
         return sMyInstance;
     }
 
+    public static String GameId;
+
     private static Activity sMainActivity;
     private boolean mIsInit;
 
@@ -112,6 +114,9 @@ public class PerpleSDK {
     }
 
     public boolean initSDK(String gameId, String gcmSenderId, String base64EncodedPublicKey) {
+
+        GameId = gameId;
+
         // @firebase
         mFirebase = new PerpleFirebase(sMainActivity);
         mFirebase.init(gcmSenderId);
@@ -119,7 +124,7 @@ public class PerpleSDK {
 
         // @billing
         mBilling = new PerpleBilling(sMainActivity);
-        mBilling.init(gameId, base64EncodedPublicKey, false);
+        mBilling.init(base64EncodedPublicKey, false);
         mUseBilling = true;
 
         int ret = nativeInitSDK();
@@ -267,6 +272,13 @@ public class PerpleSDK {
                 callSDKResult("setBilling", "purchase", info);
             }
         });
+    }
+
+    // @billing
+    public static void confirmPurchase(String orderIds) {
+        if (getInstance().mUseBilling) {
+            getInstance().mBilling.consume(orderIds);
+        }
     }
 
     // @billing

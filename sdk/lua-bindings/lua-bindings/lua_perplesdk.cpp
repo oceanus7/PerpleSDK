@@ -1634,6 +1634,33 @@ tolua_lerror :
 #endif
 }
 
+int tolua_PerpleSDK_confirmPurchase(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (!tolua_isusertable(tolua_S, 1, "PerpleSDK", 0, &tolua_err) ||
+        !tolua_isstring(tolua_S, 2, 0, &tolua_err) ||
+        !tolua_isnoobj(tolua_S, 3, &tolua_err))
+    {
+        goto tolua_lerror;
+    }
+    else
+#endif
+    {
+        const char* orderIds = tolua_tostring(tolua_S, 2, 0);
+
+        jniFuncV_S("confirmPurchase", -1, orderIds);
+
+        return 0;
+    }
+
+#ifndef TOLUA_RELEASE
+tolua_lerror :
+    tolua_error(tolua_S, "PerpleSDKLua: Error in function 'confirmPurchase'.", &tolua_err);
+    return 0;
+#endif
+}
+
 int tolua_PerpleSDK_purchase(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
@@ -1768,6 +1795,7 @@ int registerAllPerpleSdk(lua_State* L)
             tolua_function(L, "googleUpdateLeaderboards", tolua_PerpleSDK_googleUpdateLeaderboards);
             tolua_function(L, "googleUpdateQuests", tolua_PerpleSDK_googleUpdateQuests);
             tolua_function(L, "setBilling", tolua_PerpleSDK_setBilling);
+            tolua_function(L, "confirmPurchase", tolua_PerpleSDK_confirmPurchase);
             tolua_function(L, "purchase", tolua_PerpleSDK_purchase);
             tolua_function(L, "subscription", tolua_PerpleSDK_subscription);
         tolua_endmodule(L);
