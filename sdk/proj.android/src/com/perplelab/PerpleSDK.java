@@ -28,8 +28,14 @@ public class PerpleSDK {
     public static final String ERROR_UNKNOWN                            = "-999";
     public static final String ERROR_IOEXCEPTION                        = "-998";
     public static final String ERROR_JSONEXCEPTION                      = "-997";
+    public static final String ERROR_USERRECOVERABLEAUTHEXCEPTION       = "-996";
+    public static final String ERROR_GOOGLEAUTHEXCEPTION                = "-995";
+
     public static final String ERROR_FIREBASE_NOTINITIALIZED            = "-1000";
     public static final String ERROR_FIREBASE_SENDPUSHMESSAGE           = "-1001";
+    public static final String ERROR_FIREBASE_LOGIN                     = "-1002";
+    public static final String ERROR_FIREBASE_GETPUSHTOKEN              = "-1003";
+    
     public static final String ERROR_GOOGLE_NOTINITIALIZED              = "-1200";
     public static final String ERROR_GOOGLE_LOGIN                       = "-1201";
     public static final String ERROR_GOOGLE_NOTSIGNEDIN                 = "-1202";
@@ -41,13 +47,24 @@ public class PerpleSDK {
     public static final String ERROR_GOOGLE_NOTSETQUESTSCALLBACK        = "-1208";
     public static final String ERROR_GOOGLE_NOTAVAILABLEPLAYSERVICES    = "-1209";
     public static final String ERROR_GOOGLE_LOGOUT                      = "-1210";
+    public static final String ERROR_GOOGLE_PERMISSIONDENIED            = "-1211";
+
     public static final String ERROR_FACEBOOK_NOTINITIALIZED            = "-1300";
     public static final String ERROR_FACEBOOK_FACEBOOKEXCEPTION         = "-1301";
-    public static final String ERROR_FACEBOOK_REQUESTERROR              = "-1302";
+    public static final String ERROR_FACEBOOK_GRAPHAPI                  = "-1302";
+    public static final String ERROR_FACEBOOK_REQUEST                   = "-1303";
+
     public static final String ERROR_NAVER_NOTINITIALIZED               = "-1400";
     public static final String ERROR_NAVER_CAFENOTINITIALIZED           = "-1401";
+    public static final String ERROR_NAVER_LOGIN                        = "-1402";
+
     public static final String ERROR_BILLING_NOTINITIALIZED             = "-1500";
     public static final String ERROR_BILLING_INITFAILED                 = "-1501";
+    public static final String ERROR_BILLING_SETUP                      = "-1502";
+    public static final String ERROR_BILLING_CHECKRECEIPT               = "-1503";
+    public static final String ERROR_BILLING_QUARYINVECTORY             = "-1504";
+    public static final String ERROR_BILLING_PURCHASEFINISH             = "-1505";
+
     public static final String ERROR_TAPJOY_NOTINITIALIZED              = "-1600";
     public static final String ERROR_TAPJOY_NOTSETPLACEMENT             = "-1601";
     public static final String ERROR_TAPJOY_GETCURRENCY                 = "-1602";
@@ -59,7 +76,8 @@ public class PerpleSDK {
     public static final int RC_GOOGLE_LEADERBOARDS              = 9003;
     public static final int RC_GOOGLE_QUESTS                    = 9004;
     public static final int RC_GOOGLE_SIGNIN_RESOLVE_ERROR      = 9005;
-    public static final int RC_GOGLEPLAYSERVICE_NOTAVAILABLE    = 9006;
+    public static final int RC_GOOGLE_PLAYSERVICE_NOTAVAILABLE  = 9006;
+    public static final int RC_GOOGLE_PERMISSIONS               = 9007;
     public static final int RC_GOOGLE_PURCHASE_REQUEST          = 10001;
     public static final int RC_GOOGLE_SUBSCRIPTION_REQUEST      = 10002;
 
@@ -276,6 +294,12 @@ public class PerpleSDK {
         }
     }
 
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (mGoogle != null) {
+            mGoogle.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (IsDebug) {
             Log.d(LOG_TAG, "onActivityResult - request:" + String.valueOf(requestCode) + ", result:" + String.valueOf(resultCode));
@@ -374,7 +398,7 @@ public class PerpleSDK {
     private static PerpleSDKCallback sTokenRefreshCallback;
     public static void setFCMTokenRefreshCallback(PerpleSDKCallback callback) {
         if (getInstance().mFirebase == null) {
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
+            callback.onFail(PerpleSDK.getErrorInfo(ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
             return;
         }
 
@@ -384,7 +408,7 @@ public class PerpleSDK {
         if (obj != null) {
             callback.onSuccess(obj.toString());
         } else {
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, "JSON exception"));
+            callback.onFail(PerpleSDK.getErrorInfo(ERROR_FIREBASE_GETPUSHTOKEN, ERROR_JSONEXCEPTION, "JSON exception"));
         }
 
     }
@@ -399,7 +423,7 @@ public class PerpleSDK {
                 sTokenRefreshCallback.onSuccess(obj.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                sTokenRefreshCallback.onFail(getErrorInfo(ERROR_JSONEXCEPTION, e.toString()));
+                sTokenRefreshCallback.onFail(getErrorInfo(ERROR_FIREBASE_GETPUSHTOKEN, ERROR_JSONEXCEPTION, e.toString()));
             }
         }
     }
@@ -408,7 +432,7 @@ public class PerpleSDK {
     private static PerpleSDKCallback sSendPushMessageCallback;
     public static void setSendPushMessageCallback(PerpleSDKCallback callback) {
         if (getInstance().mFirebase == null) {
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
+            callback.onFail(PerpleSDK.getErrorInfo(ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
             return;
         }
 
@@ -424,27 +448,20 @@ public class PerpleSDK {
 
     // @firebase fcm, callback from PerpleFirebaseMessagingService
     public static void onSendError(String msgId, Exception exception) {
-        String code = ERROR_FIREBASE_SENDPUSHMESSAGE;
-        String message = "Error occurred in sending push message.";
-        try {
-            JSONObject obj = new JSONObject();
-            obj.put("msgId", msgId);
-            obj.put("desc", exception.toString());
-            message = obj.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            message = e.toString();
-        }
-
         if (sSendPushMessageCallback != null) {
-            sSendPushMessageCallback.onFail(getErrorInfo(code, message));
+            sSendPushMessageCallback.onFail(getErrorInfo(ERROR_FIREBASE_SENDPUSHMESSAGE, msgId, exception.toString()));
         }
     }
 
     public static String getErrorInfo(String code, String msg) {
+        return getErrorInfo(code, "0", msg);
+    }
+
+    public static String getErrorInfo(String code, String subcode, String msg) {
         try {
             JSONObject obj = new JSONObject();
             obj.put("code", code);
+            obj.put("subcode", subcode);
             obj.put("msg", msg);
             return obj.toString();
         } catch (JSONException e) {
@@ -456,7 +473,7 @@ public class PerpleSDK {
     public static String getErrorInfoFromFirebaseException(Exception error) {
         if (error instanceof FirebaseAuthException) {
             FirebaseAuthException e = (FirebaseAuthException)error;
-            return PerpleSDK.getErrorInfo(e.getErrorCode(), e.getMessage());
+            return PerpleSDK.getErrorInfo(ERROR_FIREBASE_LOGIN, e.getErrorCode(), e.getMessage());
         } else {
             return PerpleSDK.getErrorInfo(ERROR_UNKNOWN, error.toString());
         }

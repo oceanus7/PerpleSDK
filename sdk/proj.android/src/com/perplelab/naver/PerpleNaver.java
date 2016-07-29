@@ -88,14 +88,14 @@ public class PerpleNaver {
                     } catch (JSONException e) {
                         e.printStackTrace();
 
-                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_NAVER_LOGIN, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                     }
 
                  } else {
-                    String code = mOAuthLoginModule.getLastErrorCode(sMainActivity).getCode();
+                    String subcode = mOAuthLoginModule.getLastErrorCode(sMainActivity).getCode();
                     String msg = mOAuthLoginModule.getLastErrorDesc(sMainActivity);
 
-                    callback.onFail(PerpleSDK.getErrorInfo(code, msg));
+                    callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_NAVER_LOGIN, subcode, msg));
                  }
             }
         });

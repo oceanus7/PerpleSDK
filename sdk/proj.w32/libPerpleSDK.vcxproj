@@ -176,8 +176,11 @@
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_map.c" />
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_push.c" />
     <ClCompile Include="..\lua-bindings\lua\tolua\tolua_to.c" />
-    <ClCompile Include="..\src\firebase\firebase.cpp" />
+    <ClCompile Include="..\src\jsoncpp\json_reader.cpp" />
+    <ClCompile Include="..\src\jsoncpp\json_value.cpp" />
+    <ClCompile Include="..\src\jsoncpp\json_writer.cpp" />
     <ClCompile Include="..\src\PerpleCore.cpp" />
+    <ClCompile Include="..\src\PerpleFirebaseCpp.cpp" />
     <ClCompile Include="..\src\PerpleSDKLua.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +212,23 @@
     <ClInclude Include="..\lua-bindings\lua\lua\lzio.h" />
     <ClInclude Include="..\lua-bindings\lua\tolua\tolua++.h" />
     <ClInclude Include="..\lua-bindings\lua\tolua\tolua_event.h" />
-    <ClInclude Include="..\src\firebase\firebase.h" />
+    <ClInclude Include="..\src\jsoncpp\autolink.h" />
+    <ClInclude Include="..\src\jsoncpp\config.h" />
+    <ClInclude Include="..\src\jsoncpp\features.h" />
+    <ClInclude Include="..\src\jsoncpp\forwards.h" />
+    <ClInclude Include="..\src\jsoncpp\json.h" />
+    <ClInclude Include="..\src\jsoncpp\json_batchallocator.h" />
+    <ClInclude Include="..\src\jsoncpp\reader.h" />
+    <ClInclude Include="..\src\jsoncpp\value.h" />
+    <ClInclude Include="..\src\jsoncpp\writer.h" />
     <ClInclude Include="..\src\PerpleCore.h" />
+    <ClInclude Include="..\src\PerpleFirebaseCpp.h" />
     <ClInclude Include="..\src\PerpleSDKLua.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\jsoncpp\json_internalarray.inl" />
+    <None Include="..\src\jsoncpp\json_internalmap.inl" />
+    <None Include="..\src\jsoncpp\json_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

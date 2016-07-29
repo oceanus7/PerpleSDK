@@ -168,7 +168,7 @@ public class PerpleFacebook {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUEST, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
         }
     }
 
@@ -222,7 +222,7 @@ public class PerpleFacebook {
 
                     FacebookRequestError error = response.getError();
                     if (error != null) {
-                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_GRAPHAPI, error.getRequestResultBody().toString()));
                     } else {
                         callback.onSuccess(convertFriendsListFormat(response.getJSONObject()));
                     }
@@ -254,7 +254,7 @@ public class PerpleFacebook {
 
                     FacebookRequestError error = response.getError();
                     if (error != null) {
-                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_GRAPHAPI, error.getRequestResultBody().toString()));
                     } else {
                         callback.onSuccess(convertInvitableFriendsListFormat(response.getJSONObject()));
                     }
@@ -285,7 +285,7 @@ public class PerpleFacebook {
 
                     FacebookRequestError error = response.getError();
                     if (error != null) {
-                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_REQUESTERROR, error.getRequestResultBody().toString()));
+                        callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FACEBOOK_GRAPHAPI, error.getRequestResultBody().toString()));
                     } else {
                         callback.onSuccess(response.getJSONObject().toString());
                     }

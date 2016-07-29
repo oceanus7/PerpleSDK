@@ -7,6 +7,7 @@
 //
 
 #include "PerpleCore.h"
+#include "PerpleFirebaseCpp.h"
 
 void setFCMPushOnForeground(int funcID, int isReceive) {
 
@@ -38,8 +39,9 @@ void autoLogin(int funcID) {
 }
 
 void loginAnonymously(int funcID) {
-    PerpleCore::OnSDKResult(funcID, "success", "");
-    PerpleCore::OnSDKResult(funcID, "fail", "");
+    PerpleFirebaseCpp::GetInstance()->SignInAnonymously([&funcID](const char* result, const char* info){
+        PerpleCore::OnSDKResult(funcID, result, info);
+    });
 }
 
 void loginGoogle(int funcID) {

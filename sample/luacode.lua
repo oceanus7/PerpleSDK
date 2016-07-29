@@ -297,9 +297,12 @@ PerpleSDK:adbrixEvent('firstTimeExperience', '@arg1', '@arg2')
 
 PerpleSDK:adbrixEvent('retention', '@arg1', '@arg2')
 
+-- @arg0: product id
+-- @arg1: price
 PerpleSDK:adbrixEvent('buy', '@arg1', '@arg2')
 
 -- @cohort_number: 'COHORT_1' or 'COHORT_2' or 'COHORT_3'
+-- @arg1: cohort description
 PerpleSDK:adbrixEvent('customCohort', '@cohort_number', '@arg1')
 
 -- ProcessKill 사용시 명시적 EndSession 처리를 위함
@@ -513,7 +516,7 @@ end)
 -- @url : 영수증 검증 서버 주소, 끝에 / 붙여야 함 (예:http://platform.perplelab.com/)
 PerpleSDK:setBilling('@url', function(ret, info)
     if ret == 'purchase' then
-        -- info : ["@payload","@payload",...]
+        -- info : [{"orderId":"@orderId","payload":"@payload"},...]
     elseif ret == 'error' then
     end
 end)
@@ -527,7 +530,7 @@ PerpleSDK:consumeFurchase("['@orderId',...]")
 -- @payload : 영수증 검증에 필요한 부가 정보
 PerpleSDK:purchase('@sku', '@payload', function(ret, info)
     if ret == 'success' then
-        -- info : '@payload'
+        -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
     end
@@ -538,7 +541,7 @@ end)
 -- @payload : 영수증 검증에 필요한 부가 정보
 PerpleSDK:subscription('@sku', '@payload', function(ret, info)
     if ret == 'success' then
-        -- info : '@payload'
+        -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
     end

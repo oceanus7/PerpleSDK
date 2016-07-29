@@ -10,7 +10,7 @@
 #define lua_perplesdk_macro_h
 
 
-#if NDEBUG
+#ifdef NDEBUG
 #define IS_DEBUG false
 #else
 #define IS_DEBUG true

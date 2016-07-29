@@ -1,6 +1,11 @@
 #include "PerpleCore.h"
 #include "lua_perplesdk.h"
+#include "jsoncpp/json.h"
 #include <sstream>
+
+#ifndef __ANDROID__
+#include "PerpleFirebaseCpp.h"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,6 +34,10 @@ std::mutex PerpleCore::mPerformMutex;
 
 int PerpleCore::InitSDK()
 {
+#ifndef __ANDROID__
+    PerpleFirebaseCpp::CreateInstance();
+#endif
+
     return 0;
 }
 
@@ -97,3 +106,17 @@ void PerpleCore::UpdateLuaCallbacks()
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef __ANDROID__
+std::string GetErrorInfo(std::string code, std::string subcode, std::string message)
+{
+    Json::Value root;
+    root["code"] = code;
+    root["subcode"] = subcode;
+    root["message"] = message;
+    Json::StyledWriter writer;
+    return writer.write(root);
+}
+#endif

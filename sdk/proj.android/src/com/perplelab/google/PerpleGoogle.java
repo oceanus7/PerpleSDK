@@ -27,14 +27,19 @@ import com.google.android.gms.games.quest.Quests;
 import com.perplelab.PerpleSDK;
 import com.perplelab.PerpleSDKCallback;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedListener, QuestUpdateListener {
@@ -45,6 +50,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
 
     private boolean mIsInit;
     private boolean mUseGoogleSignInApi;
+
+    private Handler mAppHandler;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -63,6 +70,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         Log.d(LOG_TAG, "Initializing Google.");
 
         sWebClientId = webClientId;
+
+        mAppHandler = new Handler();
 
         // Configure sign-in to request the user's ID, email address, and basic profile. ID and
         // basic profile are included in DEFAULT_SIGN_IN.
@@ -92,6 +101,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         Log.d(LOG_TAG, "Initializing Google.");
 
         sWebClientId = webClientId;
+
+        mAppHandler = new Handler();
 
         Builder builder = new GoogleApiClient.Builder(sMainActivity);
         //builder.addApi(Games.API).addScope(Games.SCOPE_GAMES);
@@ -129,7 +140,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         if (mIsInit) {
             int ret = GooglePlayServicesUtil.isGooglePlayServicesAvailable(sMainActivity);
             if (ret != ConnectionResult.SUCCESS) {
-                GooglePlayServicesUtil.getErrorDialog(ret, sMainActivity, PerpleSDK.RC_GOGLEPLAYSERVICE_NOTAVAILABLE).show();
+                GooglePlayServicesUtil.getErrorDialog(ret, sMainActivity, PerpleSDK.RC_GOOGLE_PLAYSERVICE_NOTAVAILABLE).show();
             }
         }
     }
@@ -183,15 +194,15 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
             } else {
                 if (mLoginCallback != null) {
                     String info = "ResultCode:" + String.valueOf(resultCode);
-                    mLoginCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGIN, info));
+                    mLoginCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGIN, String.valueOf(resultCode), info));
                 } else {
                     Log.e(LOG_TAG, "Login callback is not set.");
                 }
             }
-        } else if (requestCode == PerpleSDK.RC_GOGLEPLAYSERVICE_NOTAVAILABLE) {
+        } else if (requestCode == PerpleSDK.RC_GOOGLE_PLAYSERVICE_NOTAVAILABLE) {
             if (mLoginCallback != null) {
                 String info = "ResultCode:" + String.valueOf(resultCode);
-                mLoginCallback.onFail(info);PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTAVAILABLEPLAYSERVICES, info);
+                mLoginCallback.onFail(info);PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_NOTAVAILABLEPLAYSERVICES, String.valueOf(resultCode), info);
             } else {
                 Log.e(LOG_TAG, "Login callback is not set.");
             }
@@ -206,10 +217,10 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
                     if (resultCode == 10001) {
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, String.valueOf(resultCode), "User logout in the play services UI."));
                     } else {
                         String info = "ResultCode:" + String.valueOf(resultCode);
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_ACHIEVEMENTS, info));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_ACHIEVEMENTS, String.valueOf(resultCode), info));
                     }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
@@ -226,10 +237,10 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
                     if (resultCode == 10001) {
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, String.valueOf(resultCode), "User logout in the play services UI."));
                     } else {
                         String info = "ResultCode:" + String.valueOf(resultCode);
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LEADERBOARDS, info));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LEADERBOARDS, String.valueOf(resultCode), info));
                     }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
@@ -246,10 +257,10 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                 mGoogleApiClient.disconnect();
                 if (mPlayServicesCallback != null) {
                     if (resultCode == 10001) {
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, "User logout in the play services UI."));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGOUT, String.valueOf(resultCode), "User logout in the play services UI."));
                     } else {
                         String info = "ResultCode:" + String.valueOf(resultCode);
-                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_QUESTS, info));
+                        mPlayServicesCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_QUESTS, String.valueOf(resultCode), info));
                     }
                 } else {
                     Log.e(LOG_TAG, "Play services callback is not set.");
@@ -400,10 +411,12 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
 
     private class GetIdTokenTask extends AsyncTask<String, Void, String> {
         private PerpleSDKCallback mCallback;
+        private String mSubcode;
         private String mMessage;
 
         public GetIdTokenTask(PerpleSDKCallback callback) {
             mCallback = callback;
+            mSubcode = "0";
             mMessage = "";
         }
 
@@ -419,11 +432,14 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                     idToken = GoogleAuthUtil.getToken(sMainActivity, account, scope);
                 } catch (UserRecoverableAuthException e) {
                     e.printStackTrace();
+                    mSubcode = PerpleSDK.ERROR_USERRECOVERABLEAUTHEXCEPTION;
                     mMessage = e.toString();
                 } catch (IOException e) {
+                    mSubcode = PerpleSDK.ERROR_IOEXCEPTION;
                     e.printStackTrace();
                     mMessage = e.toString();
                 } catch (GoogleAuthException e) {
+                    mSubcode = PerpleSDK.ERROR_GOOGLEAUTHEXCEPTION;
                     e.printStackTrace();
                     mMessage = e.toString();
                 }
@@ -437,8 +453,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         protected void onPostExecute(String idToken) {
             if (mCallback != null) {
                 if (idToken.isEmpty()) {
-                    Log.e(LOG_TAG, "Getting idToken fail - msg:" + mMessage);
-                    mCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGIN, mMessage));
+                    Log.e(LOG_TAG, "Getting idToken fail - subcode:" + mSubcode + ", msg:" + mMessage);
+                    mCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_LOGIN, mSubcode, mMessage));
                 } else {
                     if (PerpleSDK.IsDebug) {
                         Log.d(LOG_TAG, "Getting idToken success - idToken:" + idToken);
@@ -451,10 +467,32 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
         }
     }
 
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PerpleSDK.RC_GOOGLE_PERMISSIONS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                String accountName = Games.getCurrentAccountName(mGoogleApiClient);
+                new GetIdTokenTask(mLoginCallback).execute(accountName);
+            } else {
+                mLoginCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_PERMISSIONDENIED, "GET_ACCOUNTS permission is not granted."));
+                mGoogleApiClient.disconnect();
+            }
+        }
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
-        String accountName = Games.getCurrentAccountName(mGoogleApiClient);
-        new GetIdTokenTask(mLoginCallback).execute(accountName);
+        if (ContextCompat.checkSelfPermission(sMainActivity, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
+            String accountName = Games.getCurrentAccountName(mGoogleApiClient);
+            new GetIdTokenTask(mLoginCallback).execute(accountName);
+        } else {
+            mAppHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String permissions[] = { Manifest.permission.GET_ACCOUNTS };
+                    ActivityCompat.requestPermissions(sMainActivity, permissions, PerpleSDK.RC_GOOGLE_PERMISSIONS);
+                }
+            });
+        }
     }
 
     @Override

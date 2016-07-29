@@ -73,8 +73,8 @@ public class AppActivity extends Cocos2dxActivity {
     static String hostIPAdress = "0.0.0.0";
 
     // @billing
-    static final String gameId = "5000";
-    static final String billingBase64PublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+jphc66lLw/3ZHdFuRnAXCNVaRbwvFMPAFoAmNMA5lvHfDIdCrBJL4g+VNXARsFqeW2sg0g4V7fzn4xsEQIu0bGVoyPEk7Hbw2YanlFSV9Ivqso1YiygbLS7uAdOCvTfqS0jqLYSbbT44fr9Nj+nBBcMcAlHSIw8wF6/PJh1BxEvMPpHM+V9wnN8wpJ8nq1JnoztpTt3jhxghwDSlnhf1n/JbNJb0LfwoPyhqnstNBTF3DEJCI74mq+ikhVn08F+Xd06lS57YQdkwQYFlyHty3r+JleJCffhtxFCE3LkshoH6FJE2uqJlogPVWkgWpwELE+IyECQqIkEb5XN1c8eFQIDAQAB";
+    static final String gameId = "1000";
+    static final String billingBase64PublicKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +193,12 @@ public class AppActivity extends Cocos2dxActivity {
         PerpleSDK.getInstance().onDestroy();
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // @perplesdk
+        PerpleSDK.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

@@ -102,7 +102,7 @@ public class PerpleBilling {
 
                 if (!result.isSuccess()) {
                     // Oh no, there was a problem.
-                    mSetupCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(result.getResponse()), result.getMessage()));
+                    mSetupCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_SETUP, String.valueOf(result.getResponse()), result.getMessage()));
                     return;
                 }
 
@@ -137,7 +137,12 @@ public class PerpleBilling {
         // very important:
         Log.d(LOG_TAG, "Destroying helper.");
         if (mHelper != null) {
-            mHelper.dispose();
+            try {
+                mHelper.dispose();
+            } catch (Exception e) {
+                // IllegalArgumentException
+                e.printStackTrace();
+            }
             mHelper = null;
         }
     }
@@ -321,7 +326,7 @@ public class PerpleBilling {
 
             if (mCallback != null) {
                 if (ret != 0) {
-                    mCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(ret), mMsg));
+                    mCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_CHECKRECEIPT, String.valueOf(ret), mMsg));
                 } else {
                     mCallback.onSuccess(mMsg);
                 }
@@ -348,7 +353,7 @@ public class PerpleBilling {
 
                 // Is it a failure?
                 if (result.isFailure()) {
-                    mSetupCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(result.getResponse()), result.getMessage()));
+                    mSetupCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_QUARYINVECTORY, String.valueOf(result.getResponse()), result.getMessage()));
                     return;
                 }
 
@@ -391,7 +396,7 @@ public class PerpleBilling {
                     if (result.getResponse() == -1005) {
                         mPurchaseCallback.onFail("cancel");
                     } else {
-                        mPurchaseCallback.onFail(PerpleSDK.getErrorInfo(String.valueOf(result.getResponse()), result.getMessage()));
+                        mPurchaseCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_PURCHASEFINISH, String.valueOf(result.getResponse()), result.getMessage()));
                     }
                     return;
                 }
@@ -414,7 +419,7 @@ public class PerpleBilling {
         if (isCheckReceiptSuccess) {
             if (getRetcode(info) == 0) {
                 mPurchases.put(p.getOrderId(), p);
-                mPurchaseCallback.onSuccess(p.getDeveloperPayload());
+                mPurchaseCallback.onSuccess(getPurchaseResult(p).toString());
             } else {
                 mPurchaseCallback.onFail(info);
                 mHelper.consumeAsync(p, new IabHelper.OnConsumeFinishedListener() {
@@ -442,7 +447,7 @@ public class PerpleBilling {
         mIncompletedPurchasesCount--;
         if (mIncompletedPurchasesCount == 0) {
 
-            mSetupCallback.onSuccess(getJSONArrayStringFromPurchasesList(getPurchasesList(mIncompletedPurchases, true)));
+            mSetupCallback.onSuccess(getPurchaseResultArray(getPurchasesList(mIncompletedPurchases, true)));
 
             List<Purchase> invalidList = getPurchasesList(mIncompletedPurchases, false);
             if (invalidList.size() > 0) {
@@ -476,12 +481,27 @@ public class PerpleBilling {
         return list;
     }
 
-    private String getJSONArrayStringFromPurchasesList(List<Purchase> purchases) {
-        JSONArray obj = new JSONArray(purchases);
-        if (obj.length() > 0) {
-            return obj.toString();
+    private String getPurchaseResultArray(List<Purchase> purchases) {
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < purchases.size(); i++) {
+            array.put(getPurchaseResult(purchases.get(i)));
+        }
+
+        if (array.length() > 0) {
+            return array.toString();
         }
         return "";
+    }
+
+    private JSONObject getPurchaseResult(Purchase p) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("orderId", p.getOrderId());
+            obj.put("payload", p.getDeveloperPayload());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     private List<String> getOrderIdList(String data) {

@@ -546,7 +546,7 @@ public class PerpleFirebase {
         try {
             JSONObject obj = new JSONObject();
             obj.put("profile", getUserProfile(user));
-            obj.put("prividerData", getPrividerSpecificInfo(user));
+            obj.put("providerData", getPrividerSpecificInfo(user));
             obj.put("pushToken", getPushToken());
 
             return obj.toString();

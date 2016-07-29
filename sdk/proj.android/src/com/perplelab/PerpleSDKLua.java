@@ -40,7 +40,7 @@ public class PerpleSDKLua {
         if (obj != null) {
             PerpleSDK.callSDKResult(funcID, "success", obj.toString());
         } else {
-            PerpleSDK.callSDKResult(funcID, "fail", PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, "JSON exception"));
+            PerpleSDK.callSDKResult(funcID, "fail", PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_GETPUSHTOKEN, PerpleSDK.ERROR_JSONEXCEPTION, "JSON exception"));
         }
     }
 
