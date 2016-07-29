@@ -4,8 +4,11 @@ import com.igaworks.IgawCommon;
 import com.igaworks.adbrix.IgawAdbrix;
 import com.igaworks.adbrix.interfaces.ADBrixInterface.CohortVariable;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class PerpleAdbrix {
@@ -24,7 +27,12 @@ public class PerpleAdbrix {
     public void init() {
         mAppHandler = new Handler();
 
-        IgawCommon.startApplication(sMainActivity);
+        if (ContextCompat.checkSelfPermission(sMainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            IgawCommon.startApplication(sMainActivity);
+        } else {
+            return;
+        }
+
         mIsInit = true;
     }
 

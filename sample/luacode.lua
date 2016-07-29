@@ -284,9 +284,12 @@ PerpleSDK:adbrixEvent('firstTimeExperience', '@arg1', '@arg2')
 
 PerpleSDK:adbrixEvent('retention', '@arg1', '@arg2')
 
+-- @arg0: product id
+-- @arg1: price
 PerpleSDK:adbrixEvent('buy', '@arg1', '@arg2')
 
 -- @customCohort: 'COHORT_1', 'COHORT_2', 'COHORT_3'
+-- @arg1: cohort description
 PerpleSDK:adbrixEvent('customCohort', '@customCohort', '@arg1')
 
 -- ProcessKill 사용시 명시적 EndSession 처리를 위함
@@ -484,22 +487,20 @@ end)
 PerpleSDK:setBilling('@url', function(ret, info)
     if ret == 'error' then
     elseif ret == 'purchase' then
-        -- info
-        -- [{"@payload"},...]
+        -- info : [{"orderId":"@orderId","payload":"@payload"},...]
     end
 end)
 
 -- 구매 완료 성공 콜백을 받은 후 게임 서버에서 정상적으로 상품 지급을 한 다음 다시 이 함수를 호출해서 구매 프로세스를 완료시킴
 -- 이 함수를 호출하면 구글 결제 인벤토리에서 해당 Purchase 를 Consume 처리함.
-PerpleSDK:consumeFurchase("['@orderId',...]")
+PerpleSDK:consumeFurchase('["@orderId",...]')
 
 -- 일반형 상품 구매
 -- @sku : 상품 아이디
 -- @payload : 영수증 검증에 필요한 부가 정보
 PerpleSDK:purchase('@sku', '@payload', function(ret, info)
     if ret == 'success' then
-        -- info
-        -- {"@payload"}
+        -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
     end
@@ -510,8 +511,7 @@ end)
 -- @payload : 영수증 검증에 필요한 부가 정보
 PerpleSDK:subscription('@sku', '@payload', function(ret, info)
     if ret == 'success' then
-        -- info
-        -- {"@payload"}
+        -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
     end

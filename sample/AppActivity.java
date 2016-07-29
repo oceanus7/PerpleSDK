@@ -73,7 +73,7 @@ public class AppActivity extends Cocos2dxActivity {
     static String hostIPAdress = "0.0.0.0";
 
     // @billing
-    static final String gameId = "";
+    static final String gameId = "1000";
     static final String billingBase64PublicKey = "";
     
     // @tapjoy
@@ -196,6 +196,12 @@ public class AppActivity extends Cocos2dxActivity {
         PerpleSDK.getInstance().onDestroy();
 
         super.onDestroy();
+    }
+
+     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // @perplesdk
+        PerpleSDK.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

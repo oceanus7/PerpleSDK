@@ -129,7 +129,12 @@ public class PerpleBilling {
         // very important:
         Log.d(LOG_TAG, "Destroying helper.");
         if (mHelper != null) {
-            mHelper.dispose();
+            try {
+                mHelper.dispose();
+            } catch (Exception e) {
+                // IllegalArgumentException
+                e.printStackTrace();
+            }
             mHelper = null;
             mIsSetupCompleted = false;
         }
@@ -400,7 +405,7 @@ public class PerpleBilling {
         if (isCheckReceiptSuccess) {
             if (getRetcode(info) == 0) {
                 mPurchases.put(p.getOrderId(), p);
-                mPurchaseCallback.onSuccess(p.getDeveloperPayload());
+                mPurchaseCallback.onSuccess(getPurchaseResult(p).toString());
             } else {
                 mPurchaseCallback.onFail(info);
                 mHelper.consumeAsync(p, new IabHelper.OnConsumeFinishedListener() {
@@ -428,7 +433,7 @@ public class PerpleBilling {
         mIncompletedPurchasesCount--;
         if (mIncompletedPurchasesCount == 0) {
 
-            mSetupCallback.onPurchase(getJSONArrayStringFromPurchasesList(getPurchasesList(mIncompletedPurchases, true)));
+            mSetupCallback.onPurchase(getPurchaseResultArray(getPurchasesList(mIncompletedPurchases, true)));
 
             List<Purchase> invalidList = getPurchasesList(mIncompletedPurchases, false);
             if (invalidList.size() > 0) {
@@ -462,12 +467,27 @@ public class PerpleBilling {
         return list;
     }
 
-    private String getJSONArrayStringFromPurchasesList(List<Purchase> purchases) {
-        JSONArray obj = new JSONArray(purchases);
-        if (obj.length() > 0) {
-            return obj.toString();
+    private String getPurchaseResultArray(List<Purchase> purchases) {
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < purchases.size(); i++) {
+            array.put(getPurchaseResult(purchases.get(i)));
+        }
+
+        if (array.length() > 0) {
+            return array.toString();
         }
         return "";
+    }
+
+    private JSONObject getPurchaseResult(Purchase p) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("orderId", p.getOrderId());
+            obj.put("payload", p.getDeveloperPayload());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     private List<String> getOrderIdList(String data) {

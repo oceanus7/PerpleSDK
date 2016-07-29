@@ -1,13 +1,13 @@
 #include <jni.h>
 #include <android/log.h>
 #include "jni/JniHelper.h"
-#include "PerpleSDK.h"
+#include "PerpleCore.h"
 
 #define PACKAGE_NAME "com/perplelab/PerpleSDK"
 
 void jniFuncV_V(const char* funcName, int funcID)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "()V"))
@@ -19,7 +19,7 @@ void jniFuncV_V(const char* funcName, int funcID)
 
 void jniFuncV_S(const char* funcName, int funcID, const char* arg0)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(Ljava/lang/String;)V"))
@@ -35,7 +35,7 @@ void jniFuncV_S(const char* funcName, int funcID, const char* arg0)
 
 void jniFuncV_SS(const char* funcName, int funcID, const char* arg0, const char* arg1)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(Ljava/lang/String;Ljava/lang/String;)V"))
@@ -53,7 +53,7 @@ void jniFuncV_SS(const char* funcName, int funcID, const char* arg0, const char*
 
 void jniFuncV_SSS(const char* funcName, int funcID, const char* arg0, const char* arg1, const char* arg2)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
@@ -73,7 +73,7 @@ void jniFuncV_SSS(const char* funcName, int funcID, const char* arg0, const char
 
 void jniFuncV_I(const char* funcName, int funcID, int arg0)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(I)V"))
@@ -85,7 +85,7 @@ void jniFuncV_I(const char* funcName, int funcID, int arg0)
 
 void jniFuncV_ISS(const char* funcName, int funcID, int arg0, const char* arg1, const char* arg2)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(ILjava/lang/String;Ljava/lang/String;)V"))
@@ -103,7 +103,7 @@ void jniFuncV_ISS(const char* funcName, int funcID, int arg0, const char* arg1, 
 
 void jniFuncV_ISSS(const char* funcName, int funcID, int arg0, const char* arg1, const char* arg2, const char* arg3)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
@@ -124,7 +124,7 @@ void jniFuncV_ISSS(const char* funcName, int funcID, int arg0, const char* arg1,
 
 bool jniFuncZ_V(const char* funcName, int funcID)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "()Z"))
@@ -139,7 +139,7 @@ bool jniFuncZ_V(const char* funcName, int funcID)
 
 bool jniFuncZ_S(const char* funcName, int funcID, const char* arg0)
 {
-    PerpleSDK::RegisterLuaCallbacks(funcName, funcID);
+    PerpleCore::RegisterLuaCallbacks(funcName, funcID);
 
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, PACKAGE_NAME, funcName, "(Ljava/lang/String;)Z"))

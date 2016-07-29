@@ -28,6 +28,7 @@ public class PerpleSDK {
     public static final String ERROR_FIREBASE_NOTINITIALIZED = "-100";
     public static final String ERROR_GOOGLE_NOTINITIALIZED = "-200";
     public static final String ERROR_GOOGLE_LOGIN = "-201";
+    public static final String ERROR_GOOGLE_PERMISSIONDENIED = "-202";
     public static final String ERROR_FACEBOOK_NOTINITIALIZED = "-300";
     public static final String ERROR_FACEBOOK_LOGIN = "-301";
     public static final String ERROR_FACEBOOK_REQUESTERROR = "-302";
@@ -177,6 +178,10 @@ public class PerpleSDK {
 
     // @firebase, FCM
     public static void onFCMTokenRefresh(String iid, String token) {
+        if (getInstance() == null) {
+            return;
+        }
+
         if (!getInstance().mUseFirebase) {
             return;
         }
@@ -231,6 +236,10 @@ public class PerpleSDK {
 
     // @firebase, FCM
     public static void onMessageSent(String msgId) {
+        if (getInstance() == null) {
+            return;
+        }
+
         if (getInstance().mRequestSendPushMessage) {
             getInstance().mRequestSendPushMessage = false;
             callSDKResult("sendFCMPushMessage", "success", msgId);
@@ -242,6 +251,10 @@ public class PerpleSDK {
 
     // @firebase, FCM
     public static void onSendError(String msgId, Exception exception) {
+        if (getInstance() == null) {
+            return;
+        }
+
         JSONObject info = new JSONObject();
         try {
             info.put("msgId", msgId);
@@ -524,6 +537,12 @@ public class PerpleSDK {
             mTapjoy.onActivityResult(requestCode, resultCode, data);
         }
         */
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (mUseGoogle) {
+            mGoogle.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     // @firebase

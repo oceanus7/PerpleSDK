@@ -6,6 +6,8 @@ target 'PerpleSDK' do
   # use_frameworks!
 
   # Pods for PerpleSDK
-  pod 'Firebase'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Messaging'
 
 end

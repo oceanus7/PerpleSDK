@@ -9,7 +9,7 @@ LOCAL_MODULE_FILENAME := libperplesdk
 LOCAL_SRC_FILES := main.cpp \
                    Runtime_android.cpp \
                    jni/JniHelper.cpp \
-                   ../../src/PerpleSDK.cpp \
+                   ../../src/PerpleCore.cpp \
                    ../../src/PerpleSDKLua.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../src

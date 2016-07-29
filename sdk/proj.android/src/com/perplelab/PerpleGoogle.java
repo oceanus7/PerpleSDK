@@ -32,15 +32,20 @@ import com.google.android.gms.games.quest.Quest;
 import com.google.android.gms.games.quest.QuestUpdateListener;
 import com.google.android.gms.games.quest.Quests;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedListener, QuestUpdateListener {
@@ -49,6 +54,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
     private static Activity sMainActivity;
     private boolean mIsInit;
     private boolean mUseGoogleSignInApi;
+
+    private Handler mAppHandler;
 
     private GoogleApiClient mGoogleApiClient;
     private PerpleGoogleLoginCallback mLoginCallback;
@@ -60,6 +67,7 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
     private static final int RC_GOOGLE_LEADERBOARDS = 9003;
     private static final int RC_GOOGLE_QUESTS = 9004;
     private static final int RC_GOOGLE_SIGNIN_RESOLVE_ERROR = 9005;
+    private static final int RC_GOOGLE_PERMISSIONS = 9006;
 
     private static final int RC_GOGLEPLAYSERVICE_NOTAVAILABLE = 10001;
 
@@ -84,6 +92,8 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
 
     public boolean init(String web_client_id) {
         mWebClientId = web_client_id;
+
+        mAppHandler = new Handler();
 
         // Configure sign-in to request the user's ID, email address, and basic profile. ID and
         // basic profile are included in DEFAULT_SIGN_IN.
@@ -240,6 +250,18 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
                     mRequestedShowQuests = false;
                     mPlayServicesCallback.onFail(String.valueOf(resultCode));
                 }
+            }
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == RC_GOOGLE_PERMISSIONS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                String accountName = Games.getCurrentAccountName(mGoogleApiClient);
+                new GetIdTokenTask(mLoginCallback).execute(accountName, mWebClientId);
+            } else {
+                mLoginCallback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_GOOGLE_PERMISSIONDENIED, "GET_ACCOUNTS permission is not granted."));
+                mGoogleApiClient.disconnect();
             }
         }
     }
@@ -488,8 +510,18 @@ public class PerpleGoogle implements ConnectionCallbacks, OnConnectionFailedList
 
     @Override
     public void onConnected(Bundle bundle) {
-        String accountName = Games.getCurrentAccountName(mGoogleApiClient);
-        new GetIdTokenTask(mLoginCallback).execute(accountName, mWebClientId);
+        if (ContextCompat.checkSelfPermission(sMainActivity, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
+            String accountName = Games.getCurrentAccountName(mGoogleApiClient);
+            new GetIdTokenTask(mLoginCallback).execute(accountName, mWebClientId);
+        } else {
+            mAppHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String permissions[] = { Manifest.permission.GET_ACCOUNTS };
+                    ActivityCompat.requestPermissions(sMainActivity, permissions, RC_GOOGLE_PERMISSIONS);
+                }
+            });
+        }
     }
 
     @Override

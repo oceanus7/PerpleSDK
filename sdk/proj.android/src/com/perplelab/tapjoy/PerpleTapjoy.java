@@ -47,7 +47,14 @@ public class PerpleTapjoy implements TJPlacementListener {
         sMyInstance = this;
         mAppHandler = new Handler();
 
-        Tapjoy.connect(sMainActivity.getApplicationContext(), appKey);
+        try {
+            Tapjoy.connect(sMainActivity, appKey);
+        } catch (Exception e) {
+            // IllegalArgumentException
+            // NullPointerException
+            e.printStackTrace();
+            return;
+        }
 
         if (isDebug) {
             Tapjoy.setDebugEnabled(true);
