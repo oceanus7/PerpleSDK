@@ -39,26 +39,141 @@ void autoLogin(int funcID) {
 }
 
 void loginAnonymously(int funcID) {
-    PerpleFirebaseCpp::GetInstance()->SignInAnonymously([&funcID](const char* result, const char* info){
+    PerpleFirebaseCpp::GetInstance()->SignInAnonymously([&funcID](const char* result, const char* info) {
+        // "success" :
+        //{
+        //    "profile":
+        //    {
+        //        "uid":"@uid",
+        //        "name":"@name",
+        //        "email":"@email",
+        //        "photoUrl":"@photoUrl",
+        //        "providerId":"@providerId"
+        //    },
+        //    "providerData":
+        //    [
+        //        {
+        //            "uid":"@uid",
+        //            "name":"@name",
+        //            "email":"@email",
+        //            "photoUrl":"@photoUrl",
+        //            "providerId":"@providerId"
+        //        }
+        //    ]
+        //    "pushToken":
+        //    {
+        //        "iid":"@iid",
+        //        "token":"@token"
+        //    }
+        //}
+        // "fail" : {"code":"-999","subcode":"0","msg":"Unknown error"}
         PerpleCore::OnSDKResult(funcID, result, info);
     });
 }
 
 void loginGoogle(int funcID) {
-    PerpleCore::OnSDKResult(funcID, "success", "");
-    PerpleCore::OnSDKResult(funcID, "fail", "");
-    PerpleCore::OnSDKResult(funcID, "cancel", "");
+    const char* google_id_token = "";
+
+    PerpleFirebaseCpp::GetInstance()->SignInWithGoogleLogin(google_id_token, [&funcID](const char* result, const char* info) {
+        // "success" :
+        //{
+        //    "profile":
+        //    {
+        //        "uid":"@uid",
+        //        "name":"@name",
+        //        "email":"@email",
+        //        "photoUrl":"@photoUrl",
+        //        "providerId":"@providerId"
+        //    },
+        //    "providerData":
+        //    [
+        //        {
+        //            "uid":"@uid",
+        //            "name":"@name",
+        //            "email":"@email",
+        //            "photoUrl":"@photoUrl",
+        //            "providerId":"@providerId"
+        //        }
+        //    ]
+        //    "pushToken":
+        //    {
+        //        "iid":"@iid",
+        //        "token":"@token"
+        //    }
+        //}
+        // "fail" : {"code":"-999","subcode":"0","msg":"Unknown error"}
+        // "cancel" : ""
+        PerpleCore::OnSDKResult(funcID, result, info);
+    });
 }
 
 void loginFacebook(int funcID) {
-    PerpleCore::OnSDKResult(funcID, "success", "");
-    PerpleCore::OnSDKResult(funcID, "fail", "");
-    PerpleCore::OnSDKResult(funcID, "cancel", "");
+    const char* facebook_token = "";
+
+    PerpleFirebaseCpp::GetInstance()->SignInWithFacebookLogin(facebook_token, [&funcID](const char* result, const char* info) {
+        // "success" :
+        //{
+        //    "profile":
+        //    {
+        //        "uid":"@uid",
+        //        "name":"@name",
+        //        "email":"@email",
+        //        "photoUrl":"@photoUrl",
+        //        "providerId":"@providerId"
+        //    },
+        //    "providerData":
+        //    [
+        //        {
+        //            "uid":"@uid",
+        //            "name":"@name",
+        //            "email":"@email",
+        //            "photoUrl":"@photoUrl",
+        //            "providerId":"@providerId"
+        //        }
+        //    ]
+        //    "pushToken":
+        //    {
+        //        "iid":"@iid",
+        //        "token":"@token"
+        //    }
+        //}
+        // "fail" : {"code":"-999","subcode":"0","msg":"Unknown error"}
+        // "cancel" : ""
+        PerpleCore::OnSDKResult(funcID, result, info);
+    });
 }
 
 void loginEmail(int funcID, const char* email, const char* password) {
-    PerpleCore::OnSDKResult(funcID, "success", "");
-    PerpleCore::OnSDKResult(funcID, "fail", "");
+    PerpleFirebaseCpp::GetInstance()->SignInWithEmailAndPassword(email, password, [&funcID](const char* result, const char* info) {
+        // "success" :
+        //{
+        //    "profile":
+        //    {
+        //        "uid":"@uid",
+        //        "name":"@name",
+        //        "email":"@email",
+        //        "photoUrl":"@photoUrl",
+        //        "providerId":"@providerId"
+        //    },
+        //    "providerData":
+        //    [
+        //        {
+        //            "uid":"@uid",
+        //            "name":"@name",
+        //            "email":"@email",
+        //            "photoUrl":"@photoUrl",
+        //            "providerId":"@providerId"
+        //        }
+        //    ]
+        //    "pushToken":
+        //    {
+        //        "iid":"@iid",
+        //        "token":"@token"
+        //    }
+        //}
+        // "fail" : {"code":"-999","subcode":"0","msg":"Unknown error"}
+        PerpleCore::OnSDKResult(funcID, result, info);
+    });
 }
 
 void linkWithGoogle(int funcID) {

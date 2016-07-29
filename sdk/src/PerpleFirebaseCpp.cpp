@@ -25,6 +25,7 @@ void Log(const char* format, ...)
     __android_log_vprint(ANDROID_LOG_INFO, "PerpleFirebaseCpp, format, list);
     va_end(list);
 }
+/*
 #elif defined(__APPLE__)
     // Log a message that can be viewed in the console.
     va_list args;
@@ -36,6 +37,7 @@ void Log(const char* format, ...)
 
     NSLog(@"%@", message);
 }
+*/
 #else
     va_list list;
     va_start(list, format);
@@ -225,7 +227,7 @@ void PerpleFirebaseCpp::SignInWithEmailAndPassword(const char* email, const char
         (void*)(&callback));
 }
 
-void PerpleFirebaseCpp::SignInWithGoogleLogin(const char* google_id_token, const char* password, const TypePerpleFirebaseCppCallback& callback)
+void PerpleFirebaseCpp::SignInWithGoogleLogin(const char* google_id_token, const TypePerpleFirebaseCppCallback& callback)
 {
     firebase::auth::Credential credential = firebase::auth::GoogleAuthProvider::GetCredential(google_id_token, nullptr);
     firebase::Future<firebase::auth::User*> result = mAuth->SignInWithCredential(credential);
@@ -259,7 +261,7 @@ void PerpleFirebaseCpp::SignInWithGoogleLogin(const char* google_id_token, const
         (void*)(&callback));
 }
 
-void PerpleFirebaseCpp::SignInWithFacebookLogin(const char* facebook_access_token, const char* password, const TypePerpleFirebaseCppCallback& callback)
+void PerpleFirebaseCpp::SignInWithFacebookLogin(const char* facebook_access_token, const TypePerpleFirebaseCppCallback& callback)
 {
     firebase::auth::Credential credential = firebase::auth::FacebookAuthProvider::GetCredential(facebook_access_token);
     firebase::Future<firebase::auth::User*> result = mAuth->SignInWithCredential(credential);
@@ -293,7 +295,7 @@ void PerpleFirebaseCpp::SignInWithFacebookLogin(const char* facebook_access_toke
         (void*)(&callback));
 }
 
-void PerpleFirebaseCpp::SignInWithTwitterLogin(const char* twitter_token, const char* secret, const char* password, const TypePerpleFirebaseCppCallback& callback)
+void PerpleFirebaseCpp::SignInWithTwitterLogin(const char* twitter_token, const char* secret, const TypePerpleFirebaseCppCallback& callback)
 {
     firebase::auth::Credential credential = firebase::auth::TwitterAuthProvider::GetCredential(twitter_token, secret);
     firebase::Future<firebase::auth::User*> result = mAuth->SignInWithCredential(credential);
@@ -327,7 +329,7 @@ void PerpleFirebaseCpp::SignInWithTwitterLogin(const char* twitter_token, const 
         (void*)(&callback));
 }
 
-void PerpleFirebaseCpp::SignInWithCustomToken(const char* custom_token, const char* password, const TypePerpleFirebaseCppCallback& callback)
+void PerpleFirebaseCpp::SignInWithCustomToken(const char* custom_token, const TypePerpleFirebaseCppCallback& callback)
 {
     firebase::Future<firebase::auth::User*> result = mAuth->SignInWithCustomToken(custom_token);
 
