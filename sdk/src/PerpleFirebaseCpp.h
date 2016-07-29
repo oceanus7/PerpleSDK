@@ -44,10 +44,10 @@ public:
 #endif
     void SignInAnonymously(const TypePerpleFirebaseCppCallback& callback);
     void SignInWithEmailAndPassword(const char* email, const char* password, const TypePerpleFirebaseCppCallback& callback);
-    void SignInWithGoogleLogin(const char* google_id_token, const char* password, const TypePerpleFirebaseCppCallback& callback);
-    void SignInWithFacebookLogin(const char* facebook_access_token, const char* password, const TypePerpleFirebaseCppCallback& callback);
-    void SignInWithTwitterLogin(const char* twitter_token, const char* secret, const char* password, const TypePerpleFirebaseCppCallback& callback);
-    void SignInWithCustomToken(const char* custom_token, const char* password, const TypePerpleFirebaseCppCallback& callback);
+    void SignInWithGoogleLogin(const char* google_id_token, const TypePerpleFirebaseCppCallback& callback);
+    void SignInWithFacebookLogin(const char* facebook_access_token, const TypePerpleFirebaseCppCallback& callback);
+    void SignInWithTwitterLogin(const char* twitter_token, const char* secret, const TypePerpleFirebaseCppCallback& callback);
+    void SignInWithCustomToken(const char* custom_token, const TypePerpleFirebaseCppCallback& callback);
     void CreateUserWithEmailAndPassword(const char* email, const char* password, const TypePerpleFirebaseCppCallback& callback);
 
 private:

@@ -91,6 +91,20 @@ void PerpleCore::OnSDKResult(const char* funcName, const char* result, const cha
     }
 }
 
+void PerpleCore::OnSDKResult(int funcID, const char* result, const char* info)
+{
+    const std::string result_ = result;
+    const std::string info_ = info;
+
+    if (funcID > 0)
+    {
+        PerformFunctionInLuaThread([=]()
+                                   {
+                                       onSdkResult(mLuaState, funcID, result_, info_);
+                                   });
+    }
+}
+
 void PerpleCore::PerformFunctionInLuaThread(const std::function<void()>& function)
 {
     mPerformMutex.lock();

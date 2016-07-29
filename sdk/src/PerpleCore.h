@@ -69,6 +69,7 @@ public:
     static lua_State* GetLuaState();
     static void RegisterLuaCallbacks(const char* funcName, int funcID);
     static void OnSDKResult(const char* funcName, const char* result, const char* info);
+    static void OnSDKResult(int funcID, const char* result, const char* info);
     static void PerformFunctionInLuaThread(const std::function<void()>& function);
     static void UpdateLuaCallbacks();
 

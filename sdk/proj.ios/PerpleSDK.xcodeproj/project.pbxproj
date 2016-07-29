@@ -15,7 +15,6 @@
 		1CB727C61D4546DA00994916 /* tolua_map.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CB727B51D45453400994916 /* tolua_map.c */; };
 		1CB727C71D4546DD00994916 /* tolua_push.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CB727B61D45453400994916 /* tolua_push.c */; };
 		1CB727C81D4546E000994916 /* tolua_to.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CB727B71D45453400994916 /* tolua_to.c */; };
-		1CB727C91D45473500994916 /* firebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CB727571D45435500994916 /* firebase.cpp */; };
 		1CC693EA1D455923002408C6 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6939E1D455842002408C6 /* lapi.c */; };
 		1CC693EB1D455923002408C6 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC693A01D455842002408C6 /* lauxlib.c */; };
 		1CC693EC1D455923002408C6 /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC693A21D455842002408C6 /* lbaselib.c */; };
@@ -47,10 +46,14 @@
 		1CC694061D455923002408C6 /* lvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC693CF1D455842002408C6 /* lvm.c */; };
 		1CC694071D455923002408C6 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC693D11D455842002408C6 /* lzio.c */; };
 		1CC694081D455923002408C6 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC693D31D455842002408C6 /* print.c */; };
-		37AA47D81D48F316008C7214 /* runtime_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37AA47D71D48F316008C7214 /* runtime_ios.cpp */; };
+		1CF1D9AA1D4C0CE100C1AA5D /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9A31D4C0CE100C1AA5D /* json_reader.cpp */; };
+		1CF1D9AB1D4C0CE100C1AA5D /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9A41D4C0CE100C1AA5D /* json_value.cpp */; };
+		1CF1D9AC1D4C0CE100C1AA5D /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9A61D4C0CE100C1AA5D /* json_writer.cpp */; };
+		1CF1D9AE1D4C0CEE00C1AA5D /* PerpleFirebaseCpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9AD1D4C0CEE00C1AA5D /* PerpleFirebaseCpp.cpp */; };
+		1CF1D9B31D4C0D8400C1AA5D /* PerpleFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9B11D4C0D8400C1AA5D /* PerpleFirebase.m */; };
+		1CF1D9B41D4C0D8400C1AA5D /* runtime_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1D9B21D4C0D8400C1AA5D /* runtime_ios.cpp */; };
 		37AA47E01D4903F6008C7214 /* PerpleCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37AA47DE1D4903F6008C7214 /* PerpleCore.cpp */; };
 		37AA47E31D49040C008C7214 /* PerpleSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AA47E21D49040C008C7214 /* PerpleSDK.m */; };
-		37AA47E61D4906CB008C7214 /* PerpleFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AA47E51D4906CB008C7214 /* PerpleFirebase.m */; };
 		41E7B156E8CD2CA2C9196B36 /* libPods-PerpleSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34F76D6000FC8CD1DF8D67EB /* libPods-PerpleSDK.a */; };
 /* End PBXBuildFile section */
 
@@ -69,8 +72,6 @@
 /* Begin PBXFileReference section */
 		057B7986C43755B96873E11B /* Pods-PerpleSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PerpleSDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-PerpleSDK/Pods-PerpleSDK.release.xcconfig"; sourceTree = "<group>"; };
 		1C1B60011D48645F002AF0F0 /* lua_perplesdk_macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lua_perplesdk_macro.h; sourceTree = "<group>"; };
-		1CB727571D45435500994916 /* firebase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = firebase.cpp; sourceTree = "<group>"; };
-		1CB727581D45435500994916 /* firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = firebase.h; sourceTree = "<group>"; };
 		1CB7275B1D45435500994916 /* PerpleSDKLua.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PerpleSDKLua.cpp; sourceTree = "<group>"; };
 		1CB7275C1D45435500994916 /* PerpleSDKLua.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerpleSDKLua.h; sourceTree = "<group>"; };
 		1CB727B11D45453400994916 /* tolua++.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tolua++.h"; sourceTree = "<group>"; };
@@ -139,14 +140,31 @@
 		1CC693D21D455842002408C6 /* lzio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
 		1CC693D31D455842002408C6 /* print.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
 		1CCD9EDA1D35C5F0004AAF73 /* libPerpleSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPerpleSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CF1D99B1D4C0CE100C1AA5D /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
+		1CF1D99C1D4C0CE100C1AA5D /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		1CF1D99D1D4C0CE100C1AA5D /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = features.h; sourceTree = "<group>"; };
+		1CF1D99E1D4C0CE100C1AA5D /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = forwards.h; sourceTree = "<group>"; };
+		1CF1D99F1D4C0CE100C1AA5D /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		1CF1D9A01D4C0CE100C1AA5D /* json_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_batchallocator.h; sourceTree = "<group>"; };
+		1CF1D9A11D4C0CE100C1AA5D /* json_internalarray.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalarray.inl; sourceTree = "<group>"; };
+		1CF1D9A21D4C0CE100C1AA5D /* json_internalmap.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_internalmap.inl; sourceTree = "<group>"; };
+		1CF1D9A31D4C0CE100C1AA5D /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_reader.cpp; sourceTree = "<group>"; };
+		1CF1D9A41D4C0CE100C1AA5D /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_value.cpp; sourceTree = "<group>"; };
+		1CF1D9A51D4C0CE100C1AA5D /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_valueiterator.inl; sourceTree = "<group>"; };
+		1CF1D9A61D4C0CE100C1AA5D /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_writer.cpp; sourceTree = "<group>"; };
+		1CF1D9A71D4C0CE100C1AA5D /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
+		1CF1D9A81D4C0CE100C1AA5D /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = value.h; sourceTree = "<group>"; };
+		1CF1D9A91D4C0CE100C1AA5D /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
+		1CF1D9AD1D4C0CEE00C1AA5D /* PerpleFirebaseCpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerpleFirebaseCpp.cpp; sourceTree = "<group>"; };
+		1CF1D9AF1D4C0CF500C1AA5D /* PerpleFirebaseCpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerpleFirebaseCpp.h; sourceTree = "<group>"; };
+		1CF1D9B01D4C0D8400C1AA5D /* PerpleFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerpleFirebase.h; sourceTree = "<group>"; };
+		1CF1D9B11D4C0D8400C1AA5D /* PerpleFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerpleFirebase.m; sourceTree = "<group>"; };
+		1CF1D9B21D4C0D8400C1AA5D /* runtime_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = runtime_ios.cpp; sourceTree = "<group>"; };
 		34F76D6000FC8CD1DF8D67EB /* libPods-PerpleSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PerpleSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		37AA47D71D48F316008C7214 /* runtime_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = runtime_ios.cpp; sourceTree = "<group>"; };
 		37AA47DE1D4903F6008C7214 /* PerpleCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerpleCore.cpp; sourceTree = "<group>"; };
 		37AA47DF1D4903F6008C7214 /* PerpleCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerpleCore.h; sourceTree = "<group>"; };
 		37AA47E11D49040C008C7214 /* PerpleSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerpleSDK.h; sourceTree = "<group>"; };
 		37AA47E21D49040C008C7214 /* PerpleSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerpleSDK.m; sourceTree = "<group>"; };
-		37AA47E41D4906CB008C7214 /* PerpleFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerpleFirebase.h; sourceTree = "<group>"; };
-		37AA47E51D4906CB008C7214 /* PerpleFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerpleFirebase.m; sourceTree = "<group>"; };
 		F182B1EB9468642769040A5B /* Pods-PerpleSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PerpleSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PerpleSDK/Pods-PerpleSDK.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,9 +183,11 @@
 		1CB727551D45435500994916 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				1CB727561D45435500994916 /* firebase */,
+				1CF1D99A1D4C0CE100C1AA5D /* jsoncpp */,
 				37AA47DE1D4903F6008C7214 /* PerpleCore.cpp */,
 				37AA47DF1D4903F6008C7214 /* PerpleCore.h */,
+				1CF1D9AD1D4C0CEE00C1AA5D /* PerpleFirebaseCpp.cpp */,
+				1CF1D9AF1D4C0CF500C1AA5D /* PerpleFirebaseCpp.h */,
 				1CB7275B1D45435500994916 /* PerpleSDKLua.cpp */,
 				1CB7275C1D45435500994916 /* PerpleSDKLua.h */,
 			);
@@ -175,23 +195,14 @@
 			path = ../src;
 			sourceTree = "<group>";
 		};
-		1CB727561D45435500994916 /* firebase */ = {
-			isa = PBXGroup;
-			children = (
-				1CB727571D45435500994916 /* firebase.cpp */,
-				1CB727581D45435500994916 /* firebase.h */,
-			);
-			path = firebase;
-			sourceTree = "<group>";
-		};
 		1CB7275D1D45449000994916 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				37AA47D71D48F316008C7214 /* runtime_ios.cpp */,
+				1CF1D9B21D4C0D8400C1AA5D /* runtime_ios.cpp */,
 				37AA47E11D49040C008C7214 /* PerpleSDK.h */,
 				37AA47E21D49040C008C7214 /* PerpleSDK.m */,
-				37AA47E41D4906CB008C7214 /* PerpleFirebase.h */,
-				37AA47E51D4906CB008C7214 /* PerpleFirebase.m */,
+				1CF1D9B01D4C0D8400C1AA5D /* PerpleFirebase.h */,
+				1CF1D9B11D4C0D8400C1AA5D /* PerpleFirebase.m */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -322,6 +333,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1CF1D99A1D4C0CE100C1AA5D /* jsoncpp */ = {
+			isa = PBXGroup;
+			children = (
+				1CF1D99B1D4C0CE100C1AA5D /* autolink.h */,
+				1CF1D99C1D4C0CE100C1AA5D /* config.h */,
+				1CF1D99D1D4C0CE100C1AA5D /* features.h */,
+				1CF1D99E1D4C0CE100C1AA5D /* forwards.h */,
+				1CF1D99F1D4C0CE100C1AA5D /* json.h */,
+				1CF1D9A01D4C0CE100C1AA5D /* json_batchallocator.h */,
+				1CF1D9A11D4C0CE100C1AA5D /* json_internalarray.inl */,
+				1CF1D9A21D4C0CE100C1AA5D /* json_internalmap.inl */,
+				1CF1D9A31D4C0CE100C1AA5D /* json_reader.cpp */,
+				1CF1D9A41D4C0CE100C1AA5D /* json_value.cpp */,
+				1CF1D9A51D4C0CE100C1AA5D /* json_valueiterator.inl */,
+				1CF1D9A61D4C0CE100C1AA5D /* json_writer.cpp */,
+				1CF1D9A71D4C0CE100C1AA5D /* reader.h */,
+				1CF1D9A81D4C0CE100C1AA5D /* value.h */,
+				1CF1D9A91D4C0CE100C1AA5D /* writer.h */,
+			);
+			path = jsoncpp;
+			sourceTree = "<group>";
+		};
 		7787B4F63D5FF0767E161C53 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,7 +471,6 @@
 				1CC694071D455923002408C6 /* lzio.c in Sources */,
 				1CC693F71D455923002408C6 /* lmathlib.c in Sources */,
 				1CC693F11D455923002408C6 /* ldump.c in Sources */,
-				37AA47D81D48F316008C7214 /* runtime_ios.cpp in Sources */,
 				1CC693FE1D455923002408C6 /* lstate.c in Sources */,
 				1CC694081D455923002408C6 /* print.c in Sources */,
 				1CC693FD1D455923002408C6 /* lparser.c in Sources */,
@@ -447,14 +479,17 @@
 				1CB727C81D4546E000994916 /* tolua_to.c in Sources */,
 				1CC693EA1D455923002408C6 /* lapi.c in Sources */,
 				1CC693EE1D455923002408C6 /* ldblib.c in Sources */,
+				1CF1D9AA1D4C0CE100C1AA5D /* json_reader.cpp in Sources */,
 				1CC694031D455923002408C6 /* ltm.c in Sources */,
+				1CF1D9AE1D4C0CEE00C1AA5D /* PerpleFirebaseCpp.cpp in Sources */,
+				1CF1D9AB1D4C0CE100C1AA5D /* json_value.cpp in Sources */,
+				1CF1D9B41D4C0D8400C1AA5D /* runtime_ios.cpp in Sources */,
 				37AA47E31D49040C008C7214 /* PerpleSDK.m in Sources */,
 				1CB727C51D4546D600994916 /* tolua_is.c in Sources */,
 				1CC693F31D455923002408C6 /* lgc.c in Sources */,
+				1CF1D9AC1D4C0CE100C1AA5D /* json_writer.cpp in Sources */,
 				1CB727C41D4546D200994916 /* tolua_event.c in Sources */,
-				1CB727C91D45473500994916 /* firebase.cpp in Sources */,
 				1CC694011D455923002408C6 /* ltable.c in Sources */,
-				37AA47E61D4906CB008C7214 /* PerpleFirebase.m in Sources */,
 				1CC693F51D455923002408C6 /* liolib.c in Sources */,
 				1CC693F91D455923002408C6 /* loadlib.c in Sources */,
 				1CB727C71D4546DD00994916 /* tolua_push.c in Sources */,
@@ -473,6 +508,7 @@
 				1CC693F01D455923002408C6 /* ldo.c in Sources */,
 				1CC694061D455923002408C6 /* lvm.c in Sources */,
 				1CB727C61D4546DA00994916 /* tolua_map.c in Sources */,
+				1CF1D9B31D4C0D8400C1AA5D /* PerpleFirebase.m in Sources */,
 				1CB727BF1D45461D00994916 /* PerpleSDKLua.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
