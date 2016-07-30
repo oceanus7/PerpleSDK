@@ -73,7 +73,9 @@ public:
     static void PerformFunctionInLuaThread(const std::function<void()>& function);
     static void UpdateLuaCallbacks();
 
+#ifndef __ANDROID__
     static std::string GetErrorInfo(std::string code, std::string subcode, std::string message);
+#endif
 
 private:
     static std::map<std::string, int> mLuaFuncID;
