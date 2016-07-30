@@ -12,7 +12,7 @@ extern "C" {
 
 #include "firebase/app.h"
 #include "firebase/auth.h"
-//#include "firebase/messaging.h"
+#include "firebase/messaging.h"
 #include "jsoncpp/json.h"
 #include <functional>
 
@@ -42,6 +42,7 @@ public:
 #else
     void Init();
 #endif
+
     void SignInAnonymously(const TypePerpleFirebaseCppCallback& callback);
     void SignInWithEmailAndPassword(const char* email, const char* password, const TypePerpleFirebaseCppCallback& callback);
     void SignInWithGoogleLogin(const char* google_id_token, const TypePerpleFirebaseCppCallback& callback);
@@ -56,7 +57,8 @@ private:
 
     static std::string GetLoginInfo(firebase::auth::User* user);
     static Json::Value GetUserProfile(firebase::auth::User* user);
-    static Json::Value GetPrividerSpecificInfo(firebase::auth::User* user);
+    static Json::Value GetProviderData(firebase::auth::User* user);
+    static Json::Value GetPushToken();
 
     firebase::App* mApp;
     firebase::auth::Auth* mAuth;

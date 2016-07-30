@@ -8,7 +8,6 @@
 void Log(const char* format, ...)
 {
 #if defined(__ANDROID__)
-    // Log a message that can be viewed in "adb logcat".
     static const int kLineBufferSize = 100;
     char buffer[kLineBufferSize + 2];
 
@@ -17,36 +16,27 @@ void Log(const char* format, ...)
 
     int string_len = vsnprintf(buffer, kLineBufferSize, format, list);
 
-    // append a linebreak to the buffer:
     string_len = string_len < kLineBufferSize ? string_len : kLineBufferSize;
     buffer[string_len] = '\n';
     buffer[string_len + 1] = '\0';
 
-    __android_log_vprint(ANDROID_LOG_INFO, "PerpleFirebaseCpp, format, list);
+    // Log a message that can be viewed in "adb logcat".
+    __android_log_vprint(ANDROID_LOG_INFO, "PerpleFirebaseCpp", format, list);
+
     va_end(list);
-}
-/*
-#elif defined(__APPLE__)
-    // Log a message that can be viewed in the console.
-    va_list args;
-    NSString *formatString = @(format);
-
-    va_start(args, format);
-    NSString *message = [[NSString alloc] initWithFormat:formatString arguments:args];
-    va_end(args);
-
-    NSLog(@"%@", message);
-}
-*/
 #else
     va_list list;
     va_start(list, format);
+
+    // Log a message that can be viewed in the console.
     vprintf(format, list);
+
     va_end(list);
     printf("\n");
+
     fflush(stdout);
-}
 #endif  // __ANDROID__
+}
 
 std::string IntToString(int arg)
 {
@@ -57,12 +47,14 @@ std::string IntToString(int arg)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
+std::string gPushToken;
+
 class PerpleMessageListener : public firebase::messaging::Listener
 {
 public:
     virtual void OnMessage(const ::firebase::messaging::Message& message)
     {
+        /*
         // When messages are received by the server, they are placed into an
         // internal queue, waiting to be consumed. When ProcessMessages is called,
         // this OnMessage function is called once for each queued message.
@@ -77,6 +69,7 @@ public:
                 Log("  %s: %s", it->first.c_str(), it->second.c_str());
             }
         }
+        */
     }
 
     virtual void OnTokenReceived(const char* token)
@@ -91,11 +84,11 @@ public:
         // Once a token is generated is should be sent to your app server, which can
         // then use it to send messages to users.
         Log("Recieved Registration Token: %s", token);
+        gPushToken = token;
     }
 };
 
-PerpleMessageListener glistener;
-*/
+PerpleMessageListener gPushListener;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,7 +116,7 @@ void PerpleFirebaseCpp::Init()
     mApp = firebase::App::Create(firebase::AppOptions());
 #endif  // defined(__ANDROID__)
 
-    //firebase::messaging::Initialize(*mApp, &glistener);
+    firebase::messaging::Initialize(*mApp, &gPushListener);
 
     mAuth = firebase::auth::Auth::GetAuth(mApp);
 }
@@ -369,7 +362,8 @@ std::string PerpleFirebaseCpp::GetLoginInfo(firebase::auth::User* user)
     if (user != nullptr)
     {
         root["profile"] = GetUserProfile(user);
-        root["providerData"] = GetPrividerSpecificInfo(user);
+        root["providerData"] = GetProviderData(user);
+        root["pushToken"] = GetPushToken();
     }
 
     Json::StyledWriter writer;
@@ -396,7 +390,7 @@ Json::Value PerpleFirebaseCpp::GetUserProfile(firebase::auth::User* user)
     return root;
 }
 
-Json::Value PerpleFirebaseCpp::GetPrividerSpecificInfo(firebase::auth::User* user)
+Json::Value PerpleFirebaseCpp::GetProviderData(firebase::auth::User* user)
 {
     Json::Value root(Json::arrayValue);
 
@@ -418,6 +412,13 @@ Json::Value PerpleFirebaseCpp::GetPrividerSpecificInfo(firebase::auth::User* use
         root.append(json_value);
     }
 
+    return root;
+}
+
+Json::Value PerpleFirebaseCpp::GetPushToken()
+{
+    Json::Value root;
+    root = gPushToken;
     return root;
 }
 
