@@ -404,27 +404,13 @@ public class PerpleSDK {
 
         sTokenRefreshCallback = callback;
 
-        JSONObject obj = getInstance().mFirebase.getPushToken();
-        if (obj != null) {
-            callback.onSuccess(obj.toString());
-        } else {
-            callback.onFail(PerpleSDK.getErrorInfo(ERROR_FIREBASE_GETPUSHTOKEN, ERROR_JSONEXCEPTION, "JSON exception"));
-        }
-
+        callback.onSuccess(getInstance().mFirebase.getPushToken());
     }
 
     // @firebase fcm, callback from PerpleFirebaseInstanceIdService
-    public static void onFCMTokenRefresh(String iid, String token) {
+    public static void onFCMTokenRefresh(String pushToken) {
         if (sTokenRefreshCallback != null) {
-            try {
-                JSONObject obj = new JSONObject();
-                obj.put("iid", iid);
-                obj.put("token", token);
-                sTokenRefreshCallback.onSuccess(obj.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-                sTokenRefreshCallback.onFail(getErrorInfo(ERROR_FIREBASE_GETPUSHTOKEN, ERROR_JSONEXCEPTION, e.toString()));
-            }
+            sTokenRefreshCallback.onSuccess(pushToken);
         }
     }
 

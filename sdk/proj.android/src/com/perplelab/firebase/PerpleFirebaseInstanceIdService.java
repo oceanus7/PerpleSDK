@@ -39,6 +39,6 @@ public class PerpleFirebaseInstanceIdService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String iid, String token) {
         // Add custom implementation, as needed.
-        PerpleSDK.onFCMTokenRefresh(iid, token);
+        PerpleSDK.onFCMTokenRefresh(token);
     }
 }

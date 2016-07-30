@@ -546,7 +546,7 @@ public class PerpleFirebase {
         try {
             JSONObject obj = new JSONObject();
             obj.put("profile", getUserProfile(user));
-            obj.put("providerData", getPrividerSpecificInfo(user));
+            obj.put("providerData", getProviderData(user));
             obj.put("pushToken", getPushToken());
 
             return obj.toString();
@@ -582,7 +582,7 @@ public class PerpleFirebase {
         return obj;
     }
 
-    private static JSONArray getPrividerSpecificInfo(FirebaseUser user) {
+    private static JSONArray getProviderData(FirebaseUser user) {
         JSONArray array = new JSONArray();
 
         if (user != null) {
@@ -652,24 +652,7 @@ public class PerpleFirebase {
         return loginInfo;
     }
 
-    public JSONObject getPushToken() {
-        JSONObject obj = new JSONObject();
-
-        try {
-            obj.put("iid", getFCMiid());
-            obj.put("token", getFCMtoken());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return obj;
-    }
-
-    public String getFCMiid() {
-        return FirebaseInstanceId.getInstance().getId();
-    }
-
-    public String getFCMtoken() {
+    public String getPushToken() {
         return FirebaseInstanceId.getInstance().getToken();
     }
 
