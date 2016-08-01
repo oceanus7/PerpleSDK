@@ -29,15 +29,12 @@ public class PerpleTapjoy implements TJPlacementListener {
     private static final String LOG_TAG = "PerpleSDK Tapjoy";
 
     private static Activity sMainActivity;
-
     private boolean mIsInit;
-
     private boolean mIsTrackPurchase;
-
     private Handler mAppHandler;
     private HashMap<String, TJPlacement> mPlacement;
-    private HashMap<TJPlacement, PerpleTapjoyPlacementCallback> mSetPlacementCallback;
-    private HashMap<TJPlacement, PerpleTapjoyPlacementCallback> mShowPlacementCallback;
+    private HashMap<String, PerpleTapjoyPlacementCallback> mSetPlacementCallback;
+    private HashMap<String, PerpleTapjoyPlacementCallback> mShowPlacementCallback;
 
     public PerpleTapjoy(Activity activity) {
         sMainActivity = activity;
@@ -52,6 +49,7 @@ public class PerpleTapjoy implements TJPlacementListener {
             // IllegalArgumentException
             // NullPointerException
             e.printStackTrace();
+            Log.e(LOG_TAG, "Tapjoy connect error - " + e.toString());
             return;
         }
 
@@ -63,12 +61,11 @@ public class PerpleTapjoy implements TJPlacementListener {
             Tapjoy.setGcmSender(senderId);
         }
 
-        mAppHandler = new Handler();
-
         mPlacement = new HashMap<String, TJPlacement>();
-        mSetPlacementCallback = new HashMap<TJPlacement, PerpleTapjoyPlacementCallback>();
-        mShowPlacementCallback = new HashMap<TJPlacement, PerpleTapjoyPlacementCallback>();
+        mSetPlacementCallback = new HashMap<String, PerpleTapjoyPlacementCallback>();
+        mShowPlacementCallback = new HashMap<String, PerpleTapjoyPlacementCallback>();
 
+        mAppHandler = new Handler();
         mIsInit = true;
     }
 
@@ -116,12 +113,12 @@ public class PerpleTapjoy implements TJPlacementListener {
         String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
         String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
-        // get reciept here.
         try {
+            // get reciept here.
             JSONObject purchaseDataJson = new JSONObject(purchaseData);
             String productId = purchaseDataJson.getString("productId");
 
-            // getSkuDetails
+            // get sku details.
             ArrayList<String> skuList = new ArrayList<String> ();
             skuList.add(productId);
             Bundle querySkus = new Bundle();
@@ -129,8 +126,8 @@ public class PerpleTapjoy implements TJPlacementListener {
             Bundle skuDetails = PerpleSDK.getBillingService().getSkuDetails(3, sMainActivity.getPackageName(), "inapp", querySkus);
             ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
 
+            // track purchase
             Tapjoy.trackPurchase(responseList.get(0), purchaseData, dataSignature, null);
-
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (NullPointerException e){
@@ -157,7 +154,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                 if (p == null) {
                     p = new TJPlacement(sMainActivity.getApplicationContext(), placementName, myInstance);
                     mPlacement.put(placementName, p);
-                    mSetPlacementCallback.put(p, callback);
+                    mSetPlacementCallback.put(p.getName(), callback);
                 }
 
                 p.requestContent();
@@ -176,11 +173,9 @@ public class PerpleTapjoy implements TJPlacementListener {
             @Override
             public void run() {
                 TJPlacement p = mPlacement.get(placementName);
-
-                mShowPlacementCallback.put(p, callback);
-
                 if (p != null) {
                     if (p.isContentReady()) {
+                        mShowPlacementCallback.put(p.getName(), callback);
                         p.showContent();
                     } else {
                         callback.onWait();
@@ -213,7 +208,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                             callback.onSuccess(obj.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_GETCURRENCY, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                         }
                     }
                     @Override
@@ -245,7 +240,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                             callback.onSuccess(obj.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_ONEARNEDCURRENCY,PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                         }
                     }
                 });
@@ -273,7 +268,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                             callback.onSuccess(obj.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_SPENDCURRENCY, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                         }
                     }
                     @Override
@@ -305,7 +300,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                             callback.onSuccess(obj.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                            callback.onFail(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_AWARDCURRENCY, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                         }
                     }
                     @Override
@@ -334,7 +329,9 @@ public class PerpleTapjoy implements TJPlacementListener {
                     Tapjoy.setUserFriendCount(Integer.parseInt(arg0));
                 } else if (id.equals("appDataVersion")) {
                     Tapjoy.setAppDataVersion(arg0);
-                } else if (id.equals("customCohort")) {
+                } else if (id.equals("userCohortVariable")) {
+                    // arg0 : cohort variable index(ex, 1, 2, 3, ...)
+                    // arg1 : cohort value(ex, user activity)
                     Tapjoy.setUserCohortVariable(Integer.parseInt(arg0), arg1);
                 } else if (id.equals("trackEvent")) {
                     if (!arg0.equals("")) {
@@ -390,7 +387,7 @@ public class PerpleTapjoy implements TJPlacementListener {
             Log.d(LOG_TAG, "Tapjoy, onRequestSuccess - placement:" + p.getName());
         }
 
-        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p.getName());
         if (callback != null) {
             callback.onRequestSuccess();
         }
@@ -404,9 +401,9 @@ public class PerpleTapjoy implements TJPlacementListener {
                     ", message:" + error.message);
         }
 
-        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p.getName());
         if (callback != null) {
-            callback.onRequestFailure(PerpleSDK.getErrorInfo(String.valueOf(error.code), error.message));
+            callback.onRequestFailure(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_SETPLACEMENT, String.valueOf(error.code), error.message));
         }
     }
 
@@ -416,7 +413,7 @@ public class PerpleTapjoy implements TJPlacementListener {
             Log.d(LOG_TAG, "Tapjoy, onContentReady - placement:" + p.getName());
         }
 
-        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p.getName());
         if (callback != null) {
             callback.onContentReady();
         }
@@ -430,7 +427,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                     ", productId:" + productId);
         }
 
-        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p.getName());
         if (callback != null) {
             try {
                 JSONObject obj = new JSONObject();
@@ -439,7 +436,7 @@ public class PerpleTapjoy implements TJPlacementListener {
                 callback.onPurchaseRequest(obj.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                callback.onError(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                callback.onError(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_SETPLACEMENT, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
             }
         }
     }
@@ -453,17 +450,17 @@ public class PerpleTapjoy implements TJPlacementListener {
                     ", quantity:" + String.valueOf(quantity));
         }
 
-        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mSetPlacementCallback.get(p.getName());
         if (callback != null) {
             try {
                 JSONObject obj = new JSONObject();
                 obj.put("request", request.toString());
                 obj.put("itemId", itemId);
-                obj.put("quantity", String.valueOf(quantity));
+                obj.put("quantity", quantity);
                 callback.onRewardRequest(obj.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                callback.onError(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
+                callback.onError(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_TAPJOY_SETPLACEMENT, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
             }
         }
     }
@@ -473,7 +470,7 @@ public class PerpleTapjoy implements TJPlacementListener {
         if (PerpleSDK.IsDebug) {
             Log.d(LOG_TAG, "Tapjoy, onContentShow - placement:" + p.getName());
         }
-        PerpleTapjoyPlacementCallback callback = mShowPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mShowPlacementCallback.get(p.getName());
         if (callback != null) {
             callback.onShow();
         }
@@ -485,7 +482,7 @@ public class PerpleTapjoy implements TJPlacementListener {
             Log.d(LOG_TAG, "Tapjoy, onContentDismiss - placement:" + p.getName());
         }
 
-        PerpleTapjoyPlacementCallback callback = mShowPlacementCallback.get(p);
+        PerpleTapjoyPlacementCallback callback = mShowPlacementCallback.get(p.getName());
         if (callback != null) {
             callback.onDismiss();
         }

@@ -71,7 +71,7 @@ void loginAnonymously(int funcID) {
     });
 }
 
-void loginGoogle(int funcID) {
+void loginWithGoogle(int funcID) {
     const char* google_id_token = "";
 
     PerpleFirebaseCpp::GetInstance()->SignInWithGoogleLogin(google_id_token, [&funcID](const char* result, const char* info) {
@@ -107,7 +107,7 @@ void loginGoogle(int funcID) {
     });
 }
 
-void loginFacebook(int funcID) {
+void loginWithFacebook(int funcID) {
     const char* facebook_token = "";
 
     PerpleFirebaseCpp::GetInstance()->SignInWithFacebookLogin(facebook_token, [&funcID](const char* result, const char* info) {
@@ -227,6 +227,10 @@ void facebookLogin(int funcID) {
     PerpleCore::OnSDKResult(funcID, "success", "");
     PerpleCore::OnSDKResult(funcID, "fail", "");
     PerpleCore::OnSDKResult(funcID, "cancel", "");
+}
+
+void facebookLogout(int funcID) {
+
 }
 
 void facebookGetFriends(int funcID) {
@@ -386,6 +390,10 @@ void googleLogin(int funcID) {
     PerpleCore::OnSDKResult(funcID, "cancel", "");
 }
 
+void googleLogout(int funcID) {
+
+}
+
 void googleShowAchievements(int funcID) {
     PerpleCore::OnSDKResult(funcID, "success", "");
     PerpleCore::OnSDKResult(funcID, "fail", "");
@@ -417,20 +425,20 @@ void googleUpdateQuests(int funcID, const char* id, const char* count) {
     PerpleCore::OnSDKResult(funcID, "complete", "");
 }
 
-void setBilling(int funcID, const char* checkReceiptServerUrl) {
+void billingSetup(int funcID, const char* checkReceiptServerUrl) {
     PerpleCore::OnSDKResult(funcID, "purchase", "");
     PerpleCore::OnSDKResult(funcID, "error", "");
 }
 
-void confirmPurchase(int funcID, const char* orderIds) {
+void billingConfirm(int funcID, const char* orderIds) {
 }
 
-void purchase(int funcID, const char* sku, const char* payload) {
+void billingPurchase(int funcID, const char* sku, const char* payload) {
     PerpleCore::OnSDKResult(funcID, "success", "");
     PerpleCore::OnSDKResult(funcID, "fail", "");
 }
 
-void subscription(int funcID, const char* sku, const char* payload) {
+void billingSubscription(int funcID, const char* sku, const char* payload) {
     PerpleCore::OnSDKResult(funcID, "success", "");
     PerpleCore::OnSDKResult(funcID, "fail", "");
 }

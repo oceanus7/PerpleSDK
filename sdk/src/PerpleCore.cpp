@@ -110,6 +110,16 @@ void PerpleCore::UpdateLuaCallbacks()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef __ANDROID__
+std::string GetErrorInfo(std::string code, std::string message)
+{
+    Json::Value root;
+    root["code"] = code;
+    root["subcode"] = "0";
+    root["message"] = message;
+    Json::StyledWriter writer;
+    return writer.write(root);
+}
+
 std::string GetErrorInfo(std::string code, std::string subcode, std::string message)
 {
     Json::Value root;

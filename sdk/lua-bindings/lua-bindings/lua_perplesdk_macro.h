@@ -16,12 +16,6 @@
 #define IS_DEBUG true
 #endif
 
-#if defined(__ANDROID__)
-#define IS_ANDROID true
-#else
-#define IS_ANDROID false
-#endif
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

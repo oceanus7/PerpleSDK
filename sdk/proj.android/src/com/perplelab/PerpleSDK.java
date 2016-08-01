@@ -34,7 +34,6 @@ public class PerpleSDK {
     public static final String ERROR_FIREBASE_NOTINITIALIZED            = "-1000";
     public static final String ERROR_FIREBASE_SENDPUSHMESSAGE           = "-1001";
     public static final String ERROR_FIREBASE_LOGIN                     = "-1002";
-    public static final String ERROR_FIREBASE_GETPUSHTOKEN              = "-1003";
     
     public static final String ERROR_GOOGLE_NOTINITIALIZED              = "-1200";
     public static final String ERROR_GOOGLE_LOGIN                       = "-1201";
@@ -57,6 +56,7 @@ public class PerpleSDK {
     public static final String ERROR_NAVER_NOTINITIALIZED               = "-1400";
     public static final String ERROR_NAVER_CAFENOTINITIALIZED           = "-1401";
     public static final String ERROR_NAVER_LOGIN                        = "-1402";
+    public static final String ERROR_NAVER_ONPOSTEDARTICLE              = "-1403";
 
     public static final String ERROR_BILLING_NOTINITIALIZED             = "-1500";
     public static final String ERROR_BILLING_INITFAILED                 = "-1501";
@@ -70,6 +70,9 @@ public class PerpleSDK {
     public static final String ERROR_TAPJOY_GETCURRENCY                 = "-1602";
     public static final String ERROR_TAPJOY_SPENDCURRENCY               = "-1603";
     public static final String ERROR_TAPJOY_AWARDCURRENCY               = "-1604";
+    public static final String ERROR_TAPJOY_ONEARNEDCURRENCY            = "-1605";
+    public static final String ERROR_TAPJOY_SETPLACEMENT                = "-1606";
+    public static final String ERROR_TAPJOY_SHOWPLACEMENT               = "-1607";
 
     public static final int RC_GOOGLE_SIGN_IN                   = 9001;
     public static final int RC_GOOGLE_ACHIEVEMENTS              = 9002;

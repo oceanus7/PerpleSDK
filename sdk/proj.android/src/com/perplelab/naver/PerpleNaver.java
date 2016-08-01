@@ -26,7 +26,6 @@ public class PerpleNaver {
     private static Activity sMainActivity;
     private boolean mIsInitLogin;
     private boolean mUseCafe;
-
     private OAuthLogin mOAuthLoginModule;
     private String mAccessToken;
 
@@ -108,8 +107,6 @@ public class PerpleNaver {
         }
 
         mOAuthLoginModule.logout(sMainActivity);
-
-        // @todo, logout callback 처리
     }
 
     public void logoutAndDeleteToken() {
@@ -129,8 +126,6 @@ public class PerpleNaver {
                     String desc = mOAuthLoginModule.getLastErrorDesc(sMainActivity);
                     Log.e(LOG_TAG, "Naver, logoutAndDeleteToken fail - code:" + code + ", desc:" + desc);
                 }
-
-                // @todo, logout callback 처리
             }
         });
     }
@@ -311,15 +306,16 @@ public class PerpleNaver {
                                 ", videoCount:" + String.valueOf(videoCount));
                     }
 
-                    JSONObject info = new JSONObject();
                     try {
-                        info.put("menuId", String.valueOf(menuId));
-                        info.put("imageCount", String.valueOf(imageCount));
-                        info.put("videoCount", String.valueOf(videoCount));
+                        JSONObject info = new JSONObject();
+                        info.put("menuId", menuId);
+                        info.put("imageCount", imageCount);
+                        info.put("videoCount", videoCount);
+                        callback.onPostedArticle(info.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        callback.onError(PerpleSDK.getErrorInfo(PerpleSDK.ERROR_NAVER_ONPOSTEDARTICLE, PerpleSDK.ERROR_JSONEXCEPTION, e.toString()));
                     }
-                    callback.onPostedArticle(info.toString());
                 }
             });
             // 댓글 등록 리스너를 설정.

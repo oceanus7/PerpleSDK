@@ -71,6 +71,7 @@ public:
     static void UpdateLuaCallbacks();
 
 #ifndef __ANDROID__
+    static std::string GetErrorInfo(std::string code, std::string message);
     static std::string GetErrorInfo(std::string code, std::string subcode, std::string message);
 #endif
 

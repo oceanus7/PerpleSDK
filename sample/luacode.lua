@@ -24,20 +24,18 @@ end
 -- @receive : 1(수신) or 0(비수신)
 PerpleSDK:setFCMPushOnForeground(@receive)
 
--- @iid : instance id
--- @token : registration token
+-- @token : FCM registration token
 PerpleSDK:setFCMTokenRefresh(function(ret, info)
     if ret == 'refresh' then
-        -- info : {"iid":"@iid","token":"@token"}
+        -- info : "@token"
     elseif ret == 'error' then
     end
 end)
 
--- @iid : instance id
--- @token : registration token
+-- @token : FCM registration token
 PerpleSDK:getFCMToken(function(ret, info)
     if ret == 'success' then
-        -- info : {"iid":"@iid","token":"@token"}
+        -- info : "@token"
     elseif ret == 'fail' then
     end
 end)
@@ -63,11 +61,11 @@ PerpleSDK:autoLogin(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"},
-        -- 구글 로그인이 링크되어 있어 구글 로그인 처리까지 성공한 경우
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
+        --     -- 구글 로그인이 링크되어 있어 구글 로그인 처리까지 성공한 경우
         --    "google":{"id":"@id","name":"@name","photoUrl":"@photoUrl"},
-        -- 페이스북 로그인이 링크되어 있어 페이스북 로그인 처리까지 성공한 경우
+        --     -- 페이스북 로그인이 링크되어 있어 페이스북 로그인 처리까지 성공한 경우
         --    "facebook":{"id":"@id","name":"@name","photoUrl":"@photoUrl"}
         --}
     elseif ret == 'fail' then
@@ -80,8 +78,8 @@ PerpleSDK:loginAnonymously(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -93,8 +91,8 @@ PerpleSDK:loginGoogle(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -107,8 +105,8 @@ PerpleSDK:loginFacebook(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -121,8 +119,8 @@ PerpleSDK:loginEmail('@email', '@password', function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -134,8 +132,8 @@ PerpleSDK:linkWithGoogle(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -148,8 +146,8 @@ PerpleSDK:linkWithFacebook(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     elseif ret == 'cancel' then
@@ -162,8 +160,8 @@ PerpleSDK:linkWithEmail('@email', '@password', function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -175,8 +173,8 @@ PerpleSDK:unlinkWithGoogle(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -188,8 +186,8 @@ PerpleSDK:unlinkWithFacebook(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -201,8 +199,8 @@ PerpleSDK:unlinkWithEmail(function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -214,8 +212,8 @@ PerpleSDK:createUserWithEmail('@email', '@password', function(ret, info)
         -- info
         --{
         --    "profile":{"uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl","providerId":"@providerId"},
-        --    "prividerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
-        --    "pushToken":{"iid":"@iid","token":"@token"}
+        --    "providerData":[{"providerId":"@providerId","uid":"@uid","name":"@name","email":"@email","photoUrl":"@photoUrl"},...],
+        --    "pushToken":@token"
         --}
     elseif ret == 'fail' then
     end
@@ -290,19 +288,26 @@ PerpleSDK:adbrixEvent('userId', '@uid', '')
 -- @age: user's age
 PerpleSDK:adbrixEvent('age', '@age', '')
 
--- @gender: 'male' or 'female'
+-- @gender: 'MAIL' or 'FEMAIL'
 PerpleSDK:adbrixEvent('gender', '@gender', '')
 
+-- @arg1 : 유저활동 이름(영어와 숫자로 된 공백없는 문자열)
+PerpleSDK:adbrixEvent('firstTimeExperience', '@arg1', '')
+-- @arg2 : 부가 파라미터
 PerpleSDK:adbrixEvent('firstTimeExperience', '@arg1', '@arg2')
 
+-- @arg1 : 유저활동 이름(영어와 숫자로 된 공백없는 문자열)
+PerpleSDK:adbrixEvent('retention', '@arg1', '')
+-- @arg2 : 부가 파라미터
 PerpleSDK:adbrixEvent('retention', '@arg1', '@arg2')
 
--- @arg0: product id
--- @arg1: price
+-- @arg1 : 구매아이템 이름(영어와 숫자로 된 공백없는 문자열)
+PerpleSDK:adbrixEvent('buy', '@arg1', '')
+-- @arg2 : 부가 파라미터(ex, 아이템 가격)
 PerpleSDK:adbrixEvent('buy', '@arg1', '@arg2')
 
 -- @cohort_number: 'COHORT_1' or 'COHORT_2' or 'COHORT_3'
--- @arg1: cohort description
+-- @arg1: cohort description(in app activity)
 PerpleSDK:adbrixEvent('customCohort', '@cohort_number', '@arg1')
 
 -- ProcessKill 사용시 명시적 EndSession 처리를 위함
@@ -310,11 +315,21 @@ PerpleSDK:adbrixEvent('customCohort', '@cohort_number', '@arg1')
 PerpleSDK:adbrixStartSession()
 PerpleSDK:adbrixEndSession()
 
+-- @userID: user id
 PerpleSDK:tapjoyEvent('userID', '@userID', '')
+
+-- @userLevel: user level
 PerpleSDK:tapjoyEvent('userLevel', '@userLevel', '')
+
+-- @userFriendCount: user's friends count
 PerpleSDK:tapjoyEvent('userFriendCount', '@userFriendCount', '')
+
+-- @appDataVersion: app data version
 PerpleSDK:tapjoyEvent('appDataVersion', '@appDataVersion', '')
-PerpleSDK:tapjoyEvent('customCohort', '@arg1', '@arg2')
+
+-- @arg1 : cohort variable index(ex, 1, 2, 3, ...)
+-- @arg2 : cohort value(ex, user activity)
+PerpleSDK:tapjoyEvent('userCohortVariable', '@arg1', '@arg2')
 
 -- @arg1
 -- 'category;name;parameter1;parameter2'
@@ -332,6 +347,7 @@ PerpleSDK:tapjoyEvent('trackPurchase', '@arg1', '')
 -- { "skuDetails":"@skuDetails", "purchaseData":"@purchaseData", "dataSignature":"@dataSignature", "campaignId":"@campaignId" }
 PerpleSDK:tapjoyEvent('trackPurchase', '', '@arg2')
 
+-- 여기서 구매 추적을 사용하면, 게임 내에서 PerpleSDK:tapjoyEvent('trackPurchase', ...) 를 별도로 호출하지 않아도 Billing 모듈에서의 구매 처리에 따라 구매기록이 트래킹 된다.
 -- @isTrackPurchase : 1(구매 추적 사용) or 0(비사용)
 PerpleSDK:tapjoySetTrackPurchase(@isTrackPurchase)
 
@@ -342,6 +358,11 @@ PerpleSDK:tapjoySetPlacement('@placementName', function(ret, info)
     elseif ret == 'fail' then
     elseif ret == 'ready' then
         -- 컨텐츠 다운로드가 끝나고 보여줄 준비되었을 때
+    elseif ret == 'purchase' then
+        -- info : {"request":"@request","productId":"@productId"}
+    elseif ret == 'reward' then
+        -- info : {"request":"@request","itemId":"@itemId","quantity":@quantity}
+    elseif ret == 'error' then
     end
 end)
 
@@ -352,6 +373,7 @@ PerpleSDK:tapjoyShowPlacement('@placementName', function(ret, info)
         -- 아직 컨텐츠가 준비되지 않은 상태
     elseif ret == 'dismiss' then
         -- 컨텐츠가 사라질 때
+    elseif ret == 'error' then
     end
 end)
 
@@ -514,7 +536,7 @@ end)
 -- Billing 초기화
 -- SDK 초기화 후에 이 함수를 호출해야 하며 초기화 성공 시 'purchase' 콜백이 오며, 이 때 info 에 완료되지 않은 구매 리스트가 담겨온다.
 -- @url : 영수증 검증 서버 주소, 끝에 / 붙여야 함 (예:http://platform.perplelab.com/)
-PerpleSDK:setBilling('@url', function(ret, info)
+PerpleSDK:billingSetup('@url', function(ret, info)
     if ret == 'purchase' then
         -- info : [{"orderId":"@orderId","payload":"@payload"},...]
     elseif ret == 'error' then
@@ -523,12 +545,12 @@ end)
 
 -- 구매 완료 성공 콜백을 받은 후 게임 서버에서 정상적으로 상품 지급을 한 다음 다시 이 함수를 호출해서 구매 프로세스를 완료시킴
 -- 이 함수를 호출하면 구글 결제 인벤토리에서 해당 Purchase 를 Consume 처리함.
-PerpleSDK:consumeFurchase("['@orderId',...]")
+PerpleSDK:billingConfirm("['@orderId',...]")
 
 -- 일반형 상품 구매
 -- @sku : 상품 아이디
 -- @payload : 영수증 검증에 필요한 부가 정보
-PerpleSDK:purchase('@sku', '@payload', function(ret, info)
+PerpleSDK:billingPurchase('@sku', '@payload', function(ret, info)
     if ret == 'success' then
         -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then
@@ -539,7 +561,7 @@ end)
 -- 구독형 상품 구매
 -- @sku : 상품 아이디
 -- @payload : 영수증 검증에 필요한 부가 정보
-PerpleSDK:subscription('@sku', '@payload', function(ret, info)
+PerpleSDK:billingSubscription('@sku', '@payload', function(ret, info)
     if ret == 'success' then
         -- info : {"orderId":"@orderId","payload":"@payload"}
     elseif ret == 'fail' then

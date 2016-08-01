@@ -159,7 +159,7 @@ public class PerpleSDKLua {
     }
 
     // @firebase, @google
-    public static void loginGoogle(final int funcID) {
+    public static void loginWithGoogle(final int funcID) {
         if (PerpleSDK.getFirebase() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
@@ -200,7 +200,7 @@ public class PerpleSDKLua {
     }
 
     // @firebase, @facebook
-    public static void loginFacebook(final int funcID) {
+    public static void loginWithFacebook(final int funcID) {
         if (PerpleSDK.getFirebase() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
@@ -241,7 +241,7 @@ public class PerpleSDKLua {
     }
 
     // @firebase
-    public static void loginEmail(final int funcID, String email, String password) {
+    public static void loginWithEmail(final int funcID, String email, String password) {
         if (PerpleSDK.getFirebase() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_FIREBASE_NOTINITIALIZED, "Firebase is not initialized."));
@@ -458,6 +458,15 @@ public class PerpleSDKLua {
         PerpleSDK.getFirebase().logout(new PerpleSDKCallback() {
             @Override
             public void onSuccess(String info) {
+                
+                if (PerpleSDK.getGoogle() != null) {
+                    PerpleSDK.getGoogle().logout();
+                }
+
+                if (PerpleSDK.getFacebook() != null) {
+                    PerpleSDK.getFacebook().logout();
+                }
+
                 PerpleSDK.callSDKResult(funcID, "success", info);
             }
             @Override
@@ -514,6 +523,13 @@ public class PerpleSDKLua {
                 }
             }
         });
+    }
+
+    // @facebook
+    public static void facebookLogout(final int funcID) {
+        if (PerpleSDK.getFacebook() != null) {
+            PerpleSDK.getFacebook().logout();
+        }
     }
 
     // @facebook
@@ -1004,6 +1020,13 @@ public class PerpleSDKLua {
     }
 
     // @google
+    public static void googleLogout(final int funcID) {
+        if (PerpleSDK.getGoogle() != null) {
+            PerpleSDK.getGoogle().logout();
+        }
+    }
+
+    // @google
     public static void googleShowAchievements(final int funcID) {
         if (PerpleSDK.getGoogle() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
@@ -1128,7 +1151,7 @@ public class PerpleSDKLua {
     }
 
     // @billing
-    public static void setBilling(final int funcID, String checkReceiptServerUrl) {
+    public static void billingSetup(final int funcID, String checkReceiptServerUrl) {
         if (PerpleSDK.getBilling() == null) {
             PerpleSDK.callSDKResult(funcID, "error",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_NOTINITIALIZED, "Billing is not initialized."));
@@ -1148,14 +1171,14 @@ public class PerpleSDKLua {
     }
 
     // @billing
-    public static void confirmPurchase(final int funcID, String orderIds) {
+    public static void billingConfirm(final int funcID, String orderIds) {
         if (PerpleSDK.getBilling() != null) {
             PerpleSDK.getBilling().consume(orderIds);
         }
     }
 
     // @billing
-    public static void purchase(final int funcID, String sku, String payload) {
+    public static void billingPurchase(final int funcID, String sku, String payload) {
         if (PerpleSDK.getBilling() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_NOTINITIALIZED, "Billing is not initialized."));
@@ -1179,7 +1202,7 @@ public class PerpleSDKLua {
     }
 
     // @billing
-    public static void subscription(final int funcID, String sku, String payload) {
+    public static void billingSubscription(final int funcID, String sku, String payload) {
         if (PerpleSDK.getBilling() == null) {
             PerpleSDK.callSDKResult(funcID, "fail",
                     PerpleSDK.getErrorInfo(PerpleSDK.ERROR_BILLING_NOTINITIALIZED, "Billing is not initialized."));
